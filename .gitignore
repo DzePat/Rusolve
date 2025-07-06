@@ -361,3 +361,49 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# Unity folders to ignore
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+[Mm]emoryCaptures/
+
+# Visual Studio / Rider / VSCode files
+.vscode/
+.vs/
+.idea/
+*.csproj
+*.unityproj
+*.sln
+*.suo
+*.user
+*.userprefs
+*.pidb
+*.booproj
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Crash logs or local caches
+*.stacktrace
+*.log
+
+# Ignore Plastic SCM / UnityVC metadata
+.plastic/
+*.plastic
+*.lock
+*.snap
+
+# Generated meta files if not using external version control
+*.meta
+
+# Builds
+*.apk
+*.aab
+*.exe
+*.app
+*.zip
