@@ -44,8 +44,6 @@ public class CubeStickers : MonoBehaviour
         else if (currentMat == matFront) {  currentMat = matBack;}
         else if (currentMat == matBack) {  currentMat = matUp;}
         rend.material = currentMat;
-        Debug.Log(currentMat.name);
-        Debug.Log(matDown.name);
     }
 
     private void CreateSticker(GameObject cubelet, Vector3 normal, Material mat)
