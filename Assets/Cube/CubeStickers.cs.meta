@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: a19eaf7eb8f11fa49b2a7bdca7a6eb65
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - stickerPrefab: {fileID: 2647611889736603484, guid: 67606c10d9592b54faac0414f123bc75, type: 3}
+  - matUp: {fileID: 2100000, guid: 70c2c1cc586a0a646806526e91681233, type: 2}
+  - matDown: {fileID: 2100000, guid: ba035ab3448bdf140ada51abd3af3553, type: 2}
+  - matLeft: {fileID: 2100000, guid: ee9ff0fe669ff1e498f73eb6a7189db8, type: 2}
+  - matRight: {fileID: 2100000, guid: 8a4306ed264622843930d0566edcd87f, type: 2}
+  - matFront: {fileID: 2100000, guid: 2a85c70398dcf46429ee923c0353242e, type: 2}
+  - matBack: {fileID: 2100000, guid: 94fa4907761519f48a2f77fa7a7170c9, type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
