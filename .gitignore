@@ -69,3 +69,20 @@ crashlytics-build.properties
 # Temporary auto-generated Android Assets
 **/[Aa]ssets/[Ss]treamingAssets/aa.meta
 **/[Aa]ssets/[Ss]treamingAssets/aa/*
+
+# -----------------------------
+# Unity essential asset files
+# -----------------------------
+!*.meta
+!*.unity
+!*.prefab
+!*.mat
+!*.asset
+!*.controller
+!*.anim
+!*.shader
+!*.compute
+!*.rendertexture
+!*.physicmaterial
+!*.overrideController
+!*.inputactions

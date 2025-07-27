@@ -3,10 +3,10 @@ using UnityEngine;
 
 public class StickerClick : MonoBehaviour
 {
-    public CubeStickers cubeManager; 
+    public Cubelet parentCubelet; 
 
     void OnMouseDown()
     {
-        cubeManager.ChangeColor(gameObject);
+        parentCubelet.ChangeColor(gameObject);
     }
 }

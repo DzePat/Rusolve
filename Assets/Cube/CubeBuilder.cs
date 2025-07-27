@@ -1,10 +1,11 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class CubeBuilder : MonoBehaviour
 {
-    public GameObject cubeletPrefab; // A plain cube
-    public CubeStickers stickerManager;
-    public Material Material;
+    public Cubelet cubelet;
+    private Dictionary<Vector3Int,GameObject> cubeletMap = new Dictionary<Vector3Int, GameObject>();
+
     
     void Start()
     {
@@ -19,16 +20,7 @@ public class CubeBuilder : MonoBehaviour
             {
                 for (int z = -1; z <= 1; z++)
                 {
-                    Vector3Int pos = new Vector3Int(x, y, z);
-                    GameObject cubelet = Instantiate(cubeletPrefab, transform);
-                    cubelet.transform.localPosition = pos;
-                    cubelet.transform.localRotation = Quaternion.identity;
-                    cubelet.transform.localScale = Vector3.one;
-                    cubelet.name = $"Cubelet_{x}_{y}_{z}";
-                    cubelet.GetComponent<Renderer>().material = Material;
-
-                    // Add stickers based on position
-                    stickerManager.AddStickers(cubelet, pos);
+                    cubelet.CreateCubelet(x, y, z);
                 }
             }
         }
