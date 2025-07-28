@@ -148,7 +148,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e1e930ccbf32614b82dc6ac94b7be32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cubelet: {fileID: 2139829462}
+  Cube: {fileID: 2029664316}
 --- !u!4 &321877828
 Transform:
   m_ObjectHideFlags: 0
@@ -491,7 +491,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1565039360
+--- !u!1 &2029664315
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -499,59 +499,8 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1565039362}
-  - component: {fileID: 1565039361}
-  m_Layer: 0
-  m_Name: StickerManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1565039361
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1565039360}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a19eaf7eb8f11fa49b2a7bdca7a6eb65, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  stickerPrefab: {fileID: 2647611889736603484, guid: 67606c10d9592b54faac0414f123bc75, type: 3}
-  matUp: {fileID: 2100000, guid: 70c2c1cc586a0a646806526e91681233, type: 2}
-  matDown: {fileID: 2100000, guid: ba035ab3448bdf140ada51abd3af3553, type: 2}
-  matLeft: {fileID: 2100000, guid: ee9ff0fe669ff1e498f73eb6a7189db8, type: 2}
-  matRight: {fileID: 2100000, guid: 8a4306ed264622843930d0566edcd87f, type: 2}
-  matBack: {fileID: 2100000, guid: 2a85c70398dcf46429ee923c0353242e, type: 2}
-  matFront: {fileID: 2100000, guid: 94fa4907761519f48a2f77fa7a7170c9, type: 2}
---- !u!4 &1565039362
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1565039360}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &2139829461
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2139829463}
-  - component: {fileID: 2139829462}
+  - component: {fileID: 2029664317}
+  - component: {fileID: 2029664316}
   m_Layer: 0
   m_Name: Cubelet
   m_TagString: Untagged
@@ -559,28 +508,28 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &2139829462
+--- !u!114 &2029664316
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2139829461}
+  m_GameObject: {fileID: 2029664315}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: af8d0da32c87d8043bc22378256939c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stickerManager: {fileID: 1565039361}
-  cubeletPrefab: {fileID: 8813031524256100857, guid: 02e6c93acab05974ba03b8dd582a04b9, type: 3}
   CubeletPos: {x: 0, y: 0, z: 0}
---- !u!4 &2139829463
+  cubeletPrefab: {fileID: 8813031524256100857, guid: 02e6c93acab05974ba03b8dd582a04b9, type: 3}
+  stickerPrefab: {fileID: 2647611889736603484, guid: 67606c10d9592b54faac0414f123bc75, type: 3}
+--- !u!4 &2029664317
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2139829461}
+  m_GameObject: {fileID: 2029664315}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -596,6 +545,5 @@ SceneRoots:
   - {fileID: 330585546}
   - {fileID: 410087041}
   - {fileID: 832575519}
-  - {fileID: 1565039362}
   - {fileID: 321877828}
-  - {fileID: 2139829463}
+  - {fileID: 2029664317}

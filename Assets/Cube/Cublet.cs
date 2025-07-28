@@ -10,7 +10,7 @@ public class Cubelet : MonoBehaviour
     [Header("Sticker Prefab")]
     public GameObject stickerPrefab;
 
-    public void CreateCubelet(int x, int y, int z)
+    public GameObject CreateCubelet(int x, int y, int z)
     {
         CubeletPos = new Vector3Int(x, y, z);
         GameObject cubelet = Instantiate(cubeletPrefab, transform);
@@ -19,8 +19,9 @@ public class Cubelet : MonoBehaviour
         cubelet.transform.localScale = Vector3.one;
         cubelet.name = $"Cubelet_{x}_{y}_{z}";
         cubelet.GetComponent<Renderer>().material.color = Color.black;
-        
+
         AddStickers(cubelet, CubeletPos);
+        return cubelet;
     }
 
     void AddStickers(GameObject cubelet, Vector3Int position)

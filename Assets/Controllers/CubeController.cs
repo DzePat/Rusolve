@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class CubeController : MonoBehaviour
 {
-    public GameObject Cube;
 
     void Start()
     {
