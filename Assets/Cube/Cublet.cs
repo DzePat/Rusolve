@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class Cubelet : MonoBehaviour
@@ -47,15 +49,13 @@ public class Cubelet : MonoBehaviour
 
     public void ChangeColor(GameObject sticker)
     {
+        Color[] colors = new Color[] {Color.white,Color.yellow, Color.orange,Color.red,Color.green,Color.blue};
         Renderer rend = sticker.GetComponent<Renderer>();
         Color currentMat = rend.sharedMaterial.color;
-        if (currentMat == Color.white) { currentMat = Color.yellow; }
-        else if (currentMat == Color.yellow) { currentMat = Color.orange; }
-        else if (currentMat == Color.orange) { currentMat = Color.red; }
-        else if (currentMat == Color.red) { currentMat = Color.green; }
-        else if (currentMat == Color.green) { currentMat = Color.blue; }
-        else if (currentMat == Color.blue) { currentMat = Color.white; }
-        rend.material.color = currentMat;
+        int index = Array.IndexOf(colors, currentMat);
+        index++;
+        if (index == colors.Length) index = 0;
+        rend.material.color = colors[index];
     }
 
     private void CreateSticker(GameObject cubelet, Vector3 normal, Color color)
