@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -7,6 +8,7 @@ public class CubeController : MonoBehaviour
 {
     public Cubelet cube;
     public Dictionary<Vector3Int, GameObject> cubeletMap = new();
+    private bool isRotating = false;
 
     public List<Vector3Int> topFace = GetFace(1,1);
     public List<Vector3Int> bottomFace = GetFace(1, -1);
@@ -15,13 +17,16 @@ public class CubeController : MonoBehaviour
     public List<Vector3Int> rightFace = GetFace(0, 1);
     public List<Vector3Int> leftFace = GetFace(0, -1);
 
-    public static List<Vector3Int> GetFace(int axis,int value)
+    //instanciates 9 vector3Int positions from an axis key and its value
+    //axis corresponding keys: x = 0 , y = 1 , z = 2
+    public static List<Vector3Int> GetFace(int axis, int value)
     {
         List<Vector3Int> face = new List<Vector3Int>();
-        int a  =(axis + 1) % 3;
+        int a = (axis + 1) % 3;
         int b = (axis + 2) % 3;
 
         for (int i = -1; i <= 1; i++)
+        {
             for (int j = -1; j <= 1; j++)
             {
                 int[] pos = new int[3];
@@ -30,50 +35,85 @@ public class CubeController : MonoBehaviour
                 pos[b] = j;
                 face.Add(new Vector3Int(pos[0], pos[1], pos[2]));
             }
+        } 
         return face;
     }
 
-    public void RotateFace(List<Vector3Int> face, bool clockwise)
+
+    // Rotates cube face
+    public IEnumerator RotateFace(List<Vector3Int> face, bool clockwise,Vector3 center)
     {
+        isRotating = true;
+
+        //temporary parent Gameobject for the 9 cubelets thats gonna rotate
+        GameObject pivot = new GameObject("Pivot");
+        
+        //set pivot point for the game object
+        pivot.transform.position = face[4];
+
+        //9 Cubelets for the rotation side
         Dictionary<Vector3Int, GameObject> originalCubletPositions = new();
+
+        //get all 9 cubelets for the side to rotate from the main cubelet Dict
         foreach (Vector3Int pos in face)
         {
             originalCubletPositions.Add(pos, cubeletMap[pos]);
             cubeletMap.Remove(pos);
         }
 
-        foreach (var cubelet in originalCubletPositions)
+        //asign all 9 cubelets to the pivot gameobject
+        foreach (GameObject cubelet in originalCubletPositions.Values)
+            cubelet.transform.SetParent(pivot.transform);
+
+        // set clockwise anti clockwise values for rotation
+        float RotationAngle = clockwise ? 90f : -90f ;
+
+        //rotate face
+        yield return RotatePivot(pivot, center, RotationAngle, 0.5f);
+
+        //add rotated gameobjects back to cubeletmap dictionary
+        foreach (Transform child in pivot.transform)
         {
-            Vector3Int oldPos = cubelet.Key;
-            GameObject cubeletObject = cubelet.Value;
-
-            Vector3Int newPos = Vector3Int.RoundToInt(RotateVectorInPlane(oldPos, face[4], clockwise));
-
-            cubeletMap[newPos] = cubeletObject;
-            foreach (Transform child in cubeletObject.transform)
-            {
-                Vector3 stickerOldLocalPos = child.transform.localPosition;
-                child.localRotation = Quaternion.AngleAxis(90, face[4]) * child.localRotation;
-                child.transform.localPosition = RotateVectorInPlane(stickerOldLocalPos, face[4], clockwise);
-            }
-            cubeletObject.transform.localPosition = newPos;
+            GameObject cubelet = child.gameObject;
+            Vector3 pos = cubelet.transform.position;
+            Vector3Int cubeletPos = new Vector3Int(
+                Mathf.RoundToInt(pos.x),
+                Mathf.RoundToInt(pos.y),
+                Mathf.RoundToInt(pos.z)
+            );
+            cubeletMap[cubeletPos] = cubelet;
         }
-    }
 
-    Vector3 RotateVectorInPlane(Vector3 pos, Vector3Int center, bool clockwise)
-    {
-        Vector3 relative = pos - center;
-
-        Vector3 rotated = center switch
+        //empty out pivot children
+        while(pivot.transform.childCount > 0)
         {
-            Vector3Int x when x.x != 0 => new Vector3(relative.x, clockwise ? -relative.z : relative.z, clockwise ? relative.y : -relative.y),
-            Vector3Int y when y.y != 0 => new Vector3(clockwise ? relative.z : -relative.z, relative.y, clockwise ? -relative.x : relative.x),
-            Vector3Int z when z.z != 0 => new Vector3(clockwise ? -relative.y : relative.y, clockwise ? relative.x : -relative.x, relative.z),
-            _ => throw new Exception("Invalid rotation axis")
-        };
+            pivot.transform.GetChild(0).SetParent(null);
+        }
 
-        return rotated + center;
+        //destroy empty pivot gameobject
+        GameObject.Destroy(pivot);
+
+        isRotating = false;
     }
+
+    //rotation animation
+    IEnumerator RotatePivot(GameObject pivot, Vector3 axis, float angle, float duration)
+    {
+        Quaternion startRotation = pivot.transform.rotation;
+        Quaternion endRotation = startRotation * Quaternion.AngleAxis(angle, axis);
+        float elapsed = 0f;
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            float t = Mathf.Clamp01(elapsed / duration);
+            pivot.transform.rotation = Quaternion.Slerp(startRotation, endRotation, t);
+            yield return null;
+        }
+
+        pivot.transform.rotation = endRotation; 
+    }
+
 
     void Start()
     {
@@ -82,14 +122,26 @@ public class CubeController : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.R))
+        if (!isRotating)
         {
-            RotateFace(rightFace, true);
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                StartCoroutine(RotateFace(frontFace, true, frontFace[4]));
+            }
+            else if (Input.GetKeyDown(KeyCode.T))
+            {
+                StartCoroutine(RotateFace(frontFace, false, frontFace[4]));
+            }
+            else if (Input.GetKeyDown(KeyCode.E))
+            {
+                StartCoroutine(RotateFace(rightFace, true, rightFace[4]));
+            }
         }
     }
 
     void BuildCube()
     {
+
         for (int x = -1; x <= 1; x++)
         {
             for (int y = -1; y <= 1; y++)
