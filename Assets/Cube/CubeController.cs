@@ -2,7 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.Notifications.Android;
 using UnityEngine;
+using static UnityEngine.Rendering.DebugUI;
 
 public class CubeController : MonoBehaviour
 {
@@ -10,16 +12,16 @@ public class CubeController : MonoBehaviour
     public Dictionary<Vector3Int, GameObject> cubeletMap = new();
     private bool isRotating = false;
 
-    public List<Vector3Int> topFace = GetFace(1,1);
-    public List<Vector3Int> bottomFace = GetFace(1, -1);
-    public List<Vector3Int> frontFace = GetFace(2, 1);
-    public List<Vector3Int> backFace = GetFace(2, -1);
-    public List<Vector3Int> rightFace = GetFace(0, 1);
-    public List<Vector3Int> leftFace = GetFace(0, -1);
+    public List<Vector3Int> topFace = GetFacePositions(1, 1);
+    public List<Vector3Int> bottomFace = GetFacePositions(1, -1);
+    public List<Vector3Int> frontFace = GetFacePositions(2, 1);
+    public List<Vector3Int> backFace = GetFacePositions(2, -1);
+    public List<Vector3Int> rightFace = GetFacePositions(0, 1);
+    public List<Vector3Int> leftFace = GetFacePositions(0, -1);
 
     //instanciates 9 vector3Int positions from an axis key and its value
     //axis corresponding keys: x = 0 , y = 1 , z = 2
-    public static List<Vector3Int> GetFace(int axis, int value)
+    public static List<Vector3Int> GetFacePositions(int axis, int value)
     {
         List<Vector3Int> face = new List<Vector3Int>();
         int a = (axis + 1) % 3;
@@ -39,10 +41,49 @@ public class CubeController : MonoBehaviour
         return face;
     }
 
+    //Get color of each face cubelet sticker with its position
+    public Dictionary<Vector3, Color> GetFaceColors(List<Vector3Int> face)
+    {
+        Vector3Int center = face[4];
+        Dictionary<Vector3, Color> FaceColors = new();
+
+        //get vector identifier x ,y or z
+        int position = Mathf.Abs(center.x) == 1 ? 0 : Mathf.Abs(center.y) == 1 ? 1 : 2;
+
+        //vector value to compare against cubelet children
+        int value = position == 0 ? center.x : position == 1? center.y : center.z;
+
+        //offset by 0.51f for value because thats the sticker postion ofsett
+        float compareValue = value < 0 ? value - 0.51f : value + 0.51f;
+
+        //iterate trough 9 face cubelets
+        foreach (Vector3Int pos in face)
+        {
+            GameObject cubelet = cubeletMap[pos];
+            int childcount = 0;
+            //iterate trough cubelet children
+            foreach (Transform child in cubeletMap[pos].transform)
+            {
+                childcount++;
+                Vector3 stickerPos = child.position;
+                float comparePos = position == 0? stickerPos.x : position == 1 ? stickerPos.y : stickerPos.z;
+
+                //find the sticker facing the right direction
+                if (comparePos == compareValue)
+                {            
+                    Color stickerColor = child.GetComponent<Renderer>().sharedMaterial.color;
+                    FaceColors.Add(stickerPos, stickerColor);
+                }
+            }
+        }
+
+        return FaceColors;
+    }
 
     // Rotates cube face
-    public IEnumerator RotateFace(List<Vector3Int> face, bool clockwise,Vector3 center)
+    public IEnumerator RotateFace(List<Vector3Int> face, bool clockwise)
     {
+        Vector3 center = face[4];
         isRotating = true;
 
         //temporary parent Gameobject for the 9 cubelets thats gonna rotate
@@ -126,15 +167,24 @@ public class CubeController : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.R))
             {
-                StartCoroutine(RotateFace(frontFace, true, frontFace[4]));
+                StartCoroutine(RotateFace(frontFace, true));
             }
             else if (Input.GetKeyDown(KeyCode.T))
             {
-                StartCoroutine(RotateFace(frontFace, false, frontFace[4]));
+                StartCoroutine(RotateFace(frontFace, false));
             }
             else if (Input.GetKeyDown(KeyCode.E))
             {
-                StartCoroutine(RotateFace(rightFace, true, rightFace[4]));
+                StartCoroutine(RotateFace(rightFace, true));
+            }
+            else if (Input.GetKeyDown(KeyCode.C))
+            {
+
+                Dictionary<Vector3,Color> FaceColors= GetFaceColors(topFace);
+                foreach (var faceColor in FaceColors)
+                {
+                    Debug.Log($"Position: {faceColor.Key} Color: {faceColor.Value}");
+                }
             }
         }
     }

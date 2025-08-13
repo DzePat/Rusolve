@@ -18,7 +18,6 @@ public class Cubelet : MonoBehaviour
         GameObject cubelet = Instantiate(cubeletPrefab, transform);
         cubelet.transform.localPosition = CubeletPos;
         cubelet.transform.localRotation = Quaternion.identity;
-        cubelet.transform.localScale = Vector3.one;
         cubelet.name = $"Cubelet_{x}_{y}_{z}";
         cubelet.GetComponent<Renderer>().material.color = Color.black;
 
