@@ -86,3 +86,7 @@ crashlytics-build.properties
 !*.physicmaterial
 !*.overrideController
 !*.inputactions
+
+# TMP settings 
+Assets/TextMesh Pro/Resources/*
+Assets/TextMesh Pro/Examples & Extras
