@@ -1,44 +1,43 @@
-using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.InputSystem;
 
 public class ButtonController : MonoBehaviour
 {
-    public Camera povCamera;
-    public GameObject buttonprefab;
+    public Button parentButton;
+    public Transform cameraTransform;
+    public Vector3 offset = new Vector3(0, -2, 5);
 
-
-    public string nextText = "Next";
-    public string previousText = "Previous";
-
-    //Add two buttons next and previous
-    public void CreateButtons()
+    void OnMouseDown()
     {
-        Vector3Int nextButtonPos = new Vector3Int(3, -2, -5);
-        GameObject nextButtonObj = Instantiate(buttonprefab, transform);
-        nextButtonObj.transform.position = nextButtonPos;
-        nextButtonObj.transform.localScale *= 1.01f;
-        TMP_Text labelOne = nextButtonObj.GetComponentInChildren<TMP_Text>();
-        labelOne.text = nextText;
-        labelOne.fontSize = 1;
-
-        Vector3Int previousButtonPos = new Vector3Int(-3, -2, -5);
-        GameObject previousButtonObj = Instantiate(buttonprefab, transform);
-        previousButtonObj.transform.position = previousButtonPos;
-        TMP_Text labelTwo = previousButtonObj.GetComponentInChildren<TMP_Text>();
-        labelTwo.text = previousText;
-        labelTwo.fontSize = 1;
-
+        string buttonName = parentButton.transform.GetChild(0).name;
+        if (buttonName == "Solve")
+        {
+            parentButton.ClickSolve(parentButton.gameObject);
+        }
     }
 
-    void Start()
+    void LateUpdate()
     {
-        CreateButtons();
+        if(cameraTransform == null)
+            cameraTransform = Camera.main?.transform;
+
+        if (cameraTransform == null)
+            return;
+
+        Vector3 desiredPosition = cameraTransform.position
+                            + cameraTransform.right * offset.x
+                            + cameraTransform.up * offset.y
+                            + cameraTransform.forward * offset.z;
+
+        transform.position = desiredPosition;
+
+
+        transform.LookAt(cameraTransform.position);
+        
+        transform.Rotate(0, 180f, 0);
+
+        Debug.Log(transform.position);
     }
 
-    void Update()
-    {
-
-
-    }
 }
