@@ -4,10 +4,10 @@ using UnityEngine.InputSystem;
 public class CameraController : MonoBehaviour
 {
     public Transform target;
-    public float distance = 10.0f;
+    public float distance = 12.0f;
     public float zoomSpeed = 3f;
-    public float minDistance = 3f;
-    public float maxDistance = 100f;
+    public float minDistance = 10f;
+    public float maxDistance = 20f;
 
     public float xSpeed = 120.0f;
     public float ySpeed = 120.0f;

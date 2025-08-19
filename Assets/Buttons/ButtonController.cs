@@ -1,22 +1,26 @@
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class ButtonController : MonoBehaviour
 {
-    public Button parentButton;
+    public ButtonManager buttonManager;
     public Transform cameraTransform;
-    public Vector3 offset = new Vector3(0, -2, 5);
+    public Vector3 offset = new Vector3(0, -3, 14);
 
-    void OnMouseDown()
+    public void OnButtonClicked(GameObject buttonObj)
     {
-        string buttonName = parentButton.transform.GetChild(0).name;
-        if (buttonName == "Solve")
+        Button button = buttonObj.GetComponent<Button>();
+        if (button.name == "Solve")
         {
-            parentButton.ClickSolve(parentButton.gameObject);
+            Destroy(buttonObj);
+            buttonManager.ClickSolve();
         }
     }
 
+
+    //FIXME rotating over the y axis snaps the canvas to the middle and rotates by 180 degrees which it shouldnt do
     void LateUpdate()
     {
         if(cameraTransform == null)
@@ -33,11 +37,10 @@ public class ButtonController : MonoBehaviour
         transform.position = desiredPosition;
 
 
-        transform.LookAt(cameraTransform.position);
+        transform.LookAt(cameraTransform.localPosition,Vector3.up);
         
-        transform.Rotate(0, 180f, 0);
+        transform.Rotate(0, 180f, 0f);
 
-        Debug.Log(transform.position);
     }
 
 }
