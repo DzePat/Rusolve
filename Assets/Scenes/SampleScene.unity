@@ -591,6 +591,7 @@ GameObject:
   m_Component:
   - component: {fileID: 522843125}
   - component: {fileID: 522843124}
+  - component: {fileID: 522843126}
   m_Layer: 0
   m_Name: ButtonManager
   m_TagString: Untagged
@@ -628,6 +629,25 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &522843126
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 522843123}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5500b284aa7e96242b582b1c21d62f3c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 321877828}
+  distance: 2
+  zoomSpeed: 3
+  minDistance: 0
+  maxDistance: 10
+  xSpeed: 120
+  ySpeed: 120
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -708,7 +728,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buttonManager: {fileID: 522843124}
   cameraTransform: {fileID: 330585546}
-  offset: {x: 0, y: -2, z: -5}
+  target: {fileID: 321877828}
+  offset: {x: 0, y: -3, z: 14}
 --- !u!4 &1486219767
 Transform:
   m_ObjectHideFlags: 0

@@ -14,7 +14,7 @@ public class ButtonManager : MonoBehaviour
     //Add two buttons next and previous
     public void CreateSolveNavigationButtons()
     {
-        Vector3Int nextButtonPos = new Vector3Int(3, -2, -5);
+        Vector3Int nextButtonPos = new Vector3Int(3, -3, -2);
         GameObject nextButtonObj = Instantiate(buttonPrefab,uiContainer.transform);
         nextButtonObj.transform.localPosition = nextButtonPos;
         TMP_Text labelOne = nextButtonObj.GetComponentInChildren<TMP_Text>();
@@ -22,7 +22,7 @@ public class ButtonManager : MonoBehaviour
         labelOne.text = "Next";
         labelOne.fontSize = 1;
 
-        Vector3Int previousButtonPos = new Vector3Int(-3, -2, -5);
+        Vector3Int previousButtonPos = new Vector3Int(-3, -3, -2);
         GameObject previousButtonObj = Instantiate(buttonPrefab, uiContainer.transform);
         previousButtonObj.transform.localPosition = previousButtonPos;
         TMP_Text labelTwo = previousButtonObj.GetComponentInChildren<TMP_Text>();
@@ -34,7 +34,7 @@ public class ButtonManager : MonoBehaviour
 
     public void CreateStartSolveButton()
     {
-        Vector3Int buttonPos = new Vector3Int(0, -2, -5);
+        Vector3Int buttonPos = new Vector3Int(0, -3, -2);
         GameObject buttonObj = Instantiate(buttonPrefab, uiContainer.transform);
         buttonObj.transform.localPosition = buttonPos;
         TMP_Text labelTwo = buttonObj.GetComponentInChildren<TMP_Text>();
