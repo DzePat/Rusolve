@@ -47,12 +47,6 @@ public class ButtonManager : MonoBehaviour
         solveButton.onClick.AddListener(() => btnController.OnButtonClicked(buttonObj));
     }
 
-    public void ClickSolve()
-    {
-        CreateSolveNavigationButtons();
-    }
-
-
     void Start()
     {
         uiContainer = Instantiate(canvasPrefab,transform);

@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class StickerClick : MonoBehaviour
 {
-    public Cubelet parentCubelet; 
+    public CubeManager parentCubelet; 
 
     void OnMouseDown()
     {

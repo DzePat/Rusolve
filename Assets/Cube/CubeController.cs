@@ -8,8 +8,7 @@ using static UnityEngine.Rendering.DebugUI;
 
 public class CubeController : MonoBehaviour
 {
-    public Cubelet cube;
-    public Dictionary<Vector3Int, GameObject> cubeletMap = new();
+    public CubeManager cubeManager;
     private bool isRotating = false;
 
     public List<Vector3Int> topFace = GetFacePositions(1, 1);
@@ -59,10 +58,10 @@ public class CubeController : MonoBehaviour
         //iterate trough 9 face cubelets
         foreach (Vector3Int pos in face)
         {
-            GameObject cubelet = cubeletMap[pos];
+            GameObject cubelet = cubeManager.cubeletMap[pos];
             int childcount = 0;
             //iterate trough cubelet children
-            foreach (Transform child in cubeletMap[pos].transform)
+            foreach (Transform child in cubeManager.cubeletMap[pos].transform)
             {
                 childcount++;
                 Vector3 stickerPos = child.position;
@@ -78,6 +77,20 @@ public class CubeController : MonoBehaviour
         }
 
         return FaceColors;
+    }
+
+    public void DisableStickerClick()
+    {
+        foreach(GameObject cubelet in cubeManager.cubeletMap.Values)
+        {
+            foreach(Transform child in cubelet.transform)
+            {
+                var collider = child.GetComponent<Collider>();
+                var StickerClickScript = child.GetComponent<StickerClick>();
+                Destroy(collider);
+                Destroy(collider);
+            }
+        }
     }
 
     // Rotates cube face
@@ -98,8 +111,8 @@ public class CubeController : MonoBehaviour
         //get all 9 cubelets for the side to rotate from the main cubelet Dict
         foreach (Vector3Int pos in face)
         {
-            originalCubletPositions.Add(pos, cubeletMap[pos]);
-            cubeletMap.Remove(pos);
+            originalCubletPositions.Add(pos, cubeManager.cubeletMap[pos]);
+            cubeManager.cubeletMap.Remove(pos);
         }
 
         //asign all 9 cubelets to the pivot gameobject
@@ -122,7 +135,7 @@ public class CubeController : MonoBehaviour
                 Mathf.RoundToInt(pos.y),
                 Mathf.RoundToInt(pos.z)
             );
-            cubeletMap[cubeletPos] = cubelet;
+            cubeManager.cubeletMap[cubeletPos] = cubelet;
         }
 
         //empty out pivot children
@@ -158,7 +171,7 @@ public class CubeController : MonoBehaviour
 
     void Start()
     {
-        BuildCube();
+        cubeManager.BuildCube();
     }
 
     void Update()
@@ -184,23 +197,6 @@ public class CubeController : MonoBehaviour
                 foreach (var faceColor in FaceColors)
                 {
                     Debug.Log($"Position: {faceColor.Key} Color: {faceColor.Value}");
-                }
-            }
-        }
-    }
-
-    void BuildCube()
-    {
-
-        for (int x = -1; x <= 1; x++)
-        {
-            for (int y = -1; y <= 1; y++)
-            {
-                for (int z = -1; z <= 1; z++)
-                {
-                    Vector3Int pos = new(x, y, z);
-                    GameObject cubelet = cube.CreateCubelet(x, y, z);
-                    cubeletMap[pos] = cubelet;
                 }
             }
         }

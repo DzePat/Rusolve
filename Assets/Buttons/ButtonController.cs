@@ -7,6 +7,7 @@ using static UnityEngine.GraphicsBuffer;
 public class ButtonController : MonoBehaviour
 {
     public ButtonManager buttonManager;
+    public CubeController cubeController;
 
     public void OnButtonClicked(GameObject buttonObj)
     {
@@ -14,7 +15,8 @@ public class ButtonController : MonoBehaviour
         if (button.name == "Solve")
         {
             Destroy(buttonObj);
-            buttonManager.ClickSolve();
+            cubeController.DisableStickerClick();
+            buttonManager.CreateSolveNavigationButtons();
         }
     }
 
