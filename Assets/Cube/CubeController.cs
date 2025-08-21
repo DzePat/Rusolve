@@ -39,12 +39,12 @@ public class CubeController : MonoBehaviour
         } 
         return face;
     }
-
+    //FIXME after rotation it finds less stickers
     //Get color of each face cubelet sticker with its position
-    public Dictionary<Vector3, Color> GetFaceColors(List<Vector3Int> face)
+    public Dictionary<Vector3, string> GetFaceColors(List<Vector3Int> face)
     {
         Vector3Int center = face[4];
-        Dictionary<Vector3, Color> FaceColors = new();
+        Dictionary<Vector3, string> FaceColors = new();
 
         //get vector identifier x ,y or z
         int position = Mathf.Abs(center.x) == 1 ? 0 : Mathf.Abs(center.y) == 1 ? 1 : 2;
@@ -70,7 +70,7 @@ public class CubeController : MonoBehaviour
                 //find the sticker facing the right direction
                 if (comparePos == compareValue)
                 {            
-                    Color stickerColor = child.GetComponent<Renderer>().sharedMaterial.color;
+                    string stickerColor = child.transform.name;
                     FaceColors.Add(stickerPos, stickerColor);
                 }
             }
@@ -88,7 +88,7 @@ public class CubeController : MonoBehaviour
                 var collider = child.GetComponent<Collider>();
                 var StickerClickScript = child.GetComponent<StickerClick>();
                 Destroy(collider);
-                Destroy(collider);
+                Destroy(StickerClickScript);
             }
         }
     }
@@ -193,7 +193,7 @@ public class CubeController : MonoBehaviour
             else if (Input.GetKeyDown(KeyCode.C))
             {
 
-                Dictionary<Vector3,Color> FaceColors= GetFaceColors(topFace);
+                Dictionary<Vector3,string> FaceColors= GetFaceColors(topFace);
                 foreach (var faceColor in FaceColors)
                 {
                     Debug.Log($"Position: {faceColor.Key} Color: {faceColor.Value}");
