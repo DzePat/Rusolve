@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Unity.Notifications.Android;
 using UnityEngine;
+using UnityEngine.UIElements;
 using static UnityEngine.Rendering.DebugUI;
 
 public class CubeController : MonoBehaviour
@@ -39,7 +40,7 @@ public class CubeController : MonoBehaviour
         } 
         return face;
     }
-    //FIXME after rotation it finds less stickers
+
     //Get color of each face cubelet sticker with its position
     public Dictionary<Vector3, string> GetFaceColors(List<Vector3Int> face)
     {
@@ -52,20 +53,23 @@ public class CubeController : MonoBehaviour
         //vector value to compare against cubelet children
         int value = position == 0 ? center.x : position == 1? center.y : center.z;
 
-        //offset by 0.51f for value because thats the sticker postion ofsett
-        float compareValue = value < 0 ? value - 0.51f : value + 0.51f;
+        //change compare value to 2 because the offset for sticker values are 0.51 and after rounding up its 2.
+        float compareValue = value >= 1 ? 2 : -2;
 
+        int childcount = 0;
         //iterate trough 9 face cubelets
         foreach (Vector3Int pos in face)
         {
             GameObject cubelet = cubeManager.cubeletMap[pos];
-            int childcount = 0;
+            childcount++;
+
             //iterate trough cubelet children
             foreach (Transform child in cubeManager.cubeletMap[pos].transform)
             {
-                childcount++;
                 Vector3 stickerPos = child.position;
-                float comparePos = position == 0? stickerPos.x : position == 1 ? stickerPos.y : stickerPos.z;
+
+                //round compare axis to get more accurate compare value of 2 or -2
+                int comparePos = (int)Math.Round(position == 0? stickerPos.x : position == 1 ? stickerPos.y : stickerPos.z);
 
                 //find the sticker facing the right direction
                 if (comparePos == compareValue)
@@ -141,7 +145,7 @@ public class CubeController : MonoBehaviour
         //empty out pivot children
         while(pivot.transform.childCount > 0)
         {
-            pivot.transform.GetChild(0).SetParent(null);
+            pivot.transform.GetChild(0).SetParent(cubeManager.transform);
         }
 
         //destroy empty pivot gameobject
@@ -193,10 +197,10 @@ public class CubeController : MonoBehaviour
             else if (Input.GetKeyDown(KeyCode.C))
             {
 
-                Dictionary<Vector3,string> FaceColors= GetFaceColors(topFace);
+                Dictionary<Vector3,string> FaceColors = GetFaceColors(topFace);
                 foreach (var faceColor in FaceColors)
                 {
-                    Debug.Log($"Position: {faceColor.Key} Color: {faceColor.Value}");
+                    Debug.Log($"Position: {faceColor.Key} Color: {faceColor.Value} colorCount: {count}");
                 }
             }
         }
