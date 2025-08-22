@@ -42,10 +42,10 @@ public class CubeController : MonoBehaviour
     }
 
     //Get color of each face cubelet sticker with its position
-    public Dictionary<Vector3, string> GetFaceColors(List<Vector3Int> face)
+    public Dictionary<Vector3Int, string> GetFaceColors(List<Vector3Int> face)
     {
         Vector3Int center = face[4];
-        Dictionary<Vector3, string> FaceColors = new();
+        Dictionary<Vector3Int, string> FaceColors = new();
 
         //get vector identifier x ,y or z
         int position = Mathf.Abs(center.x) == 1 ? 0 : Mathf.Abs(center.y) == 1 ? 1 : 2;
@@ -69,13 +69,17 @@ public class CubeController : MonoBehaviour
                 Vector3 stickerPos = child.position;
 
                 //round compare axis to get more accurate compare value of 2 or -2
-                int comparePos = (int)Math.Round(position == 0? stickerPos.x : position == 1 ? stickerPos.y : stickerPos.z);
+                int comparePos = Mathf.RoundToInt(
+                    position == 0 ? stickerPos.x :
+                    position == 1 ? stickerPos.y :
+                    stickerPos.z
+                );
 
                 //find the sticker facing the right direction
                 if (comparePos == compareValue)
-                {            
+                {
                     string stickerColor = child.transform.name;
-                    FaceColors.Add(stickerPos, stickerColor);
+                    FaceColors.Add(pos, stickerColor);
                 }
             }
         }
@@ -197,10 +201,10 @@ public class CubeController : MonoBehaviour
             else if (Input.GetKeyDown(KeyCode.C))
             {
 
-                Dictionary<Vector3,string> FaceColors = GetFaceColors(topFace);
+                Dictionary<Vector3Int,string> FaceColors = GetFaceColors(topFace);
                 foreach (var faceColor in FaceColors)
                 {
-                    Debug.Log($"Position: {faceColor.Key} Color: {faceColor.Value} colorCount: {count}");
+                    Debug.Log($"Position: {faceColor.Key} Color: {faceColor.Value}");
                 }
             }
         }
