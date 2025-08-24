@@ -87,6 +87,26 @@ public class CubeController : MonoBehaviour
         return FaceColors;
     }
 
+    //Get nested array of a layer with real position and name position to easier track movement. Utility function.
+    public (Vector3Int pos, string name)[] GetCubeletLayers(string layer)
+    {
+        (Vector3Int pos, string name)[] layerArr = new (Vector3Int, string)[9];
+        int layerPosY = layer == "top" ? 1 : layer == "bottom" ? -1 : 0;
+        int layerIndex = 0;
+
+        foreach(var  cubelet in cubeManager.cubeletMap)
+        {
+            if(cubelet.Key.y == layerPosY)
+            {
+                layerArr[layerIndex] = (cubelet.Key, cubelet.Value.name);
+                layerIndex++;
+            }
+        }
+
+        return layerArr;
+    }
+
+    //disable cubelet sticker click events
     public void DisableStickerClick()
     {
         foreach(GameObject cubelet in cubeManager.cubeletMap.Values)
@@ -94,9 +114,7 @@ public class CubeController : MonoBehaviour
             foreach(Transform child in cubelet.transform)
             {
                 var collider = child.GetComponent<Collider>();
-                var StickerClickScript = child.GetComponent<StickerClick>();
                 Destroy(collider);
-                Destroy(StickerClickScript);
             }
         }
     }
@@ -176,6 +194,19 @@ public class CubeController : MonoBehaviour
         pivot.transform.rotation = endRotation; 
     }
 
+    //this function changes color of a sticker to next color in the array
+    public void ChangeColor(GameObject sticker)
+    {
+        Color[] colors = new Color[] { Color.white, Color.yellow, Color.orange, Color.red, Color.green, Color.blue };
+        String[] colorNames = new string[] { "white", "yellow", "orange", "red", "green", "blue" };
+        Renderer rend = sticker.GetComponent<Renderer>();
+        Color currentMat = rend.sharedMaterial.color;
+        int index = Array.IndexOf(colors, currentMat);
+        index++;
+        if (index == colors.Length) index = 0;
+        rend.material.color = colors[index];
+        sticker.name = "Sticker_" + colorNames[index];
+    }
 
     void Start()
     {
@@ -205,6 +236,23 @@ public class CubeController : MonoBehaviour
                 foreach (var faceColor in FaceColors)
                 {
                     Debug.Log($"Position: {faceColor.Key} Color: {faceColor.Value}");
+                }
+            }
+        }
+
+        //handle mouse click
+        if (Input.GetMouseButtonDown(0))
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(ray, out RaycastHit hit))
+            {
+                GameObject clicked = hit.collider.gameObject;
+
+
+
+                if (clicked.name.StartsWith("Sticker_"))
+                {
+                    ChangeColor(clicked); 
                 }
             }
         }

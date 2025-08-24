@@ -67,18 +67,6 @@ public class CubeManager : MonoBehaviour
             CreateSticker(cubelet, Vector3.back, Color.blue, "blue");
     }
 
-    //this function changes color of a sticker to next color in the array
-    public void ChangeColor(GameObject sticker)
-    {
-        Color[] colors = new Color[] {Color.white,Color.yellow, Color.orange,Color.red,Color.green,Color.blue};
-        Renderer rend = sticker.GetComponent<Renderer>();
-        Color currentMat = rend.sharedMaterial.color;
-        int index = Array.IndexOf(colors, currentMat);
-        index++;
-        if (index == colors.Length) index = 0;
-        rend.material.color = colors[index];
-    }
-
     //This function creates sticker on top of a cubelet with a seleceted color
     private void CreateSticker(GameObject cubelet, Vector3 normal, Color color, String identifier)
     {
@@ -87,12 +75,10 @@ public class CubeManager : MonoBehaviour
         sticker.transform.localPosition = normal * 0.51f;
         sticker.transform.localRotation = Quaternion.LookRotation(-normal);
         sticker.transform.localScale = Vector3.one * 0.9f;
-        sticker.transform.name = identifier;
+        sticker.transform.name = "Sticker_"+identifier;
         sticker.GetComponent<Renderer>().material.color = color;
 
         sticker.AddComponent<BoxCollider>();
-        var click = sticker.AddComponent<StickerClick>();
-        click.parentCubelet = this;
     }
 } 
 
