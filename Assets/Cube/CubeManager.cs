@@ -61,10 +61,10 @@ public class CubeManager : MonoBehaviour
             CreateSticker(cubelet, Vector3.right, Color.red, "red");
 
         if (position.z == 1)
-            CreateSticker(cubelet, Vector3.forward, Color.green, "green");
+            CreateSticker(cubelet, Vector3.forward, Color.blue, "blue");
 
         if (position.z == -1)
-            CreateSticker(cubelet, Vector3.back, Color.blue, "blue");
+            CreateSticker(cubelet, Vector3.back, Color.green, "green");
     }
 
     //This function creates sticker on top of a cubelet with a seleceted color

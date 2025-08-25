@@ -90,3 +90,12 @@ crashlytics-build.properties
 # TMP settings 
 Assets/TextMesh Pro/Resources/*
 Assets/TextMesh Pro/Examples & Extras
+
+# Kociemba Settings
+
+/Tables
+/Tables/*
+
+/.vs
+/.vs/*
+*.meta

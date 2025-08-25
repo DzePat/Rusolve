@@ -1,11 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using Unity.Notifications.Android;
 using UnityEngine;
-using UnityEngine.UIElements;
-using static UnityEngine.Rendering.DebugUI;
 
 public class CubeController : MonoBehaviour
 {
@@ -208,6 +204,8 @@ public class CubeController : MonoBehaviour
         sticker.name = "Sticker_" + colorNames[index];
     }
 
+
+
     void Start()
     {
         cubeManager.BuildCube();
@@ -239,7 +237,7 @@ public class CubeController : MonoBehaviour
                 }
             }
         }
-
+        // https://github.com/Megalomatt/Kociemba
         //handle mouse click
         if (Input.GetMouseButtonDown(0))
         {
