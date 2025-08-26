@@ -2,7 +2,6 @@ using UnityEngine;
 using Kociemba;
 using System.Collections.Generic;
 using System.Linq;
-using static UnityEditor.PlayerSettings;
 
 public class SolveController : MonoBehaviour
 {
@@ -19,7 +18,6 @@ public class SolveController : MonoBehaviour
         { "Sticker_red",    "R" }   // Right
     };
 
-    //FIXME: the order needs to be adjusted because some of the faces doesnt sort the way Kociemba expects.
     List<Vector3Int> SortFace(List<Vector3Int> face, string faceName)
     {
         switch (faceName)
