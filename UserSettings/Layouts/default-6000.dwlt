@@ -19,7 +19,7 @@ MonoBehaviour:
     width: 3440
     height: 1349
   m_ShowMode: 4
-  m_Title: Game
+  m_Title: Hierarchy
   m_RootView: {fileID: 6}
   m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
@@ -48,7 +48,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 100}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-  controlID: 76
+  controlID: 37
   draggingID: 0
 --- !u!114 &3
 MonoBehaviour:
@@ -326,7 +326,7 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Controllers
+    - Assets/Cube
     m_Globs: []
     m_ProductIds: 
     m_AnyWithAssetOrigin: 0
@@ -336,16 +336,16 @@ MonoBehaviour:
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/Controllers
+  - Assets/Cube
   m_LastFoldersGridSize: -1
   m_LastProjectPath: C:\Users\Dzedas\Rusolve
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 96ae0000
-    m_LastClickedID: 44694
-    m_ExpandedIDs: 0000000056ad000058ad0000
+    m_SelectedIDs: d6ae0000
+    m_LastClickedID: 44758
+    m_ExpandedIDs: 0000000054ad000056ad0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -374,7 +374,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 0000000056ad000058ad0000
+    m_ExpandedIDs: 0000000054ad000056ad0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -400,8 +400,8 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: b0ae0000
-    m_LastClickedInstanceID: 44720
+    m_SelectedInstanceIDs: 0ead0000
+    m_LastClickedInstanceID: 44302
     m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs: c623000056aa000000000000
     m_RenameOverlay:
@@ -522,7 +522,7 @@ MonoBehaviour:
       scrollPos: {x: 0, y: 0}
       m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: 18fbffffe2ac0000
+      m_ExpandedIDs: 18fbffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -1014,9 +1014,9 @@ MonoBehaviour:
   m_AudioPlay: 0
   m_DebugDrawModesUseInteractiveLightBakingData: 0
   m_Position:
-    m_Target: {x: 0.39168394, y: -0.38374877, z: -0.04069233}
+    m_Target: {x: 0, y: 0, z: 0}
     speed: 2
-    m_Value: {x: 0.39168394, y: -0.38374877, z: -0.04069233}
+    m_Value: {x: 0, y: 0, z: 0}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -1062,13 +1062,13 @@ MonoBehaviour:
     m_GridAxis: 1
     m_gridOpacity: 0.5
   m_Rotation:
-    m_Target: {x: 0.06623572, y: 0.028670674, z: -0.0018845008, w: 0.99741864}
+    m_Target: {x: 0.13066901, y: -0.8608001, z: 0.27651823, w: 0.40686908}
     speed: 2
-    m_Value: {x: -0.06623572, y: -0.028670674, z: 0.0018845008, w: -0.9974186}
+    m_Value: {x: -0.13066535, y: 0.86077595, z: -0.27651048, w: -0.4068577}
   m_Size:
-    m_Target: 2.3155434
+    m_Target: 10
     speed: 2
-    m_Value: 2.3155434
+    m_Value: 10
   m_Ortho:
     m_Target: 0
     speed: 2

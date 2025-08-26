@@ -10,8 +10,8 @@ public class CubeController : MonoBehaviour
 
     public List<Vector3Int> topFace = GetFacePositions(1, 1);
     public List<Vector3Int> bottomFace = GetFacePositions(1, -1);
-    public List<Vector3Int> frontFace = GetFacePositions(2, 1);
-    public List<Vector3Int> backFace = GetFacePositions(2, -1);
+    public List<Vector3Int> backFace = GetFacePositions(2, 1);
+    public List<Vector3Int> frontFace = GetFacePositions(2, -1);
     public List<Vector3Int> rightFace = GetFacePositions(0, 1);
     public List<Vector3Int> leftFace = GetFacePositions(0, -1);
 

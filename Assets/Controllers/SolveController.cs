@@ -2,6 +2,7 @@ using UnityEngine;
 using Kociemba;
 using System.Collections.Generic;
 using System.Linq;
+using static UnityEditor.PlayerSettings;
 
 public class SolveController : MonoBehaviour
 {
@@ -36,7 +37,7 @@ public class SolveController : MonoBehaviour
                 return face.OrderByDescending(p => p.y).ThenByDescending(p => p.x).ToList();
 
             case "L": // Left face (X = -1)
-                return face.OrderByDescending(p => p.y).ThenBy(p => p.z).ToList();
+                return face.OrderByDescending(p => p.y).ThenByDescending(p => p.z).ToList();
 
             case "R": // Right face (X = +1)
                 return face.OrderByDescending(p => p.y).ThenBy(p => p.z).ToList();
@@ -54,16 +55,12 @@ public class SolveController : MonoBehaviour
         {
             SortFace(cubeController.topFace,"U"),
             SortFace(cubeController.rightFace,"R"),
-            SortFace(cubeController.backFace,"B"),
+            SortFace(cubeController.frontFace,"F"),
             SortFace(cubeController.bottomFace,"D"),
             SortFace(cubeController.leftFace,"L"),
-            SortFace(cubeController.frontFace,"F")
+            SortFace(cubeController.backFace,"B")
         };
-
-        foreach (var pos in cubeController.frontFace)
-        {
-            Debug.Log(pos);
-        }
+              
         foreach (List<Vector3Int> face in facesArray)
         {
             foreach (var sticker in cubeController.GetFaceColors(face))
