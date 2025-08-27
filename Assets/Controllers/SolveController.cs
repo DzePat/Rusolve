@@ -1,7 +1,8 @@
 using UnityEngine;
-using Kociemba;
 using System.Collections.Generic;
 using System.Linq;
+using System;
+using TwoPhaseSolver;
 
 public class SolveController : MonoBehaviour
 {
@@ -71,23 +72,41 @@ public class SolveController : MonoBehaviour
         Debug.Log(searchString);
 
         string info = "";
-        string solution = SearchRunTime.solution(searchString, out info, buildTables: true);
+        //string solution = SearchRunTime.solution(searchString, out info, buildTables: true);
 
-        Debug.Log("Solution: " + solution);
         Debug.Log("Solver Info: " + info);
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+
+        //Tests
+        // Just solve a random cube with some pattern.
+        Cube c = Move.randmove(200).apply(new Cube());
+        Move pattern;
+
+        // BEST. RANDOM. GEN. EVER. (actually not that bad,
+        // since you'd have to time yourself with 100nanosecond precision
+        if ((DateTime.Now.Ticks & 1) == 0)
+        {
+            pattern = Move.None;
+            Debug.Log("No pattern this time...");
+        }
+        else
+        {
+            pattern = Move.randmove(20);
+            Debug.Log($"Pattern is {pattern}");
+        }
+
+        // Do the actual solve while printing what is happening
+        Search.patternSolve(c, pattern, 22, printInfo: true);
+
         /*
         string scramble = "UUUUUULLLURRURRURRFFFFFFFFFRRRDDDDDDLLDLLDLLDBBBBBBBBB";
 
         string info = "";
         string solution = SearchRunTime.solution(scramble, out info, buildTables: true);
-
-        Debug.Log("Solution: " + solution);
-        Debug.Log("Solver Info: " + info);
         */
     }
 
