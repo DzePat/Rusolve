@@ -9,14 +9,14 @@ public class SolveController : MonoBehaviour
 
     public CubeController cubeController;
 
-    Dictionary<string, string> colorToFaceMap = new Dictionary<string, string>()
+    Dictionary<string, byte> nameToColor = new Dictionary<string, byte>()
     {
-        { "Sticker_white",  "U" },  // Up
-        { "Sticker_yellow", "D" },  // Down
-        { "Sticker_green",  "F" },  // Front
-        { "Sticker_blue",   "B" },  // Back
-        { "Sticker_orange", "L" },  // Left
-        { "Sticker_red",    "R" }   // Right
+        { "Sticker_white",  0 },  // Up
+        { "Sticker_red",    1 },  // Right
+        { "Sticker_green",  2 },  // Front
+        { "Sticker_orange", 3 },  // Left
+        { "Sticker_blue",   4 },  // Back
+        { "Sticker_yellow", 5 }  // Down
     };
 
     List<Vector3Int> SortFace(List<Vector3Int> face, string faceName)
@@ -55,62 +55,47 @@ public class SolveController : MonoBehaviour
             SortFace(cubeController.topFace,"U"),
             SortFace(cubeController.rightFace,"R"),
             SortFace(cubeController.frontFace,"F"),
-            SortFace(cubeController.bottomFace,"D"),
             SortFace(cubeController.leftFace,"L"),
-            SortFace(cubeController.backFace,"B")
+            SortFace(cubeController.backFace,"B"),
+            SortFace(cubeController.bottomFace,"D")
         };
-              
+
+        int[] clockwiseIndexing = new int[] {0, 1, 2, 5, 8, 7, 6, 3};
+        byte[] cubeFacelets = new byte[48];
+        int faceletIndex = 0;
         foreach (List<Vector3Int> face in facesArray)
         {
+            byte[] temp = new byte[9];
+            int index = 0;
             foreach (var sticker in cubeController.GetFaceColors(face))
             {
-                string color = sticker.Value;
-                searchString += colorToFaceMap[color];
+                    string name = sticker.Value;
+                    temp[index]= nameToColor[name];
+                    index++;
+            }
+
+            foreach(int i in clockwiseIndexing)
+            {
+                cubeFacelets[faceletIndex] = temp[i];
+                faceletIndex++;
             }
         }
-        
-        Debug.Log(searchString);
 
-        string info = "";
-        //string solution = SearchRunTime.solution(searchString, out info, buildTables: true);
+        Debug.Log(string.Join(", ", cubeFacelets));
 
-        Debug.Log("Solver Info: " + info);
+
+        Cube c = new Cube(cubeFacelets);
+        Move pattern = Move.None;
+        string solution = Search.patternSolve(c, pattern, 22, printInfo: true).ToString();
+        Debug.Log(solution);
     }
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+
     void Start()
     {
 
-        //Tests
-        // Just solve a random cube with some pattern.
-        Cube c = Move.randmove(200).apply(new Cube());
-        Move pattern;
-
-        // BEST. RANDOM. GEN. EVER. (actually not that bad,
-        // since you'd have to time yourself with 100nanosecond precision
-        if ((DateTime.Now.Ticks & 1) == 0)
-        {
-            pattern = Move.None;
-            Debug.Log("No pattern this time...");
-        }
-        else
-        {
-            pattern = Move.randmove(20);
-            Debug.Log($"Pattern is {pattern}");
-        }
-
-        // Do the actual solve while printing what is happening
-        Search.patternSolve(c, pattern, 22, printInfo: true);
-
-        /*
-        string scramble = "UUUUUULLLURRURRURRFFFFFFFFFRRRDDDDDDLLDLLDLLDBBBBBBBBB";
-
-        string info = "";
-        string solution = SearchRunTime.solution(scramble, out info, buildTables: true);
-        */
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.K))
