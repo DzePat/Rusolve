@@ -32,34 +32,63 @@ public class ButtonController : MonoBehaviour
             }
             if (button.name == "Next")
             {
-                if (solutionIndex != solution.Length)
-                {
-                    string step = solution[solutionIndex];
-                    Debug.Log($"step: {step} length: {step.Length}");
-                    List<Vector3Int> face = solveController.moveMap[step[0]];
-                    if (step.Length == 1)
-                    {
-                        StartCoroutine(solveController.cubeController.RotateFace(face, true));
-                    }
-                    else
-                    {
-                        if (step[1] == '2')
-                        {
-                            StartCoroutine(solveController.cubeController.RotateFace(face, true));
-                            StartCoroutine(solveController.cubeController.RotateFace(face, true));
-                        }
-                        else
-                        {
-                            StartCoroutine(solveController.cubeController.RotateFace(face, false));
-                        }
-                    }
-                    solutionIndex++;
-                }
+                MoveNext();
             }
             if (button.name == "Previous")
             {
-                if (solutionIndex > 0) solutionIndex--;
+                MovePrevious();
+            }
+        }
+    }
 
+    public void MoveNext()
+    {
+        if (solutionIndex != solution.Length)
+        {
+            string step = solution[solutionIndex];
+            List<Vector3Int> face = solveController.moveMap[step[0]];
+            if (step.Length == 1)
+            {
+                solveController.cubeController.EnqueueRotation(face, true);
+            }
+            else
+            {
+                if (step[1] == '2')
+                {
+                    solveController.cubeController.EnqueueRotation(face, true);
+                    solveController.cubeController.EnqueueRotation(face, true);
+                }
+                else
+                {
+                    solveController.cubeController.EnqueueRotation(face, false);
+                }
+            }
+            solutionIndex++;
+        }
+    }
+
+    public void MovePrevious()
+    {
+       if(solutionIndex != 0)
+        {
+            solutionIndex--;
+            string step = solution[solutionIndex];
+            List<Vector3Int> face = solveController.moveMap[step[0]];
+            if (step.Length == 1)
+            {
+                solveController.cubeController.EnqueueRotation(face, false);
+            }
+            else
+            {
+                if (step[1] == '2')
+                {
+                    solveController.cubeController.EnqueueRotation(face, false);
+                    solveController.cubeController.EnqueueRotation(face, false);
+                }
+                else
+                {
+                    solveController.cubeController.EnqueueRotation(face, true);
+                }
             }
         }
     }

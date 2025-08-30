@@ -7,6 +7,7 @@ public class CubeController : MonoBehaviour
 {
 
     public CubeManager cubeManager;
+    private Queue<(List<Vector3Int> face, bool clockwise)> rotationQueue = new Queue<(List<Vector3Int>, bool)>();
     public bool isRotating = false;
 
     public List<Vector3Int> topFace = GetFacePositions(1, 1);
@@ -15,6 +16,28 @@ public class CubeController : MonoBehaviour
     public List<Vector3Int> frontFace = GetFacePositions(2, -1);
     public List<Vector3Int> rightFace = GetFacePositions(0, 1);
     public List<Vector3Int> leftFace = GetFacePositions(0, -1);
+
+
+    public void EnqueueRotation(List<Vector3Int> face, bool clockwise)
+    {
+        rotationQueue.Enqueue((face, clockwise));
+
+        if (!isRotating)
+            StartCoroutine(ProcessQueue());
+    }
+
+    private IEnumerator ProcessQueue()
+    {
+        isRotating = true;
+
+        while (rotationQueue.Count > 0)
+        {
+            var (face, clockwise) = rotationQueue.Dequeue();
+            yield return StartCoroutine(RotateFace(face, clockwise));
+        }
+
+        isRotating = false;
+    }
 
     //instanciates 9 vector3Int positions from an axis key and its value
     //axis corresponding keys: x = 0 , y = 1 , z = 2
@@ -120,7 +143,6 @@ public class CubeController : MonoBehaviour
     public IEnumerator RotateFace(List<Vector3Int> face, bool clockwise)
     {
         Vector3 center = face[4];
-        isRotating = true;
 
         //temporary parent Gameobject for the 9 cubelets thats gonna rotate
         GameObject pivot = new GameObject("Pivot");
@@ -169,8 +191,6 @@ public class CubeController : MonoBehaviour
 
         //destroy empty pivot gameobject
         GameObject.Destroy(pivot);
-
-        isRotating = false;
     }
 
     //rotation animation
@@ -214,40 +234,38 @@ public class CubeController : MonoBehaviour
 
     void Update()
     {
-        if (!isRotating)
-        {
-            if (Input.GetKeyDown(KeyCode.Q))
-            {
-                StartCoroutine(RotateFace(frontFace, true));
-            }
-            else if (Input.GetKeyDown(KeyCode.A))
-            {
-                StartCoroutine(RotateFace(leftFace, true));
-            }
-            else if (Input.GetKeyDown(KeyCode.D))
-            {
-                StartCoroutine(RotateFace(rightFace, true));
-            }
-            else if (Input.GetKeyDown(KeyCode.W))
-            {
-                StartCoroutine(RotateFace(topFace, true));
-            }
-            else if (Input.GetKeyDown(KeyCode.S))
-            {
-                StartCoroutine(RotateFace(bottomFace, true));
-            }
-            else if (Input.GetKeyDown(KeyCode.E))
-            {
-                StartCoroutine(RotateFace(backFace, true));
-            }
-            else if (Input.GetKeyDown(KeyCode.C))
-            {
 
-                Dictionary<Vector3Int,string> FaceColors = GetFaceColors(topFace);
-                foreach (var faceColor in FaceColors)
-                {
-                    Debug.Log($"Position: {faceColor.Key} Color: {faceColor.Value}");
-                }
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            EnqueueRotation(frontFace, true);
+        }
+        else if (Input.GetKeyDown(KeyCode.A))
+        {
+            EnqueueRotation(leftFace, true);
+        }
+        else if (Input.GetKeyDown(KeyCode.D))
+        {
+            EnqueueRotation(rightFace, true);
+        }
+        else if (Input.GetKeyDown(KeyCode.W))
+        {
+            EnqueueRotation(topFace, true);
+        }
+        else if (Input.GetKeyDown(KeyCode.S))
+        {
+            EnqueueRotation(bottomFace, true);
+        }
+        else if (Input.GetKeyDown(KeyCode.E))
+        {
+            EnqueueRotation(backFace, true);
+        }
+        else if (Input.GetKeyDown(KeyCode.C))
+        {
+
+            Dictionary<Vector3Int,string> FaceColors = GetFaceColors(topFace);
+            foreach (var faceColor in FaceColors)
+            {
+                Debug.Log($"Position: {faceColor.Key} Color: {faceColor.Value}");
             }
         }
         if (Input.GetMouseButtonDown(0))
