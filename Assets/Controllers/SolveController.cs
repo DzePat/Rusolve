@@ -1,8 +1,9 @@
-using UnityEngine;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System;
 using TwoPhaseSolver;
+using UnityEngine;
+using UnityEngine.Windows;
 
 public class SolveController : MonoBehaviour
 {
@@ -18,6 +19,9 @@ public class SolveController : MonoBehaviour
         { "Sticker_blue",   4 },  // Back
         { "Sticker_yellow", 5 }  // Down
     };
+
+    public Dictionary<char, List<Vector3Int>> moveMap = new Dictionary<char, List<Vector3Int>>();
+
 
     List<Vector3Int> SortFace(List<Vector3Int> face, string faceName)
     {
@@ -47,7 +51,7 @@ public class SolveController : MonoBehaviour
         }
     }
 
-    void KociembaSolveAlgorithm()
+    public string[] KociembaSolveAlgorithm()
     {
         string searchString = "";
         List<Vector3Int>[] facesArray = new List<Vector3Int>[]
@@ -81,26 +85,30 @@ public class SolveController : MonoBehaviour
             }
         }
 
-        Debug.Log(string.Join(", ", cubeFacelets));
-
-
         Cube c = new Cube(cubeFacelets);
         Move pattern = Move.None;
         string solution = Search.patternSolve(c, pattern, 22, printInfo: true).ToString();
-        Debug.Log(solution);
+        string[] solutionArray = solution.Split(' ');
+        return solutionArray;
     }
 
+    public void populateMoveMap()
+    {
+        moveMap.Add(key: 'R', value: cubeController.rightFace);
+        moveMap.Add(key: 'L', value: cubeController.leftFace);
+        moveMap.Add(key: 'U', value: cubeController.topFace);
+        moveMap.Add(key: 'D', value: cubeController.bottomFace);
+        moveMap.Add(key: 'B', value: cubeController.backFace);
+        moveMap.Add(key: 'F', value: cubeController.frontFace);
+    }
 
     void Start()
     {
-
+        
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.K))
-        {
-            KociembaSolveAlgorithm();
-        }
+
     }
 }

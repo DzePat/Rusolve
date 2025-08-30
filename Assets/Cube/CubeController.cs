@@ -5,8 +5,9 @@ using UnityEngine;
 
 public class CubeController : MonoBehaviour
 {
+
     public CubeManager cubeManager;
-    private bool isRotating = false;
+    public bool isRotating = false;
 
     public List<Vector3Int> topFace = GetFacePositions(1, 1);
     public List<Vector3Int> bottomFace = GetFacePositions(1, -1);
@@ -208,24 +209,36 @@ public class CubeController : MonoBehaviour
 
     void Start()
     {
-        cubeManager.BuildCube();
+        
     }
 
     void Update()
     {
         if (!isRotating)
         {
-            if (Input.GetKeyDown(KeyCode.R))
+            if (Input.GetKeyDown(KeyCode.Q))
             {
                 StartCoroutine(RotateFace(frontFace, true));
             }
-            else if (Input.GetKeyDown(KeyCode.T))
+            else if (Input.GetKeyDown(KeyCode.A))
             {
-                StartCoroutine(RotateFace(frontFace, false));
+                StartCoroutine(RotateFace(leftFace, true));
+            }
+            else if (Input.GetKeyDown(KeyCode.D))
+            {
+                StartCoroutine(RotateFace(rightFace, true));
+            }
+            else if (Input.GetKeyDown(KeyCode.W))
+            {
+                StartCoroutine(RotateFace(topFace, true));
+            }
+            else if (Input.GetKeyDown(KeyCode.S))
+            {
+                StartCoroutine(RotateFace(bottomFace, true));
             }
             else if (Input.GetKeyDown(KeyCode.E))
             {
-                StartCoroutine(RotateFace(rightFace, true));
+                StartCoroutine(RotateFace(backFace, true));
             }
             else if (Input.GetKeyDown(KeyCode.C))
             {
@@ -237,8 +250,6 @@ public class CubeController : MonoBehaviour
                 }
             }
         }
-        // https://github.com/Megalomatt/Kociemba
-        //handle mouse click
         if (Input.GetMouseButtonDown(0))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);

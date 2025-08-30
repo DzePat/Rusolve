@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CubeManager : MonoBehaviour
@@ -12,7 +13,19 @@ public class CubeManager : MonoBehaviour
     [Header("Sticker Prefab")]
     public GameObject stickerPrefab;
 
-    // builds a cube from 27 cubelets centered at origo 0,0,0
+    private List<Vector3Int> staticStickers = new List<Vector3Int>()
+    {
+        new Vector3Int( 0, 1, 0),
+        new Vector3Int( 0,-1, 0),
+        new Vector3Int( 1, 0, 0),
+        new Vector3Int(-1, 0, 0),
+        new Vector3Int( 0, 0, 1),
+        new Vector3Int( 0, 0,-1),
+    };
+
+    /// <summary>
+    /// Builds a cube at x = 0, y = 0, z = 1 from 27 Cubelet objects. 
+    /// </summary>
     public void BuildCube()
     {
 
@@ -30,7 +43,13 @@ public class CubeManager : MonoBehaviour
         }
     }
 
-    //creates a cubelet object and its stickers at a given position x ,y z
+    /// <summary>
+    /// Creates a cubelet object in specifided position.
+    /// </summary>
+    /// <param name="x"></param>
+    /// <param name="y"></param>
+    /// <param name="z"></param>
+    /// <returns> Cubelet with stickers as children </returns>
     public GameObject CreateCubelet(int x, int y, int z)
     {
         CubeletPos = new Vector3Int(x, y, z);
@@ -44,7 +63,11 @@ public class CubeManager : MonoBehaviour
         return cubelet;
     }
 
-    //This function asigns a sticker and its color to a corresponding side
+    /// <summary>
+    /// Asigns a sticker of corresponding color depending on cubelets x,y and z positions.
+    /// </summary>
+    /// <param name="cubelet"></param>
+    /// <param name="position"></param>
     void AddStickers(GameObject cubelet, Vector3Int position)
     {
         if (position.y == 1)
@@ -66,7 +89,13 @@ public class CubeManager : MonoBehaviour
             CreateSticker(cubelet, Vector3.back, Color.green, "green");
     }
 
-    //This function creates sticker on top of a cubelet with a seleceted color
+    /// <summary>
+    /// Creates and attaches sticker to a cubelet as a cubelet child. 
+    /// </summary>
+    /// <param name="cubelet"></param>
+    /// <param name="normal"></param>
+    /// <param name="color"></param>
+    /// <param name="identifier"></param>
     private void CreateSticker(GameObject cubelet, Vector3 normal, Color color, String identifier)
     {
         GameObject sticker = Instantiate(stickerPrefab, cubelet.transform);
@@ -77,7 +106,11 @@ public class CubeManager : MonoBehaviour
         sticker.transform.name = "Sticker_"+identifier;
         sticker.GetComponent<Renderer>().material.color = color;
 
-        sticker.AddComponent<BoxCollider>();
+        //do not add collision to anchor stickers
+        if (!staticStickers.Contains(Vector3Int.RoundToInt(cubelet.transform.position)))
+        {
+            sticker.AddComponent<BoxCollider>();
+        }
     }
 } 
 
