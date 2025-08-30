@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
+  m_SkyboxMaterial: {fileID: 2100000, guid: ae51a3099a6f90b45bb54e752e08c375, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -149,6 +149,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cubeManager: {fileID: 1761281747}
+  isRotating: 0
   topFace:
   - {x: -1, y: 1, z: -1}
   - {x: 0, y: 1, z: -1}
@@ -772,7 +773,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buttonManager: {fileID: 298579612}
-  cubeController: {fileID: 109864079}
+  solveController: {fileID: 225416143}
 --- !u!4 &1587218979
 Transform:
   m_ObjectHideFlags: 0
