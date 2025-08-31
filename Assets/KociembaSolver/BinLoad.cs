@@ -1,17 +1,28 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
+using UnityEngine;
+using UnityEngine.Networking;
 
 namespace TwoPhaseSolver
 {
     static class BinLoad
     {
+        static string streamingAssetsPath = Application.streamingAssetsPath;
+        public static string GetFilePath(string relativePath)
+        {
+            #if UNITY_ANDROID && !UNITY_EDITOR
+                // On Android device, read from persistentDataPath
+                return Path.Combine(Application.persistentDataPath, relativePath);
+            #else
+                // On PC and editor, read directly from StreamingAssets folder
+                return Path.Combine(Application.streamingAssetsPath, relativePath);
+            #endif
+        }
+
         public static byte[][] getUdToPerm(string path)
         {
-            var raw = File.OpenRead(path);
+            var fullPath = GetFilePath(path);
+            var raw = File.OpenRead(fullPath);
             byte[][] values = new byte[Constants.N_UD][];
             byte[] c;
 
@@ -35,7 +46,8 @@ namespace TwoPhaseSolver
 
         public static ushort[,] loadShortTable2D(string path, int chunksize = 18)
         {
-            var bytes = File.ReadAllBytes(path);
+            var fullPath = GetFilePath(path);
+            var bytes = File.ReadAllBytes(fullPath);
             int len1d = bytes.Length / chunksize / 2;
             ushort[,] values = new ushort[len1d, chunksize];
             int i, j;
@@ -56,7 +68,8 @@ namespace TwoPhaseSolver
 
         public static PruneTable loadPruneTable(string path)
         {
-            return new PruneTable(File.ReadAllBytes(path));
+            var fullPath = GetFilePath(path);
+            return new PruneTable(File.ReadAllBytes(fullPath));
         }
     }
 }

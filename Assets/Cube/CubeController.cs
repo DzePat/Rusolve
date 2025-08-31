@@ -17,7 +17,11 @@ public class CubeController : MonoBehaviour
     public List<Vector3Int> rightFace = GetFacePositions(0, 1);
     public List<Vector3Int> leftFace = GetFacePositions(0, -1);
 
-
+    /// <summary>
+    /// Adds a rotation to the queue
+    /// </summary>
+    /// <param name="face"></param>
+    /// <param name="clockwise"></param>
     public void EnqueueRotation(List<Vector3Int> face, bool clockwise)
     {
         rotationQueue.Enqueue((face, clockwise));
@@ -26,6 +30,9 @@ public class CubeController : MonoBehaviour
             StartCoroutine(ProcessQueue());
     }
 
+    /// <summary>
+    /// Dequeues enqueued rotations
+    /// </summary>
     private IEnumerator ProcessQueue()
     {
         isRotating = true;
@@ -39,8 +46,12 @@ public class CubeController : MonoBehaviour
         isRotating = false;
     }
 
-    //instanciates 9 vector3Int positions from an axis key and its value
-    //axis corresponding keys: x = 0 , y = 1 , z = 2
+    /// <summary>
+    /// Takes and axis x = 0 , y = 1 , z = 2 and a value 1 or -1 and returns a list of positions of face cubelets
+    /// </summary>
+    /// <param name="axis"></param>
+    /// <param name="value"></param>
+    /// <returns> returns a list with 9 face cubelet positions</returns>
     public static List<Vector3Int> GetFacePositions(int axis, int value)
     {
         List<Vector3Int> face = new List<Vector3Int>();
@@ -61,7 +72,11 @@ public class CubeController : MonoBehaviour
         return face;
     }
 
-    //Get color of each face cubelet sticker with its position
+    /// <summary>
+    /// Takes a face as argument and returns a list of sticker positions and their corresponding colors
+    /// </summary>
+    /// <param name="face"></param>
+    /// <returns>list of 9 sticker positions and their colors</returns>
     public Dictionary<Vector3Int, string> GetFaceColors(List<Vector3Int> face)
     {
         Vector3Int center = face[4];
@@ -107,7 +122,11 @@ public class CubeController : MonoBehaviour
         return FaceColors;
     }
 
-    //Get nested array of a layer with real position and name position to easier track movement. Utility function.
+    /// <summary>
+    /// Utility function for cube layers. Currently not used but will be used for beginner solver steps.
+    /// </summary>
+    /// <param name="layer"></param>
+    /// <returns> returns an array of cubelet positions and their corersponding names</returns>
     public (Vector3Int pos, string name)[] GetCubeletLayers(string layer)
     {
         (Vector3Int pos, string name)[] layerArr = new (Vector3Int, string)[9];
@@ -126,7 +145,9 @@ public class CubeController : MonoBehaviour
         return layerArr;
     }
 
-    //disable cubelet sticker click events
+    /// <summary>
+    /// disables sticker events by removing collider from sticker gameobject.
+    /// </summary>
     public void DisableStickerClick()
     {
         foreach(GameObject cubelet in cubeManager.cubeletMap.Values)
@@ -139,7 +160,12 @@ public class CubeController : MonoBehaviour
         }
     }
 
-    // Rotates cube face
+    /// <summary>
+    /// Rotates a cube face by taking a face as the argument and a boolean which determines clockwise or anticlockwise rotation
+    /// </summary>
+    /// <param name="face"></param>
+    /// <param name="clockwise"></param>
+    /// <returns></returns>
     public IEnumerator RotateFace(List<Vector3Int> face, bool clockwise)
     {
         Vector3 center = face[4];
@@ -268,18 +294,33 @@ public class CubeController : MonoBehaviour
                 Debug.Log($"Position: {faceColor.Key} Color: {faceColor.Value}");
             }
         }
-        if (Input.GetMouseButtonDown(0))
+        else if (Input.touchCount == 0 && Input.GetMouseButtonDown(0))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out RaycastHit hit))
             {
                 GameObject clicked = hit.collider.gameObject;
 
-
-
                 if (clicked.name.StartsWith("Sticker_"))
                 {
-                    ChangeColor(clicked); 
+                    ChangeColor(clicked);
+                }
+            }
+        }
+        else if (Input.touchCount == 1)
+        {
+            Touch touch = Input.GetTouch(0);
+            if (touch.phase == TouchPhase.Began)
+            {
+                Ray ray = Camera.main.ScreenPointToRay(touch.position);
+                if (Physics.Raycast(ray, out RaycastHit hit))
+                {
+                    GameObject clicked = hit.collider.gameObject;
+
+                    if (clicked.name.StartsWith("Sticker_"))
+                    {
+                        ChangeColor(clicked);
+                    }
                 }
             }
         }

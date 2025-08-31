@@ -9,7 +9,6 @@ public class SolveController : MonoBehaviour
 {
 
     public CubeController cubeController;
-
     Dictionary<string, byte> nameToColor = new Dictionary<string, byte>()
     {
         { "Sticker_white",  0 },  // Up
@@ -19,10 +18,20 @@ public class SolveController : MonoBehaviour
         { "Sticker_blue",   4 },  // Back
         { "Sticker_yellow", 5 }  // Down
     };
-
     public Dictionary<char, List<Vector3Int>> moveMap = new Dictionary<char, List<Vector3Int>>();
 
-
+    /// <summary>
+    /// Sorts a face 
+    /// Example face:
+    ///  +---------+
+    ///  | 0  1  2 |
+    ///  | 3  4  5 |
+    ///  | 6  7  8 |
+    ///  +---------+
+    /// </summary>
+    /// <param name="face"></param>
+    /// <param name="faceName"></param>
+    /// <returns></returns>
     List<Vector3Int> SortFace(List<Vector3Int> face, string faceName)
     {
         switch (faceName)
@@ -51,9 +60,18 @@ public class SolveController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Parses current cube state into a byte array which is in a clockwise order indexing 
+    /// Face example with indexes of array:
+    ///  +---------+
+    ///  | 0  1  2 |
+    ///  | 7     3 |
+    ///  | 6  5  4 |
+    ///  +---------+
+    /// </summary>
+    /// <returns></returns>
     public string[] KociembaSolveAlgorithm()
     {
-        string searchString = "";
         List<Vector3Int>[] facesArray = new List<Vector3Int>[]
         {
             SortFace(cubeController.topFace,"U"),
@@ -92,6 +110,9 @@ public class SolveController : MonoBehaviour
         return solutionArray;
     }
 
+    /// <summary>
+    /// Populate dictionary with key and its corresponding face example R = right face of the cube
+    /// </summary>
     public void populateMoveMap()
     {
         moveMap.Add(key: 'R', value: cubeController.rightFace);
@@ -100,15 +121,5 @@ public class SolveController : MonoBehaviour
         moveMap.Add(key: 'D', value: cubeController.bottomFace);
         moveMap.Add(key: 'B', value: cubeController.backFace);
         moveMap.Add(key: 'F', value: cubeController.frontFace);
-    }
-
-    void Start()
-    {
-        
-    }
-
-    void Update()
-    {
-
     }
 }

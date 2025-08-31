@@ -41,7 +41,7 @@ namespace TwoPhaseSolver
                       +---------+
         */
 
-        private static byte[][] udToPerm = BinLoad.getUdToPerm("Assets\\KociembaSolver\\tables\\other\\combi");
+        private static byte[][] udToPerm = BinLoad.getUdToPerm("KociembaSolver/tables/other/combi");
 
         private static byte[] Facelets = new byte[48]
         {

@@ -235,6 +235,7 @@ GameObject:
   m_Component:
   - component: {fileID: 225416144}
   - component: {fileID: 225416143}
+  - component: {fileID: 225416145}
   m_Layer: 0
   m_Name: SolveController
   m_TagString: Untagged
@@ -270,6 +271,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &225416145
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 225416142}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64670e394e9988b4a8a4b4e19419a3fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &298579611
 GameObject:
   m_ObjectHideFlags: 0
