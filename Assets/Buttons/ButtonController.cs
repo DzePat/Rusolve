@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,6 +6,8 @@ public class ButtonController : MonoBehaviour
 {
     public ButtonManager buttonManager;
     public SolveController solveController;
+    private GameObject selectedSticker;
+    private string previousColor;
 
     private string[] solution;
     private int solutionIndex = 0;
@@ -88,6 +89,69 @@ public class ButtonController : MonoBehaviour
                 else
                 {
                     solveController.cubeController.EnqueueRotation(face, true);
+                }
+            }
+        }
+    }
+    
+    /// <summary>
+    /// changes color of a selected sticker based on users choice on the color panel
+    /// </summary>
+    /// <param name="color"></param>
+    public void ColorPicked(string color)
+    {
+        solveController.cubeController.ChangeColor(selectedSticker,color);
+        selectedSticker = null;
+        previousColor = null;
+        buttonManager.colorPicker.SetActive(false);
+    }
+
+    /// <summary>
+    /// Sets global variables for sticker colors and highlights current sticker before enabling a color panel
+    /// </summary>
+    /// <param name="clicked"></param>
+    public void HandleStickerClicked(GameObject clicked)
+    {
+        if (selectedSticker != null)
+        {
+            solveController.cubeController.ChangeColor(selectedSticker, previousColor);
+        }
+        selectedSticker = clicked;
+        string[] StickerName = selectedSticker.name.Split('_');
+        previousColor = StickerName[1];
+        solveController.cubeController.ChangeColor(selectedSticker, "temp");
+        buttonManager.colorPicker.SetActive(true);
+    }
+
+    public void Update()
+    {
+        if (Input.touchCount == 0 && Input.GetMouseButtonDown(0))
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(ray, out RaycastHit hit))
+            {
+                GameObject clicked = hit.collider.gameObject;
+
+                if (clicked.name.StartsWith("Sticker_"))
+                {
+                    HandleStickerClicked(clicked);
+                }
+            }
+        }
+        else if (Input.touchCount == 1)
+        {
+            Touch touch = Input.GetTouch(0);
+            if (touch.phase == TouchPhase.Began)
+            {
+                Ray ray = Camera.main.ScreenPointToRay(touch.position);
+                if (Physics.Raycast(ray, out RaycastHit hit))
+                {
+                    GameObject clicked = hit.collider.gameObject;
+
+                    if (clicked.name.StartsWith("Sticker_"))
+                    {
+                        HandleStickerClicked(clicked);
+                    }
                 }
             }
         }

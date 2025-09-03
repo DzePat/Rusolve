@@ -53,8 +53,8 @@ public class CameraController : MonoBehaviour
         else if (Input.mousePresent && Input.GetMouseButton(1))  // Right mouse button pressed
         {
             Vector2 mouseDelta = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
-            x += mouseDelta.x * xSpeed * Time.deltaTime;
-            y -= mouseDelta.y * ySpeed * Time.deltaTime;
+            x += mouseDelta.x * xSpeed * 120f * Time.deltaTime;
+            y -= mouseDelta.y * ySpeed * 120f * Time.deltaTime;
         }
         
 

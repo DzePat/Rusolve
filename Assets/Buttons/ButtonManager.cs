@@ -1,15 +1,17 @@
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
-using static Unity.Collections.AllocatorManager;
 
 public class ButtonManager : MonoBehaviour
 {
     public GameObject canvasPrefab;
     public GameObject buttonPrefab;
+    public GameObject colorButtonPrefab;
 
     public ButtonController btnController;
     private GameObject uiContainer;
+    public GameObject colorPicker;
 
     //Add two buttons next and previous
     public void CreateSolveNavigationButtons()
@@ -72,6 +74,36 @@ public class ButtonManager : MonoBehaviour
         solveButton.onClick.AddListener(() => btnController.OnButtonClicked(buttonObj));
     }
 
+    public void CreateColorPanel()
+    {
+        colorPicker = new GameObject("btnContainer", typeof(RectTransform));
+        colorPicker.transform.localPosition = new Vector3(10f, 0f, -2f);
+        colorPicker.transform.SetParent(uiContainer.transform, false);
+        RectTransform rectTransform = colorPicker.GetComponent<RectTransform>();
+        rectTransform.sizeDelta = new Vector2(4f, 6f);
+
+        CreateColorPanelBtn(Color.white, new Vector3(-1f, 2f, 0f), "white");
+        CreateColorPanelBtn(Color.yellow, new Vector3(1f, 2f, 0f), "yellow");
+        CreateColorPanelBtn(Color.red, new Vector3(-1f, 0f, 0f), "red");
+        CreateColorPanelBtn(Color.orange, new Vector3(1f, 0f, 0f), "orange");
+        CreateColorPanelBtn(Color.green, new Vector3(-1f, -2f, 0f), "green");
+        CreateColorPanelBtn(Color.blue, new Vector3(1f, -2f, 0f), "blue");
+        
+        colorPicker.SetActive(false);
+    }
+
+    public void CreateColorPanelBtn(Color color,Vector3 pos,string name)
+    {
+        GameObject button = Instantiate(colorButtonPrefab, colorPicker.transform);
+        button.transform.localPosition = pos;
+        Image image = button.GetComponent<Image>();
+        image.color = color;
+        button.name = name;
+
+        Button buttonObj = button.GetComponent<Button>();
+        buttonObj.name = $"colorpicker_{name}";
+        buttonObj.onClick.AddListener(() => btnController.ColorPicked(name));
+    }
 
     public void CreateMenu()
     {
@@ -86,8 +118,8 @@ public class ButtonManager : MonoBehaviour
 
     void Start()
     {
-
         CreateMenu();
+        CreateColorPanel();
     }
 
     void Update()

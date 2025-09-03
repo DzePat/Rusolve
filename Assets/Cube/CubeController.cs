@@ -9,6 +9,16 @@ public class CubeController : MonoBehaviour
     public CubeManager cubeManager;
     private Queue<(List<Vector3Int> face, bool clockwise)> rotationQueue = new Queue<(List<Vector3Int>, bool)>();
     public bool isRotating = false;
+    public Dictionary<string, Color> colors = new Dictionary<string, Color>()
+{
+    { "white", Color.white },
+    { "red", Color.red },
+    { "green", Color.green },
+        {"blue", Color.blue },
+        {"yellow",Color.yellow },
+        {"orange",Color.orange },
+        {"temp",new Color(5f, 0f, 5f)}
+};
 
     public List<Vector3Int> topFace = GetFacePositions(1, 1);
     public List<Vector3Int> bottomFace = GetFacePositions(1, -1);
@@ -238,20 +248,12 @@ public class CubeController : MonoBehaviour
     }
 
     //this function changes color of a sticker to next color in the array
-    public void ChangeColor(GameObject sticker)
+    public void ChangeColor(GameObject sticker,string color)
     {
-        Color[] colors = new Color[] { Color.white, Color.yellow, Color.orange, Color.red, Color.green, Color.blue };
-        String[] colorNames = new string[] { "white", "yellow", "orange", "red", "green", "blue" };
         Renderer rend = sticker.GetComponent<Renderer>();
-        Color currentMat = rend.sharedMaterial.color;
-        int index = Array.IndexOf(colors, currentMat);
-        index++;
-        if (index == colors.Length) index = 0;
-        rend.material.color = colors[index];
-        sticker.name = "Sticker_" + colorNames[index];
+        rend.material.color = colors[color];
+        sticker.name = "Sticker_" + color;
     }
-
-
 
     void Start()
     {
@@ -294,35 +296,6 @@ public class CubeController : MonoBehaviour
                 Debug.Log($"Position: {faceColor.Key} Color: {faceColor.Value}");
             }
         }
-        else if (Input.touchCount == 0 && Input.GetMouseButtonDown(0))
-        {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out RaycastHit hit))
-            {
-                GameObject clicked = hit.collider.gameObject;
-
-                if (clicked.name.StartsWith("Sticker_"))
-                {
-                    ChangeColor(clicked);
-                }
-            }
-        }
-        else if (Input.touchCount == 1)
-        {
-            Touch touch = Input.GetTouch(0);
-            if (touch.phase == TouchPhase.Began)
-            {
-                Ray ray = Camera.main.ScreenPointToRay(touch.position);
-                if (Physics.Raycast(ray, out RaycastHit hit))
-                {
-                    GameObject clicked = hit.collider.gameObject;
-
-                    if (clicked.name.StartsWith("Sticker_"))
-                    {
-                        ChangeColor(clicked);
-                    }
-                }
-            }
-        }
+        
     }
 }
