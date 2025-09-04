@@ -201,18 +201,18 @@ namespace TwoPhaseSolver
         public bool isSolved()
         {
             return (
-                cornOrientCoord() == 0 &&
-                edgeOrientCoord() == 0 &&
-                cornPermCoord() == 0 &&
-                edgePermCoord() == 0
+                CornOrientCoord() == 0 &&
+                EdgeOrientCoord() == 0 &&
+                CornPermCoord() == 0 &&
+                EdgePermCoord() == 0
            );
         }
 
         public bool isPhase2()
         {
             return (
-                cornOrientCoord() == 0 &&
-                edgeOrientCoord() == 0 &&
+                CornOrientCoord() == 0 &&
+                EdgeOrientCoord() == 0 &&
                 UDSliceCoord() == 0
             );
         }

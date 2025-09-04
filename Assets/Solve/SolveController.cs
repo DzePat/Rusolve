@@ -9,7 +9,7 @@ public class SolveController : MonoBehaviour
 {
 
     public CubeController cubeController;
-    Dictionary<string, byte> nameToColor = new Dictionary<string, byte>()
+    readonly Dictionary<string, byte> nameToColor = new()
     {
         { "Sticker_white",  0 },  // Up
         { "Sticker_red",    1 },  // Right
@@ -18,7 +18,7 @@ public class SolveController : MonoBehaviour
         { "Sticker_blue",   4 },  // Back
         { "Sticker_yellow", 5 }  // Down
     };
-    public Dictionary<char, List<Vector3Int>> moveMap = new Dictionary<char, List<Vector3Int>>();
+    public Dictionary<char, List<Vector3Int>> moveMap = new();
 
     /// <summary>
     /// Sorts a face 
@@ -103,9 +103,11 @@ public class SolveController : MonoBehaviour
             }
         }
 
-        Cube c = new Cube(cubeFacelets);
+        Cube c = new(cubeFacelets);
         Move pattern = Move.None;
+        
         string solution = Search.patternSolve(c, pattern, 22, printInfo: true).ToString();
+            
         string[] solutionArray = solution.Split(' ');
         return solutionArray;
     }
@@ -113,7 +115,7 @@ public class SolveController : MonoBehaviour
     /// <summary>
     /// Populate dictionary with key and its corresponding face example R = right face of the cube
     /// </summary>
-    public void populateMoveMap()
+    public void PopulateMoveMap()
     {
         moveMap.Add(key: 'R', value: cubeController.rightFace);
         moveMap.Add(key: 'L', value: cubeController.leftFace);

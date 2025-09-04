@@ -63,11 +63,11 @@ namespace TwoPhaseSolver
             ax[0] = 0;
             po[0] = 0;
 
-            flip[0] = cube.edgeOrientCoord();
-            twist[0] = cube.cornOrientCoord();
+            flip[0] = cube.EdgeOrientCoord();
+            twist[0] = cube.CornOrientCoord();
             udslice[0] = cube.UDSliceCoord();
 
-            cornperm[0] = cube.cornPermCoord();
+            cornperm[0] = cube.CornPermCoord();
 
             udsliceS[0] = cube.UDSliceCoordS();
             usliceS[0] = cube.USliceCoordS();
@@ -96,7 +96,7 @@ namespace TwoPhaseSolver
                 "       D-Slice  : {5}\n" +
                 "       UD-Slice : {6}\n" +
                 "\n",
-                twist[0], flip[0], cornperm[0], cube.edgePermCoord(),
+                twist[0], flip[0], cornperm[0], cube.EdgePermCoord(),
                 usliceS[0], dsliceS[0], udsliceS[0]
             ), ConsoleColor.DarkCyan);
 

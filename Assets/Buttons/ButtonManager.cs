@@ -5,19 +5,18 @@ using UnityEngine.UI;
 
 public class ButtonManager : MonoBehaviour
 {
-    public GameObject canvasPrefab;
     public GameObject buttonPrefab;
     public GameObject colorButtonPrefab;
+    public UIManager uiManager;
 
     public ButtonController btnController;
-    private GameObject uiContainer;
     public GameObject colorPicker;
 
     //Add two buttons next and previous
     public void CreateSolveNavigationButtons()
     {
-        Vector3Int nextButtonPos = new Vector3Int(3, -3, -2);
-        GameObject nextButtonObj = Instantiate(buttonPrefab,uiContainer.transform);
+        Vector3Int nextButtonPos = new (3, -3, -2);
+        GameObject nextButtonObj = Instantiate(buttonPrefab,uiManager.uiContainer.transform);
         nextButtonObj.transform.localPosition = nextButtonPos;
         TMP_Text labelOne = nextButtonObj.GetComponentInChildren<TMP_Text>();
         nextButtonObj.name = "Next";
@@ -28,8 +27,8 @@ public class ButtonManager : MonoBehaviour
         nextButton.name = "Next";
         nextButton.onClick.AddListener(() => btnController.OnButtonClicked(nextButtonObj));
 
-        Vector3Int previousButtonPos = new Vector3Int(-3, -3, -2);
-        GameObject previousButtonObj = Instantiate(buttonPrefab, uiContainer.transform);
+        Vector3Int previousButtonPos = new (-3, -3, -2);
+        GameObject previousButtonObj = Instantiate(buttonPrefab, uiManager.uiContainer.transform);
         previousButtonObj.transform.localPosition = previousButtonPos;
         TMP_Text labelTwo = previousButtonObj.GetComponentInChildren<TMP_Text>();
         labelTwo.text = "Previous";
@@ -40,11 +39,13 @@ public class ButtonManager : MonoBehaviour
         previousButton.onClick.AddListener(() => btnController.OnButtonClicked(previousButtonObj));
     }
 
-    public void CreateStartSolveButton()
+    public void CreateSolveButton()
     {
-        Vector3Int buttonPos = new Vector3Int(0, -3, -2);
-        GameObject buttonObj = Instantiate(buttonPrefab, uiContainer.transform);
+        Vector3Int buttonPos = new (0, -3, -2);
+        GameObject buttonObj = Instantiate(buttonPrefab, uiManager.uiContainer.transform);
         buttonObj.transform.localPosition = buttonPos;
+        RectTransform rectTransform = buttonObj.GetComponent<RectTransform>();
+        rectTransform.sizeDelta = new Vector2(4, 2);
         TMP_Text labelTwo = buttonObj.GetComponentInChildren<TMP_Text>();
         labelTwo.text = "Solve";
         labelTwo.fontSize = 1;
@@ -57,8 +58,8 @@ public class ButtonManager : MonoBehaviour
 
     public void CreateMenuKociembaButton()
     {
-        Vector3Int buttonPos = new Vector3Int(0, 0, -2);
-        GameObject buttonObj = Instantiate(buttonPrefab, uiContainer.transform);
+        Vector3Int buttonPos = new (0, 0, -2);
+        GameObject buttonObj = Instantiate(buttonPrefab, uiManager.uiContainer.transform);
         RectTransform rectTransform = buttonObj.GetComponent<RectTransform>();
         rectTransform.sizeDelta = new Vector2(8,2);
         buttonObj.transform.localPosition = buttonPos;
@@ -77,8 +78,8 @@ public class ButtonManager : MonoBehaviour
     public void CreateColorPanel()
     {
         colorPicker = new GameObject("btnContainer", typeof(RectTransform));
-        colorPicker.transform.localPosition = new Vector3(10f, 0f, -2f);
-        colorPicker.transform.SetParent(uiContainer.transform, false);
+        colorPicker.transform.localPosition = new Vector3(7.5f, 0f, -2f);
+        colorPicker.transform.SetParent(uiManager.uiContainer.transform, false);
         RectTransform rectTransform = colorPicker.GetComponent<RectTransform>();
         rectTransform.sizeDelta = new Vector2(4f, 6f);
 
@@ -105,26 +106,6 @@ public class ButtonManager : MonoBehaviour
         buttonObj.onClick.AddListener(() => btnController.ColorPicked(name));
     }
 
-    public void CreateMenu()
-    {
-        uiContainer = Instantiate(canvasPrefab, transform);
-        RectTransform canvasTransform= uiContainer.GetComponent<RectTransform>();
-        canvasTransform.sizeDelta = new Vector2(20, 20);
+    
 
-        var click = uiContainer.AddComponent<ButtonController>();
-        click.buttonManager = this;
-        CreateMenuKociembaButton();
-    }
-
-    void Start()
-    {
-        CreateMenu();
-        CreateColorPanel();
-    }
-
-    void Update()
-    {
-
-
-    }
 }

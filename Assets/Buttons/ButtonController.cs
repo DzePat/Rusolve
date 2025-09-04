@@ -1,4 +1,7 @@
+using System;
 using System.Collections.Generic;
+using System.Drawing;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -19,17 +22,14 @@ public class ButtonController : MonoBehaviour
             Button button = buttonObj.GetComponent<Button>();
             if (button.name == "Solve")
             {
-                Destroy(buttonObj);
-                solveController.cubeController.DisableStickerClick();
-                buttonManager.CreateSolveNavigationButtons();
-                solution = solveController.KociembaSolveAlgorithm();
-                solveController.populateMoveMap();
+                SolveClicked(buttonObj);
             }
             if (button.name == "Solve_With_Kociemba")
             {
                 Destroy(buttonObj);
+                buttonManager.uiManager.colorStatistics.SetActive(true);
                 solveController.cubeController.cubeManager.BuildCube();
-                buttonManager.CreateStartSolveButton();
+                buttonManager.CreateSolveButton();
             }
             if (button.name == "Next")
             {
@@ -39,6 +39,57 @@ public class ButtonController : MonoBehaviour
             {
                 MovePrevious();
             }
+        }
+
+    }
+
+    /// <summary>
+    /// Solve button click event
+    /// </summary>
+    /// <param name="buttonObj"></param>
+    void SolveClicked(GameObject buttonObj)
+    {
+        bool equalNumberOfColors = true;
+        foreach (TMP_Text colorCount in buttonManager.uiManager.colorsStats.Values)
+        {
+            if (colorCount.text != "9")
+            {
+                equalNumberOfColors = false;
+            }
+        }
+        if (equalNumberOfColors)
+        {
+            try
+            {
+                solution = solveController.KociembaSolveAlgorithm();
+            }
+            catch(Exception e)
+            {
+                Debug.Log($"Excpetion while solving: {e}");
+            }
+            if (solution != null)
+            {
+                if (solution[0] != "None")
+                {
+                    buttonManager.uiManager.colorStatistics.SetActive(false);
+                    solveController.cubeController.DisableStickerClick();
+                    Destroy(buttonObj);
+                    buttonManager.CreateSolveNavigationButtons();
+                    solveController.PopulateMoveMap();
+                }
+                else
+                {
+                    buttonManager.uiManager.ShowPopup("Cube is in a solved state", new Vector3(0, 3.5f, 0));
+                }
+            }
+            else
+            {
+                buttonManager.uiManager.ShowPopup("invalid cube state , no solution found", new Vector3(0, 3.5f, 0));
+            }
+        }
+        else
+        {
+            buttonManager.uiManager.ShowPopup("the number of stickers for each color must be exactly 9.", new Vector3(0, 3.5f, 0));
         }
     }
 
@@ -103,6 +154,7 @@ public class ButtonController : MonoBehaviour
         solveController.cubeController.ChangeColor(selectedSticker,color);
         selectedSticker = null;
         previousColor = null;
+        buttonManager.uiManager.CountAdd(color);
         buttonManager.colorPicker.SetActive(false);
     }
 
@@ -115,10 +167,12 @@ public class ButtonController : MonoBehaviour
         if (selectedSticker != null)
         {
             solveController.cubeController.ChangeColor(selectedSticker, previousColor);
+            buttonManager.uiManager.CountAdd(previousColor);
         }
         selectedSticker = clicked;
         string[] StickerName = selectedSticker.name.Split('_');
         previousColor = StickerName[1];
+        buttonManager.uiManager.CountSub(previousColor);
         solveController.cubeController.ChangeColor(selectedSticker, "temp");
         buttonManager.colorPicker.SetActive(true);
     }

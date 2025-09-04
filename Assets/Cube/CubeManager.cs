@@ -13,7 +13,7 @@ public class CubeManager : MonoBehaviour
     [Header("Sticker Prefab")]
     public GameObject stickerPrefab;
 
-    private List<Vector3Int> staticStickers = new List<Vector3Int>()
+    private readonly List<Vector3Int> staticStickers = new()
     {
         new Vector3Int( 0, 1, 0),
         new Vector3Int( 0,-1, 0),
@@ -54,8 +54,7 @@ public class CubeManager : MonoBehaviour
     {
         CubeletPos = new Vector3Int(x, y, z);
         GameObject cubelet = Instantiate(cubeletPrefab, transform);
-        cubelet.transform.localPosition = CubeletPos;
-        cubelet.transform.localRotation = Quaternion.identity;
+        cubelet.transform.SetLocalPositionAndRotation(CubeletPos, Quaternion.identity);
         cubelet.name = $"Cubelet_{x}_{y}_{z}";
         cubelet.GetComponent<Renderer>().material.color = Color.black;
 
@@ -100,8 +99,7 @@ public class CubeManager : MonoBehaviour
     {
         GameObject sticker = Instantiate(stickerPrefab, cubelet.transform);
         sticker.transform.localScale = new Vector3(0.95f, 0.95f, 0.01f);
-        sticker.transform.localPosition = normal * 0.51f;
-        sticker.transform.localRotation = Quaternion.LookRotation(-normal);
+        sticker.transform.SetLocalPositionAndRotation(normal * 0.51f, Quaternion.LookRotation(-normal));
         sticker.transform.localScale = Vector3.one * 0.9f;
         sticker.transform.name = "Sticker_"+identifier;
         sticker.GetComponent<Renderer>().material.color = color;

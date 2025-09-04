@@ -7,17 +7,17 @@ public class CubeController : MonoBehaviour
 {
 
     public CubeManager cubeManager;
-    private Queue<(List<Vector3Int> face, bool clockwise)> rotationQueue = new Queue<(List<Vector3Int>, bool)>();
+    private readonly Queue<(List<Vector3Int> face, bool clockwise)> rotationQueue = new();
     public bool isRotating = false;
-    public Dictionary<string, Color> colors = new Dictionary<string, Color>()
+    public Dictionary<string, Color> colors = new()
 {
-    { "white", Color.white },
-    { "red", Color.red },
-    { "green", Color.green },
-        {"blue", Color.blue },
-        {"yellow",Color.yellow },
-        {"orange",Color.orange },
-        {"temp",new Color(5f, 0f, 5f)}
+        { "white", Color.white },
+        { "red", Color.red },
+        { "green", Color.green },
+        { "blue", Color.blue },
+        { "yellow",Color.yellow },
+        { "orange",Color.orange },
+        { "temp",new Color(5f, 0f, 5f)}
 };
 
     public List<Vector3Int> topFace = GetFacePositions(1, 1);
@@ -64,7 +64,7 @@ public class CubeController : MonoBehaviour
     /// <returns> returns a list with 9 face cubelet positions</returns>
     public static List<Vector3Int> GetFacePositions(int axis, int value)
     {
-        List<Vector3Int> face = new List<Vector3Int>();
+        List<Vector3Int> face = new();
         int a = (axis + 1) % 3;
         int b = (axis + 2) % 3;
 
@@ -181,7 +181,7 @@ public class CubeController : MonoBehaviour
         Vector3 center = face[4];
 
         //temporary parent Gameobject for the 9 cubelets thats gonna rotate
-        GameObject pivot = new GameObject("Pivot");
+        GameObject pivot = new("Pivot");
         
         //set pivot point for the game object
         pivot.transform.position = face[4];
@@ -211,7 +211,7 @@ public class CubeController : MonoBehaviour
         {
             GameObject cubelet = child.gameObject;
             Vector3 pos = cubelet.transform.position;
-            Vector3Int cubeletPos = new Vector3Int(
+            Vector3Int cubeletPos = new(
                 Mathf.RoundToInt(pos.x),
                 Mathf.RoundToInt(pos.y),
                 Mathf.RoundToInt(pos.z)
@@ -253,11 +253,6 @@ public class CubeController : MonoBehaviour
         Renderer rend = sticker.GetComponent<Renderer>();
         rend.material.color = colors[color];
         sticker.name = "Sticker_" + color;
-    }
-
-    void Start()
-    {
-        
     }
 
     void Update()

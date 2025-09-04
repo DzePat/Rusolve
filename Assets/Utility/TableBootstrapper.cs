@@ -16,8 +16,6 @@ public class TableBootstrapper : MonoBehaviour
         string[] tableFiles = {
         //other folder
         "KociembaSolver/tables/other/combi",
-        "KociembaSolver/tables/other/prune",
-        "KociembaSolver/tables/other/perm",
         "KociembaSolver/tables/other/ep2_merge",
         //Move folder
         "KociembaSolver/tables/move/co_move",
@@ -57,21 +55,15 @@ public class TableBootstrapper : MonoBehaviour
     {
         public static IEnumerator CopyFileToPersistentDataPath(string relativePath)
         {
-            Debug.Log("At CopyFileToPers");
+
             string sourcePath = Path.Combine(Application.streamingAssetsPath, relativePath);
-            Debug.Log($"After source path {sourcePath}");
             string destPath = Path.Combine(Application.persistentDataPath, relativePath);
-            Debug.Log($"After dest path {destPath}");
 
             // Create directory if not exists
             string destDir = Path.GetDirectoryName(destPath);
             if (!Directory.Exists(destDir)) 
             { 
                 Directory.CreateDirectory(destDir);
-                Debug.Log($"directory exist: {destDir}");
-            }else
-            {
-                Debug.Log($"directory doesnt exist: {destDir}");
             }
 
             // If file already exists, skip copying

@@ -57,7 +57,7 @@ namespace TwoPhaseSolver
 
         // Orients
 
-        public ushort cornOrientCoord()
+        public ushort CornOrientCoord()
         {
             int i, s = 0;
             for (i = 0; i < 7; i++)
@@ -68,7 +68,7 @@ namespace TwoPhaseSolver
             return (ushort)s;
         }
 
-        public ushort edgeOrientCoord()
+        public ushort EdgeOrientCoord()
         {
             int i, s = 0;
             for (i = 0; i < 11; i++)
@@ -81,7 +81,7 @@ namespace TwoPhaseSolver
 
         // Permutations
 
-        public ushort cornPermCoord()
+        public ushort CornPermCoord()
         {
             int i, j, s, x = 0;
 
@@ -99,7 +99,7 @@ namespace TwoPhaseSolver
             return (ushort)x;
         }
 
-        public int edgePermCoord()
+        public int EdgePermCoord()
         {
             int i, j, s, x = 0;
 
@@ -117,7 +117,7 @@ namespace TwoPhaseSolver
             return x;
         }
 
-        public ushort edgePermCoord2()
+        public ushort EdgePermCoord2()
         {
             int i, j, s, x = 0;
 
@@ -139,7 +139,7 @@ namespace TwoPhaseSolver
 
         public ushort UDSliceCoordS()
         {
-            List<byte> arr = new List<byte>(4);
+            List<byte> arr = new(4);
             int i, j, s, x = 0;
 
             foreach (Cubie e in edges)
@@ -163,7 +163,7 @@ namespace TwoPhaseSolver
 
         public ushort USliceCoordS()
         {
-            List<byte> arr = new List<byte>(4);
+            List<byte> arr = new(4);
             int i, j, s, x = 0;
 
             foreach (Cubie e in edges)
@@ -187,7 +187,7 @@ namespace TwoPhaseSolver
 
         public ushort DSliceCoordS()
         {
-            List<byte> arr = new List<byte>(4);
+            List<byte> arr = new(4);
             int i, j, s, x = 0;
 
             foreach (Cubie e in edges)
