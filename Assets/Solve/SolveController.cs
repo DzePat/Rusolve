@@ -59,4 +59,9 @@ public class SolveController : MonoBehaviour
         string[] solutionArray = solution.Split(' ');
         return solutionArray;
     }
+
+    private void Start()
+    {
+        solveManager.SetMoveMap();
+    }
 }

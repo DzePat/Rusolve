@@ -61,11 +61,20 @@ public class CameraController : MonoBehaviour
         distance -= scrollValue * zoomSpeed;
         distance = Mathf.Clamp(distance, minDistance, maxDistance);
 
-        Quaternion rotation = Quaternion.Euler(y, x, 0);
-        Vector3 negDistance = new Vector3(0.0f, 0.0f, -distance);
+    Quaternion rotation = Quaternion.Euler(y, x, 0);
+        Vector3 negDistance = new (0.0f, 0.0f, -distance);
         Vector3 position = rotation * negDistance + target.position;
 
-        transform.rotation = rotation;
-        transform.position = position;
+        transform.SetPositionAndRotation(position, rotation);
     }
+
+    public void Zoom(float value)
+    {
+        distance -= value * zoomSpeed;
+        distance = Mathf.Clamp(distance, minDistance, maxDistance);
+    }
+
+    public void ZoomIn() => Zoom(1f); 
+    public void ZoomOut() => Zoom(-1f);
+
 }

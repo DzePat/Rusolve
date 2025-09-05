@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -29,6 +30,14 @@ public class UIManager : MonoBehaviour
         obj.text = "" + (int.Parse(obj.text) - 1);
     }
 
+    public void CountReset()
+    {
+        foreach (var key in colorsStats.Keys.ToList())
+        {
+            colorsStats[key].text = "9";
+
+        }
+    }
 
     public void CreateUiContainer()
     {
@@ -71,7 +80,7 @@ public class UIManager : MonoBehaviour
         colorPanel.transform.localPosition = new Vector3(-7.5f, 0f, -2f);
         colorPanel.transform.SetParent(uiContainer.transform, false);
         RectTransform rectTransform = colorPanel.GetComponent<RectTransform>();
-        rectTransform.sizeDelta = new Vector2(4f, 6f);
+        rectTransform.sizeDelta = new Vector2(4f, 10f);
 
         colorPanel.SetActive(false);
     }
@@ -117,5 +126,12 @@ public class UIManager : MonoBehaviour
     public void HideStatistics()
     {
         colorStatistics.SetActive(false);
+    }
+
+    void LateUpdate()
+    {
+        uiContainer.transform.rotation = Camera.main.transform.rotation;
+        Vector3 offset = new (0, 0, 10);
+        uiContainer.transform.position = Camera.main.transform.position + Camera.main.transform.rotation * offset;
     }
 }

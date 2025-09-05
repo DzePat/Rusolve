@@ -1,6 +1,4 @@
 using TMPro;
-using Unity.VisualScripting;
-using Unity.VisualScripting.Antlr3.Runtime.Tree;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,8 +7,7 @@ public class ButtonManager : MonoBehaviour
     public GameObject buttonPrefab;
     public GameObject colorButtonPrefab;
 
-
-    public ButtonController CreateButton(GameObject uiContainer,Vector3 position, Vector2 size,string name)
+    public ButtonController CreateButton(GameObject uiContainer,Vector3 position, Vector2 size,float fontSize,string name,Color color)
     {
         GameObject buttonObj = Instantiate(buttonPrefab, uiContainer.transform);
         buttonObj.transform.localPosition = position;
@@ -18,19 +15,25 @@ public class ButtonManager : MonoBehaviour
         rectTransform.sizeDelta = size;
         TMP_Text label = buttonObj.GetComponentInChildren<TMP_Text>();
         label.text = name;
-        label.fontSize = 1;
+        label.fontSize = fontSize;
         RectTransform textTransform = label.GetComponent<RectTransform>();
         textTransform.sizeDelta = size;
 
         Button button = buttonObj.GetComponent<Button>();
+        ColorBlock cb = button.colors;
+        cb.normalColor = color;
+        cb.highlightedColor = color; 
+        cb.pressedColor = color * 0.9f;    
+        cb.selectedColor = color;
+        button.colors = cb;
         button.name = name;
         ButtonController btnController = buttonObj.GetComponent<ButtonController>();
         return btnController;
     }
 
-    public ButtonController CreateColorPanelBtn(GameObject colorPanel, Color color, Vector3 pos, string name)
+    public ButtonController CreateColorPanelBtn(GameObject uiContainer, Color color, Vector3 pos, string name)
     {
-        GameObject button = Instantiate(colorButtonPrefab, colorPanel.transform);
+        GameObject button = Instantiate(colorButtonPrefab, uiContainer.transform);
         button.transform.localPosition = pos;
 
         Image image = button.GetComponent<Image>();
@@ -43,4 +46,5 @@ public class ButtonManager : MonoBehaviour
 
         return btnController;
     }
+
 }
