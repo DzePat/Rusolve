@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.EnhancedTouch;
-using Touch = UnityEngine.InputSystem.EnhancedTouch.Touch;
 
 public class CameraController : MonoBehaviour
 {
@@ -50,9 +49,9 @@ public class CameraController : MonoBehaviour
             x += averageDelta.x * xSpeed * 0.3f * Time.deltaTime;
             y -= averageDelta.y * ySpeed * 0.3f * Time.deltaTime;
         }
-        else if (Input.mousePresent && Input.GetMouseButton(1))  // Right mouse button pressed
+        else if (Input.mousePresent && Input.GetMouseButton(1))
         {
-            Vector2 mouseDelta = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
+            Vector2 mouseDelta = new (Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
             x += mouseDelta.x * xSpeed * 120f * Time.deltaTime;
             y -= mouseDelta.y * ySpeed * 120f * Time.deltaTime;
         }

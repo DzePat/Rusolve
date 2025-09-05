@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 6428518022618886953}
   - component: {fileID: 7311096129152485563}
   - component: {fileID: 8970145419340010342}
+  - component: {fileID: -4999787676798454804}
   m_Layer: 5
   m_Name: ColorButtonPrefab
   m_TagString: Untagged
@@ -120,3 +121,16 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &-4999787676798454804
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8904077539685945204}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9dc085db2dacdd4484e39e9e003f478, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buttonManager: {fileID: 0}

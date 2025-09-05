@@ -9,9 +9,11 @@ public class UIManager : MonoBehaviour
     public GameObject counterPrefab;
     public GameObject canvasPrefab;
     public GameObject popupPrefab;
+    public GameObject colorPanel;
+    public GameObject sidePanel;
     private bool popupactive;
 
-    public GameObject colorStatistics;
+    private GameObject colorStatistics;
     public Dictionary <string, TMP_Text> colorsStats = new();
     public GameObject uiContainer;
 
@@ -26,6 +28,7 @@ public class UIManager : MonoBehaviour
         TMP_Text obj = colorsStats[color];
         obj.text = "" + (int.Parse(obj.text) - 1);
     }
+
 
     public void CreateUiContainer()
     {
@@ -62,6 +65,28 @@ public class UIManager : MonoBehaviour
         colorsStats[name] = textNumber;
     }
 
+    public void CreateColorPanel()
+    {
+        colorPanel = new GameObject("btnContainer", typeof(RectTransform));
+        colorPanel.transform.localPosition = new Vector3(-7.5f, 0f, -2f);
+        colorPanel.transform.SetParent(uiContainer.transform, false);
+        RectTransform rectTransform = colorPanel.GetComponent<RectTransform>();
+        rectTransform.sizeDelta = new Vector2(4f, 6f);
+
+        colorPanel.SetActive(false);
+    }
+
+    public void CreateSidePanel()
+    {
+        sidePanel = new GameObject("btnContainer", typeof(RectTransform));
+        sidePanel.transform.localPosition = new Vector3(7.5f, 0f, -2f);
+        sidePanel.transform.SetParent(uiContainer.transform, false);
+        RectTransform rectTransform = sidePanel.GetComponent<RectTransform>();
+        rectTransform.sizeDelta = new Vector2(4f, 6f);
+
+        sidePanel.SetActive(false);
+    }
+
     public void ShowPopup(string message, Vector3 position)
     {
         if (popupactive != true)
@@ -81,5 +106,16 @@ public class UIManager : MonoBehaviour
         yield return new WaitForSeconds(seconds);
         Destroy(popup);
         popupactive = false;
+    }
+
+    public void ShowStatistics()
+    {
+        colorStatistics.SetActive(true);
+
+    }
+
+    public void HideStatistics()
+    {
+        colorStatistics.SetActive(false);
     }
 }

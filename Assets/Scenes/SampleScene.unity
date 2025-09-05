@@ -119,52 +119,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &227693790
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 227693792}
-  - component: {fileID: 227693791}
-  m_Layer: 0
-  m_Name: ButtonController
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &227693791
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 227693790}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d9dc085db2dacdd4484e39e9e003f478, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  buttonManager: {fileID: 1352835602}
-  solveController: {fileID: 395563376}
---- !u!4 &227693792
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 227693790}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &330585543
 GameObject:
   m_ObjectHideFlags: 0
@@ -430,7 +384,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df051d1beea6e6a41af3ed5180cdad23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cubeController: {fileID: 746157566}
+  cubeSolution: []
+  solveManager: {fileID: 2086629629}
 --- !u!4 &395563377
 Transform:
   m_ObjectHideFlags: 0
@@ -600,7 +555,7 @@ MonoBehaviour:
   counterPrefab: {fileID: 8010791259668779639, guid: 7ace4969f5d8b6342b33788597320d44, type: 3}
   canvasPrefab: {fileID: 2363670995769952733, guid: aef7c564db1f7ed49b25b6c3eea4f90c, type: 3}
   popupPrefab: {fileID: 7147710636291128323, guid: 0ba711fe0371ee845bfbc8c79e2e58bc, type: 3}
-  colorStatistics: {fileID: 0}
+  colorPanel: {fileID: 0}
   uiContainer: {fileID: 0}
 --- !u!4 &718124919
 Transform:
@@ -666,67 +621,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cubeManager: {fileID: 861073417}
-  isRotating: 0
-  topFace:
-  - {x: -1, y: 1, z: -1}
-  - {x: 0, y: 1, z: -1}
-  - {x: 1, y: 1, z: -1}
-  - {x: -1, y: 1, z: 0}
-  - {x: 0, y: 1, z: 0}
-  - {x: 1, y: 1, z: 0}
-  - {x: -1, y: 1, z: 1}
-  - {x: 0, y: 1, z: 1}
-  - {x: 1, y: 1, z: 1}
-  bottomFace:
-  - {x: -1, y: -1, z: -1}
-  - {x: 0, y: -1, z: -1}
-  - {x: 1, y: -1, z: -1}
-  - {x: -1, y: -1, z: 0}
-  - {x: 0, y: -1, z: 0}
-  - {x: 1, y: -1, z: 0}
-  - {x: -1, y: -1, z: 1}
-  - {x: 0, y: -1, z: 1}
-  - {x: 1, y: -1, z: 1}
-  backFace:
-  - {x: -1, y: -1, z: 1}
-  - {x: -1, y: 0, z: 1}
-  - {x: -1, y: 1, z: 1}
-  - {x: 0, y: -1, z: 1}
-  - {x: 0, y: 0, z: 1}
-  - {x: 0, y: 1, z: 1}
-  - {x: 1, y: -1, z: 1}
-  - {x: 1, y: 0, z: 1}
-  - {x: 1, y: 1, z: 1}
-  frontFace:
-  - {x: -1, y: -1, z: -1}
-  - {x: -1, y: 0, z: -1}
-  - {x: -1, y: 1, z: -1}
-  - {x: 0, y: -1, z: -1}
-  - {x: 0, y: 0, z: -1}
-  - {x: 0, y: 1, z: -1}
-  - {x: 1, y: -1, z: -1}
-  - {x: 1, y: 0, z: -1}
-  - {x: 1, y: 1, z: -1}
-  rightFace:
-  - {x: 1, y: -1, z: -1}
-  - {x: 1, y: -1, z: 0}
-  - {x: 1, y: -1, z: 1}
-  - {x: 1, y: 0, z: -1}
-  - {x: 1, y: 0, z: 0}
-  - {x: 1, y: 0, z: 1}
-  - {x: 1, y: 1, z: -1}
-  - {x: 1, y: 1, z: 0}
-  - {x: 1, y: 1, z: 1}
-  leftFace:
-  - {x: -1, y: -1, z: -1}
-  - {x: -1, y: -1, z: 0}
-  - {x: -1, y: -1, z: 1}
-  - {x: -1, y: 0, z: -1}
-  - {x: -1, y: 0, z: 0}
-  - {x: -1, y: 0, z: 1}
-  - {x: -1, y: 1, z: -1}
-  - {x: -1, y: 1, z: 0}
-  - {x: -1, y: 1, z: 1}
 --- !u!4 &746157567
 Transform:
   m_ObjectHideFlags: 0
@@ -869,9 +763,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buttonPrefab: {fileID: 7506663183173987926, guid: ac3b8dbb4ff4144428474d4bd975dca5, type: 3}
   colorButtonPrefab: {fileID: 8904077539685945204, guid: c33d3406fb3241245a882c61184c487d, type: 3}
-  uiManager: {fileID: 718124918}
-  btnController: {fileID: 227693791}
-  colorPicker: {fileID: 0}
 --- !u!4 &1352835603
 Transform:
   m_ObjectHideFlags: 0
@@ -916,7 +807,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5660e4ed3b61a8d42b74b8baa7148505, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buttonController: {fileID: 227693791}
+  uiManager: {fileID: 718124918}
+  solveController: {fileID: 395563376}
+  buttonManager: {fileID: 1352835602}
+  solutionIndex: 0
 --- !u!4 &1898536713
 Transform:
   m_ObjectHideFlags: 0
@@ -932,6 +826,112 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2086629628
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2086629630}
+  - component: {fileID: 2086629629}
+  m_Layer: 0
+  m_Name: SolveManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2086629629
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2086629628}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a9156dd2f20aac459e6f68230bc60ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cubeController: {fileID: 746157566}
+  isRotating: 0
+  topFace:
+  - {x: -1, y: 1, z: -1}
+  - {x: 0, y: 1, z: -1}
+  - {x: 1, y: 1, z: -1}
+  - {x: -1, y: 1, z: 0}
+  - {x: 0, y: 1, z: 0}
+  - {x: 1, y: 1, z: 0}
+  - {x: -1, y: 1, z: 1}
+  - {x: 0, y: 1, z: 1}
+  - {x: 1, y: 1, z: 1}
+  bottomFace:
+  - {x: -1, y: -1, z: -1}
+  - {x: 0, y: -1, z: -1}
+  - {x: 1, y: -1, z: -1}
+  - {x: -1, y: -1, z: 0}
+  - {x: 0, y: -1, z: 0}
+  - {x: 1, y: -1, z: 0}
+  - {x: -1, y: -1, z: 1}
+  - {x: 0, y: -1, z: 1}
+  - {x: 1, y: -1, z: 1}
+  backFace:
+  - {x: -1, y: -1, z: 1}
+  - {x: -1, y: 0, z: 1}
+  - {x: -1, y: 1, z: 1}
+  - {x: 0, y: -1, z: 1}
+  - {x: 0, y: 0, z: 1}
+  - {x: 0, y: 1, z: 1}
+  - {x: 1, y: -1, z: 1}
+  - {x: 1, y: 0, z: 1}
+  - {x: 1, y: 1, z: 1}
+  frontFace:
+  - {x: -1, y: -1, z: -1}
+  - {x: -1, y: 0, z: -1}
+  - {x: -1, y: 1, z: -1}
+  - {x: 0, y: -1, z: -1}
+  - {x: 0, y: 0, z: -1}
+  - {x: 0, y: 1, z: -1}
+  - {x: 1, y: -1, z: -1}
+  - {x: 1, y: 0, z: -1}
+  - {x: 1, y: 1, z: -1}
+  rightFace:
+  - {x: 1, y: -1, z: -1}
+  - {x: 1, y: -1, z: 0}
+  - {x: 1, y: -1, z: 1}
+  - {x: 1, y: 0, z: -1}
+  - {x: 1, y: 0, z: 0}
+  - {x: 1, y: 0, z: 1}
+  - {x: 1, y: 1, z: -1}
+  - {x: 1, y: 1, z: 0}
+  - {x: 1, y: 1, z: 1}
+  leftFace:
+  - {x: -1, y: -1, z: -1}
+  - {x: -1, y: -1, z: 0}
+  - {x: -1, y: -1, z: 1}
+  - {x: -1, y: 0, z: -1}
+  - {x: -1, y: 0, z: 0}
+  - {x: -1, y: 0, z: 1}
+  - {x: -1, y: 1, z: -1}
+  - {x: -1, y: 1, z: 0}
+  - {x: -1, y: 1, z: 1}
+--- !u!4 &2086629630
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2086629628}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.26502, y: 0.23417, z: 0.03819}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -940,10 +940,10 @@ SceneRoots:
   - {fileID: 410087041}
   - {fileID: 832575519}
   - {fileID: 348110610}
-  - {fileID: 861073418}
-  - {fileID: 746157567}
-  - {fileID: 395563377}
-  - {fileID: 1352835603}
-  - {fileID: 227693792}
   - {fileID: 1898536713}
   - {fileID: 718124919}
+  - {fileID: 1352835603}
+  - {fileID: 395563377}
+  - {fileID: 2086629630}
+  - {fileID: 746157567}
+  - {fileID: 861073418}
