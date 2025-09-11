@@ -18,18 +18,30 @@ public class UIManager : MonoBehaviour
     public Dictionary <string, TMP_Text> colorsStats = new();
     public GameObject uiContainer;
 
+
+    /// <summary>
+    /// Adds a 1 to the chosen color in color statistics list 
+    /// </summary>
+    /// <param name="color"></param>
     public void CountAdd(string color)
     {
         TMP_Text obj = colorsStats[color];
         obj.text = "" + (int.Parse(obj.text) + 1);
     }
 
+    /// <summary>
+    /// Subtracts a 1 from the chosen color in color statistics list 
+    /// </summary>
+    /// <param name="color"></param>
     public void CountSub(string color)
     {
         TMP_Text obj = colorsStats[color];
         obj.text = "" + (int.Parse(obj.text) - 1);
     }
 
+    /// <summary>
+    /// Resets all color counts to 9 in color statistics list.
+    /// </summary>
     public void CountReset()
     {
         foreach (var key in colorsStats.Keys.ToList())
@@ -45,6 +57,8 @@ public class UIManager : MonoBehaviour
         RectTransform canvasTransform = uiContainer.GetComponent<RectTransform>();
         canvasTransform.sizeDelta = new Vector2(20, 20);
     }
+
+  
 
     public void CreateColorStatistics()
     {
@@ -90,10 +104,22 @@ public class UIManager : MonoBehaviour
         sidePanel = new GameObject("btnContainer", typeof(RectTransform));
         sidePanel.transform.localPosition = new Vector3(7.5f, 0f, -2f);
         sidePanel.transform.SetParent(uiContainer.transform, false);
-        RectTransform rectTransform = sidePanel.GetComponent<RectTransform>();
-        rectTransform.sizeDelta = new Vector2(4f, 6f);
+
+        GameObject rotContainer = new GameObject("rotContainer", typeof(RectTransform));
+        rotContainer.transform.SetParent(sidePanel.transform, false);
 
         sidePanel.SetActive(false);
+    }
+
+    public void ShowSidePanelRotationButtons()
+    {
+        Transform rotContainer = sidePanel.transform.Find("rotContainer");
+        rotContainer.gameObject.SetActive(true);
+    }
+    public void HideSidePanelRotationButtons()
+    {
+        Transform rotContainer = sidePanel.transform.Find("rotContainer");
+        rotContainer.gameObject.SetActive(false);
     }
 
     public void ShowPopup(string message, Vector3 position)

@@ -10,6 +10,7 @@ public class SolveManager : MonoBehaviour
 
     private readonly Queue<(List<Vector3Int> face, bool clockwise)> rotationQueue = new();
     public bool isRotating = false;
+    public Dictionary<char, List<Vector3Int>> moveMap = new();
 
     public List<Vector3Int> topFace = GetFacePositions(1, 1);
     public List<Vector3Int> bottomFace = GetFacePositions(1, -1);
@@ -28,7 +29,6 @@ public class SolveManager : MonoBehaviour
         { "Sticker_yellow", 5 }  // Down
     };
 
-    public Dictionary<char, List<Vector3Int>> moveMap = new();
 
 
 

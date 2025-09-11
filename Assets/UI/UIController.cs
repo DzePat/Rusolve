@@ -40,13 +40,13 @@ public class UIController : MonoBehaviour
     private void CreateButtons()
     {
         //create UI buttons
-        menuFast = buttonManager.CreateButton(uiManager.uiContainer,new(0, 0, 0), new(8, 2),1f, "Fast(Kociemba)",new Color32(255, 209,97,255));
+        menuFast = buttonManager.CreateButton(uiManager.uiContainer, new(0, 0, 0), new(8, 2), 1f, "Fast(Kociemba)", new Color32(255, 209, 97, 255));
         solveButton = buttonManager.CreateButton(uiManager.uiContainer, new(0, -4, 0), new(4, 2), 1f, "solve", new Color32(255, 209, 97, 255));
         nextButton = buttonManager.CreateButton(uiManager.uiContainer, new(3, -4, 0), new(5, 2), 1f, "next", new Color32(255, 209, 97, 255));
         prevButton = buttonManager.CreateButton(uiManager.uiContainer, new(-3, -4, 0), new(5, 2), 1f, "previous", new Color32(255, 209, 97, 255));
         menuButton = buttonManager.CreateButton(uiManager.sidePanel, new(0, 4f, 0), new(4, 1), 0.5f, "Main Menu", new Color32(255, 209, 97, 255));
-        zoomInButton = buttonManager.CreateButton(uiManager.sidePanel,  new(1.5f, 1, 0), new(1, 1), 1f, "+", new Color32(255, 255, 255, 255));
-        zoomOutButton = buttonManager.CreateButton(uiManager.sidePanel,  new(1.5f, -1, 0), new(1, 1), 1f, "-", new Color32(255, 255, 255, 255));
+        zoomInButton = buttonManager.CreateButton(uiManager.sidePanel, new(-0.5f, -4f, 0), new(1, 1), 1f, "+", new Color32(255, 255, 255, 255));
+        zoomOutButton = buttonManager.CreateButton(uiManager.sidePanel, new(0.5f, -4f, 0), new(1, 1), 1f, "-", new Color32(255, 255, 255, 255));
 
         //deactivate buttons
         HideAllButtons();
@@ -78,7 +78,39 @@ public class UIController : MonoBehaviour
             bc.OnClicked += _ => ColorPicked(name);
         }
 
+        //Create rotation buttons and asign events
+        var rotations = new (string rotation, Vector3 pos)[]
+        {
+            ("R",new (-0.5f,3f, 0)),
+            ("R'",new (0.5f,3f, 0)),
+            ("L",new (-0.5f,2f, 0)),
+            ("L'",new (0.5f,2f, 0)),
+            ("U",new (-0.5f,1f, 0)),
+            ("U'",new (0.5f,1f, 0)),
+            ("D",new (-0.5f,0f, 0)),
+            ("D'",new (0.5f,0f, 0)),
+            ("B",new (-0.5f,-1f, 0)),
+            ("B'",new (0.5f,-1f, 0)),
+            ("F",new (-0.5f,-2f, 0)),
+            ("F'",new (0.5f,-2f, 0)),
+        };
 
+        GameObject rotContainer = uiManager.sidePanel.transform.Find("rotContainer").gameObject;
+
+        foreach (var (rot,pos) in rotations)
+        {
+            ButtonController bc = buttonManager.CreateButton(rotContainer, pos, new(1, 1), 0.5f, rot, new Color32(255, 255, 255, 255));
+            bc.OnClicked += _ => RotateEvent(rot);
+        }
+
+
+    }
+
+    public void RotateEvent(string rotation)
+    {
+        List<Vector3Int> face = solveController.solveManager.moveMap[rotation[0]];
+        bool rotateclockwise = rotation.Length > 1 ? false : true;
+        solveController.solveManager.EnqueueRotation(face, rotateclockwise);
     }
 
     void DestroyCube()
@@ -89,25 +121,7 @@ public class UIController : MonoBehaviour
         }
     }
 
-    void HideAllButtons()
-    {
-        solveButton.gameObject.SetActive(false);
-        nextButton.gameObject.SetActive(false);
-        prevButton.gameObject.SetActive(false);
-    }
-
-    void HideAllUis()
-    {
-        uiManager.HideStatistics();
-        uiManager.colorPanel.SetActive(false);
-    }
-
-    void ClearValues()
-    {
-        selectedSticker = null;
-        previousColor = null;
-        solutionIndex = 0;
-    }
+    
 
     /// <summary>
     /// handles button clicks
@@ -157,6 +171,26 @@ public class UIController : MonoBehaviour
         ClearValues();
     }
 
+    void HideAllButtons()
+    {
+        solveButton.gameObject.SetActive(false);
+        nextButton.gameObject.SetActive(false);
+        prevButton.gameObject.SetActive(false);
+    }
+
+    void HideAllUis()
+    {
+        uiManager.HideStatistics();
+        uiManager.colorPanel.SetActive(false);
+    }
+
+    void ClearValues()
+    {
+        selectedSticker = null;
+        previousColor = null;
+        solutionIndex = 0;
+    }
+
     /// <summary>
     /// menuFast button event
     /// </summary>
@@ -164,6 +198,7 @@ public class UIController : MonoBehaviour
     {
         menuFast.gameObject.SetActive(false);
         uiManager.ShowStatistics();
+        uiManager.ShowSidePanelRotationButtons();
         solveController.solveManager.cubeController.cubeManager.BuildCube();
         solveButton.gameObject.SetActive(true);
     }
@@ -196,6 +231,7 @@ public class UIController : MonoBehaviour
                 if (solveController.cubeSolution[0] != "None")
                 {
                     solveController.solveManager.cubeController.DisableStickerClick();
+                    uiManager.HideSidePanelRotationButtons();
                     uiManager.colorPanel.SetActive(false);
                     solveButton.gameObject.SetActive(false);
                     nextButton.gameObject.SetActive(true);
@@ -309,17 +345,31 @@ public class UIController : MonoBehaviour
         uiManager.colorPanel.SetActive(false);
     }
 
+    public void resetStickerSelection()
+    {
+        if (selectedSticker != null && previousColor != null)
+        {
+            solveController.solveManager.cubeController.ChangeColor(selectedSticker, previousColor);
+            uiManager.CountAdd(previousColor);
+            uiManager.colorPanel.SetActive(false);
+            selectedSticker = null;
+            previousColor = null;
+        }
+    }
+
     private void Update()
     {
         Vector3? pointerPos = null;
 
-        // mouse
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonUp(0)) // release = click
             pointerPos = Input.mousePosition;
 
-        // touch
-        else if (Input.touchCount == 1 && Input.GetTouch(0).phase == TouchPhase.Began)
-            pointerPos = Input.GetTouch(0).position;
+        if (Input.touchCount == 1)
+        {
+            Touch touch = Input.GetTouch(0);
+            if (touch.phase == TouchPhase.Ended && touch.tapCount == 1)
+                pointerPos = touch.position;
+        }
 
         if (pointerPos.HasValue)
         {
@@ -328,10 +378,17 @@ public class UIController : MonoBehaviour
             {
                 GameObject clicked = hit.collider.gameObject;
                 if (clicked.name.StartsWith("Sticker_"))
-                {
                     HandleStickerClicked(clicked);
+                else
+                {
+                    resetStickerSelection();
                 }
             }
+            else
+            {
+                resetStickerSelection();
+            }
+
         }
     }
 }

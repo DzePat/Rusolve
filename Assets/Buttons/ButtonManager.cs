@@ -47,4 +47,29 @@ public class ButtonManager : MonoBehaviour
         return btnController;
     }
 
+    public ButtonController CreateRotationButton(GameObject uiContainer, Vector3 position, string name)
+    {
+        GameObject buttonObj = Instantiate(buttonPrefab, uiContainer.transform);
+        buttonObj.transform.localPosition = position;
+        RectTransform rectTransform = buttonObj.GetComponent<RectTransform>();
+        rectTransform.sizeDelta = new(1, 1);
+        TMP_Text label = buttonObj.GetComponentInChildren<TMP_Text>();
+        label.text = name;
+        label.fontSize = 0.5f;
+        RectTransform textTransform = label.GetComponent<RectTransform>();
+        textTransform.sizeDelta = new(1, 1);
+
+        Button button = buttonObj.GetComponent<Button>();
+        Color color = new Color32(255, 209, 97, 255);
+        ColorBlock cb = button.colors;
+        cb.normalColor = color;
+        cb.highlightedColor = color;
+        cb.pressedColor = color * 0.9f;
+        cb.selectedColor = color;
+        button.colors = cb;
+        button.name = name;
+        ButtonController btnController = buttonObj.GetComponent<ButtonController>();
+        return btnController;
+    }
+
 }
