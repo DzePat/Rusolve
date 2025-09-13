@@ -12,8 +12,10 @@ public class UIController : MonoBehaviour
 
     private GameObject selectedSticker;
     private string previousColor;
+    private string selectedSolver;
     public int solutionIndex = 0;
 
+    private ButtonController menuSlow;
     private ButtonController menuFast;
     private ButtonController solveButton;
     private ButtonController nextButton;
@@ -27,7 +29,9 @@ public class UIController : MonoBehaviour
         CreateUIContainers();
         CreateButtons();
     }
-
+    /// <summary>
+    /// prerendering of UI containers on game start
+    /// </summary>
     private void CreateUIContainers()
     {
         // Create UI containers
@@ -37,9 +41,13 @@ public class UIController : MonoBehaviour
         uiManager.CreateSidePanel();
     }
 
+    /// <summary>
+    /// prerendering of buttons on game start
+    /// </summary>
     private void CreateButtons()
     {
         //create UI buttons
+        menuSlow = buttonManager.CreateButton(uiManager.uiContainer, new(0, 2, 0), new(8, 2), 1f, "Beginner", new Color32(255, 209, 97, 255));
         menuFast = buttonManager.CreateButton(uiManager.uiContainer, new(0, 0, 0), new(8, 2), 1f, "Fast(Kociemba)", new Color32(255, 209, 97, 255));
         solveButton = buttonManager.CreateButton(uiManager.uiContainer, new(0, -4, 0), new(4, 2), 1f, "solve", new Color32(255, 209, 97, 255));
         nextButton = buttonManager.CreateButton(uiManager.uiContainer, new(3, -4, 0), new(5, 2), 1f, "next", new Color32(255, 209, 97, 255));
@@ -54,6 +62,7 @@ public class UIController : MonoBehaviour
 
         //Subscribe buttons
         menuFast.OnClicked += HandleButtonClicked;
+        menuSlow.OnClicked += HandleButtonClicked;
         solveButton.OnClicked += HandleButtonClicked;
         nextButton.OnClicked += HandleButtonClicked;
         prevButton.OnClicked += HandleButtonClicked;
@@ -106,6 +115,10 @@ public class UIController : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// rotation handler for cube sides from sidepanel
+    /// </summary>
+    /// <param name="rotation"></param>
     public void RotateEvent(string rotation)
     {
         List<Vector3Int> face = solveController.solveManager.moveMap[rotation[0]];
@@ -113,6 +126,9 @@ public class UIController : MonoBehaviour
         solveController.solveManager.EnqueueRotation(face, rotateclockwise);
     }
 
+    /// <summary>
+    /// clears cube list
+    /// </summary>
     void DestroyCube()
     {
         foreach(GameObject cubelet in solveController.solveManager.cubeController.cubeManager.cubeletMap.Values)
@@ -120,8 +136,6 @@ public class UIController : MonoBehaviour
             Destroy(cubelet);
         }
     }
-
-    
 
     /// <summary>
     /// handles button clicks
@@ -131,13 +145,18 @@ public class UIController : MonoBehaviour
     {
         if(button == menuFast)
         {
-            MenuFastClicked();
-            uiManager.sidePanel.SetActive(true);
-
+            MenuSolverOptionClicked("Fast");
+        }
+        else if(button == menuSlow)
+        {
+            MenuSolverOptionClicked("Slow");
         }
         else if (button == solveButton)
         {
-            SolveClicked();
+            if (solveController.solveManager.rotationQueue.Count == 0)
+            {
+                SolveClicked();
+            }
         }
         else if (button == nextButton)
         {
@@ -146,9 +165,9 @@ public class UIController : MonoBehaviour
         else if (button == prevButton)
         {
             MovePrevious();
-        }else if (button == menuButton)
+        } else if (button == menuButton)
         {
-            MenuButtonClicked();
+            SidePanelMenuClicked();
         }
         else if (button == zoomInButton)
         {
@@ -160,17 +179,23 @@ public class UIController : MonoBehaviour
         }
     }
 
-    void MenuButtonClicked()
+    /// <summary>
+    /// sidepanel menu button event handler
+    /// </summary>
+    void SidePanelMenuClicked()
     {
         HideAllButtons();
         HideAllUis();
         DestroyCube();
         uiManager.CountReset();
-        menuFast.gameObject.SetActive(true);
+        showMenu();
         uiManager.sidePanel.SetActive(false);
         ClearValues();
     }
 
+    /// <summary>
+    /// hides solve, next and previous buttons
+    /// </summary>
     void HideAllButtons()
     {
         solveButton.gameObject.SetActive(false);
@@ -178,12 +203,18 @@ public class UIController : MonoBehaviour
         prevButton.gameObject.SetActive(false);
     }
 
+    /// <summary>
+    /// hide colorpanel and statistics panel
+    /// </summary>
     void HideAllUis()
     {
         uiManager.HideStatistics();
         uiManager.colorPanel.SetActive(false);
     }
 
+    /// <summary>
+    /// clears user selecte values like selected sticker
+    /// </summary>
     void ClearValues()
     {
         selectedSticker = null;
@@ -192,15 +223,34 @@ public class UIController : MonoBehaviour
     }
 
     /// <summary>
-    /// menuFast button event
+    /// Hide menu buttons
     /// </summary>
-    void MenuFastClicked()
+    void hideMenu()
     {
         menuFast.gameObject.SetActive(false);
+        menuSlow.gameObject.SetActive(false);
+    }
+
+    /// <summary>
+    /// Display menu buttons
+    /// </summary>
+    void showMenu()
+    {
+        menuFast.gameObject.SetActive(true);
+        menuSlow.gameObject.SetActive(true);
+    }
+    /// <summary>
+    /// menu solver choice selected either fast or beginner
+    /// </summary>
+    void MenuSolverOptionClicked(string option)
+    {
+        hideMenu();
+        uiManager.sidePanel.SetActive(true);
         uiManager.ShowStatistics();
         uiManager.ShowSidePanelRotationButtons();
         solveController.solveManager.cubeController.cubeManager.BuildCube();
         solveButton.gameObject.SetActive(true);
+        selectedSolver = option;
     }
 
     /// <summary>
@@ -345,6 +395,9 @@ public class UIController : MonoBehaviour
         uiManager.colorPanel.SetActive(false);
     }
 
+    /// <summary>
+    /// checks if a sticker has been selected before and if it is returns it to original state and clears user selection values
+    /// </summary>
     public void resetStickerSelection()
     {
         if (selectedSticker != null && previousColor != null)
@@ -352,8 +405,7 @@ public class UIController : MonoBehaviour
             solveController.solveManager.cubeController.ChangeColor(selectedSticker, previousColor);
             uiManager.CountAdd(previousColor);
             uiManager.colorPanel.SetActive(false);
-            selectedSticker = null;
-            previousColor = null;
+            ClearValues();
         }
     }
 

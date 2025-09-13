@@ -8,7 +8,7 @@ public class SolveManager : MonoBehaviour
 {
     public CubeController cubeController;
 
-    private readonly Queue<(List<Vector3Int> face, bool clockwise)> rotationQueue = new();
+    public readonly Queue<(List<Vector3Int> face, bool clockwise)> rotationQueue = new();
     public bool isRotating = false;
     public Dictionary<char, List<Vector3Int>> moveMap = new();
 
