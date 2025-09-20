@@ -48,7 +48,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 100}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-  controlID: 36
+  controlID: 90
   draggingID: 0
 --- !u!114 &3
 MonoBehaviour:
@@ -278,7 +278,7 @@ MonoBehaviour:
   - {fileID: 15}
   - {fileID: 17}
   m_Selected: 1
-  m_LastSelected: 1
+  m_LastSelected: 0
 --- !u!114 &12
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -326,7 +326,7 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/UI
+    - Assets/BeginnerSolver
     m_Globs: []
     m_ProductIds: 
     m_AnyWithAssetOrigin: 0
@@ -336,16 +336,16 @@ MonoBehaviour:
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/UI
+  - Assets/BeginnerSolver
   m_LastFoldersGridSize: -1
   m_LastProjectPath: C:\Users\Dzedas\Rusolve
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 78af0000
-    m_LastClickedID: 44920
-    m_ExpandedIDs: 000000000cae00000eae0000
+    m_SelectedIDs: 98af0000
+    m_LastClickedID: 44952
+    m_ExpandedIDs: 0000000010ae000012ae0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -374,7 +374,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 000000000cae00000eae0000
+    m_ExpandedIDs: 0000000010ae000012ae0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -400,8 +400,8 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: eea80000
-    m_LastClickedInstanceID: 43246
+    m_SelectedInstanceIDs: 9caf0000
+    m_LastClickedInstanceID: 44956
     m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs: c623000056aa000000000000
     m_RenameOverlay:
@@ -571,7 +571,7 @@ MonoBehaviour:
     x: 669
     y: 79
     width: 2059
-    height: 741
+    height: 748
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0
