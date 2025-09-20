@@ -28,6 +28,11 @@ namespace BeginnerSolve
             {"Sticker_red", new Vector3(1,1,0) },
         };
 
+        /// <summary>
+        /// Takes a cubelet and returns rotations needed for it to get to the right position and orientation
+        /// </summary>
+        /// <param name="cubelet"></param>
+        /// <returns></returns>
         static string getEdgeRotation(GameObject cubelet)
         {
             string topRotation = "";
@@ -41,35 +46,46 @@ namespace BeginnerSolve
             int posX = Mathf.RoundToInt(stickerPos.x);
             int posY = Mathf.RoundToInt(stickerPos.y);
             int posZ = Mathf.RoundToInt(stickerPos.z);
+            //white edge in top layer side position (wrong orientation)
             if (posY == 1)
             {
-                if (posZ == 2) rotations += "U U F U' R U " + topRotation;
-                else if(posZ == 0) rotations += "U F U' R U " + topRotation;
-                else rotations += "F U' R U " + topRotation;
+                if (posZ == 2) rotations += "U U F U' R U ";
+                else if (posZ == 0) rotations += "U F U' R U ";
+                else rotations += "F U' R U ";
+                rotations += topRotation;
             }
+            //White edge in middle layer
             else if (posY == 0)
             {
-                if (posZ == 2) rotations += topRotation + " B D' D' B F' U' R U " + topRotation;
-                else if (posZ == 1 && posX > 0) rotations += topRotation + " B D' D' B F' U' R U F U' R U " + topRotation;
-                else if (posZ == 1 && posX < 0) { rotations += topRotation + " B' D' D' B F' U' R U F U' R U " + topRotation; }
-                else if (posZ == -1 && posX > 0) { rotations += topRotation + " U' R U F U' R U " + topRotation; }
-                else if (posZ == -1 && posX < 0) { rotations += topRotation + " U L' U F U' R U " + topRotation; }
-                else if (posZ == -2 && posX > 0) { rotations += topRotation + " U' R U " + topRotation; }
-                else if (posZ == -2 && posX < 0) { rotations += topRotation + " U L' U " + topRotation; }
+                rotations += topRotation;
+                if (posZ == 2) rotations += " B D' D' B F' U' R U ";
+                else if (posZ == 1 && posX > 0) rotations += " B D' D' B F' U' R U F U' R U ";
+                else if (posZ == 1 && posX < 0) rotations += " B' D' D' B F' U' R U F U' R U "; 
+                else if (posZ == -1 && posX > 0) rotations += " U' R U F U' R U "; 
+                else if (posZ == -1 && posX < 0) rotations += " U L' U F U' R U "; 
+                else if (posZ == -2 && posX > 0) rotations += " U' R U "; 
+                else if (posZ == -2 && posX < 0) rotations += " U L' U "; 
+                rotations += topRotation;
             }
-            else if (stickerPos.y == -1)
+            // white edge bottom layer side position
+            else if (posY == -1)
             {
-                if (posZ == 2) rotations += topRotation + "D' D' F' U' R U " + topRotation;
-                else if (posZ == 0 && posX > 0) rotations += topRotation + "D' F' U' R U F U' R U " + topRotation;
-                else if (posZ == 0 && posX < 0) rotations += topRotation + "D F' U' R U F U' R U " + topRotation;
-                else { rotations += topRotation + " F' U' R U F U' R U " + topRotation; }
+                rotations += topRotation;
+                if (posZ == 2) rotations += "D' D' F' U' R U ";
+                else if (posZ == 0 && posX > 0) rotations += "D' F' U' R U F U' R U ";
+                else if (posZ == 0 && posX < 0) rotations += "D F' U' R U F U' R U ";
+                else { rotations += " F' U' R U F U' R U "; }
+                rotations += topRotation;
             }
-            else if (stickerPos.y == -1.51f)
+            // white edge bottom layer bottom side
+            else if (posY == -2)
             {
-                if (posZ == 1) rotations += topRotation + " D' D' F' U' R U F U' R U " + topRotation;
-                else if (posZ == 0 && posX > 0) rotations += topRotation + " D' F' U' R U F U' R U " + topRotation;
-                else if (posZ == 0 && posX < 0) rotations += topRotation + " D F' U' R U F U' R U " + topRotation;
-                else rotations += topRotation + " F' U' R U F U' R U " + topRotation;
+                rotations += topRotation;
+                if (posZ == 1) rotations += " D' D' F' U' R U F U' R U ";
+                else if (posZ == 0 && posX > 0) rotations += " D' F' U' R U F U' R U ";
+                else if (posZ == 0 && posX < 0) rotations +=  " D F' U' R U F U' R U ";
+                else rotations += " F' U' R U F U' R U ";
+                rotations += topRotation;
             }
             return rotations;
         }
