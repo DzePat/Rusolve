@@ -19,19 +19,6 @@ public class SolveManager : MonoBehaviour
     public List<Vector3Int> rightFace = GetFacePositions(0, 1);
     public List<Vector3Int> leftFace = GetFacePositions(0, -1);
 
-    public readonly Dictionary<string, byte> nameToColor = new()
-    {
-        { "Sticker_white",  0 },  // Up
-        { "Sticker_red",    1 },  // Right
-        { "Sticker_green",  2 },  // Front
-        { "Sticker_orange", 3 },  // Left
-        { "Sticker_blue",   4 },  // Back
-        { "Sticker_yellow", 5 }  // Down
-    };
-
-
-
-
     /// <summary>
     /// Populate dictionary with key and its corresponding face example R = right face of the cube
     /// </summary>

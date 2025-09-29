@@ -9,12 +9,17 @@ public class ButtonController : MonoBehaviour
 {
     public event Action<ButtonController> OnClicked;
     private Button _button;
-    [SerializeField] private ButtonManager buttonManager;
-    
+    private ButtonManager buttonManager;
+
 
     void Awake()
     {
-        _button = GetComponent<Button>();
+        _button = GetComponentInChildren<Button>();
+        if (_button == null)
+        {
+            Debug.LogError("ButtonController: No Button component found in children!", this);
+            return;
+        }
         _button.onClick.AddListener(HandleClick);
     }
 

@@ -7,6 +7,16 @@ public class SolveController : MonoBehaviour
 {
     public string[] cubeSolution;
     public SolveManager solveManager;
+    readonly Dictionary<string, byte> nameToColor = new()
+    {
+        { "Sticker_white",  0 },  // Up
+        { "Sticker_red",    1 },  // Right
+        { "Sticker_green",  2 },  // Front
+        { "Sticker_orange", 3 },  // Left
+        { "Sticker_blue",   4 },  // Back
+        { "Sticker_yellow", 5 }  // Down
+    };
+
 
     /// <summary>
     /// Parses current cube state into a byte array which is in a clockwise order indexing 
@@ -40,7 +50,7 @@ public class SolveController : MonoBehaviour
             foreach (var sticker in solveManager.GetFaceColors(face))
             {
                 string name = sticker.Value;
-                temp[index] = solveManager.nameToColor[name];
+                temp[index] = nameToColor[name];
                 index++;
             }
 

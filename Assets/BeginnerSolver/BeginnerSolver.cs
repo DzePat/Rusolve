@@ -1,12 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Text;
 using UnityEditor.Animations;
 using UnityEngine;
 
 namespace BeginnerSolve
 {
-    public static class Search
+    public static class SearchBeginner
     {
         public static string StartSearch(Dictionary<Vector3Int, GameObject> cubeState)
         {
@@ -36,7 +37,7 @@ namespace BeginnerSolve
         static string getEdgeRotation(GameObject cubelet)
         {
             string topRotation = "";
-            string rotations = "";
+            StringBuilder rotations = new StringBuilder();
             foreach (Transform sticker in cubelet.transform) {
                 if (sticker.name == "Sticker_red") topRotation = "U";
                 else if (sticker.name == "Sticker_blue") topRotation = "U U";
@@ -49,45 +50,45 @@ namespace BeginnerSolve
             //white edge in top layer side position (wrong orientation)
             if (posY == 1)
             {
-                if (posZ == 2) rotations += "U U F U' R U ";
-                else if (posZ == 0) rotations += "U F U' R U ";
-                else rotations += "F U' R U ";
-                rotations += topRotation;
+                if (posZ == 2) rotations.Append("U U F U' R U");
+                else if (posZ == 0) rotations.Append("U F U' R U");
+                else rotations.Append("F U' R U");
+                if (topRotation != "") rotations.Append(" " + topRotation);
             }
             //White edge in middle layer
             else if (posY == 0)
             {
-                rotations += topRotation;
-                if (posZ == 2) rotations += " B D' D' B F' U' R U ";
-                else if (posZ == 1 && posX > 0) rotations += " B D' D' B F' U' R U F U' R U ";
-                else if (posZ == 1 && posX < 0) rotations += " B' D' D' B F' U' R U F U' R U "; 
-                else if (posZ == -1 && posX > 0) rotations += " U' R U F U' R U "; 
-                else if (posZ == -1 && posX < 0) rotations += " U L' U F U' R U "; 
-                else if (posZ == -2 && posX > 0) rotations += " U' R U "; 
-                else if (posZ == -2 && posX < 0) rotations += " U L' U "; 
-                rotations += topRotation;
+                if (topRotation != "") rotations.Append(topRotation + " ");
+                if (posZ == 2) rotations.Append("B D' D' B F' U' R U");
+                else if (posZ == 1 && posX > 0) rotations.Append("B D' D' B F' U' R U F U' R U");
+                else if (posZ == 1 && posX < 0) rotations.Append("B' D' D' B F' U' R U F U' R U"); 
+                else if (posZ == -1 && posX > 0) rotations.Append("U' R U F U' R U"); 
+                else if (posZ == -1 && posX < 0) rotations.Append("U L' U F U' R U"); 
+                else if (posZ == -2 && posX > 0) rotations.Append("U' R U"); 
+                else if (posZ == -2 && posX < 0) rotations.Append("U L' U");
+                if (topRotation != "") rotations.Append(" " + topRotation);
             }
             // white edge bottom layer side position
             else if (posY == -1)
             {
-                rotations += topRotation;
-                if (posZ == 2) rotations += "D' D' F' U' R U ";
-                else if (posZ == 0 && posX > 0) rotations += "D' F' U' R U F U' R U ";
-                else if (posZ == 0 && posX < 0) rotations += "D F' U' R U F U' R U ";
-                else { rotations += " F' U' R U F U' R U "; }
-                rotations += topRotation;
+                if (topRotation != "") rotations.Append(topRotation + " ");
+                if (posZ == 2) rotations.Append("D' D' F' U' R U");
+                else if (posZ == 0 && posX > 0) rotations.Append("D' F' U' R U F U' R U");
+                else if (posZ == 0 && posX < 0) rotations.Append("D F' U' R U F U' R U");
+                else { rotations.Append(" F' U' R U F U' R U"); }
+                if (topRotation != "") rotations.Append(" " + topRotation);
             }
             // white edge bottom layer bottom side
             else if (posY == -2)
             {
-                rotations += topRotation;
-                if (posZ == 1) rotations += " D' D' F' U' R U F U' R U ";
-                else if (posZ == 0 && posX > 0) rotations += " D' F' U' R U F U' R U ";
-                else if (posZ == 0 && posX < 0) rotations +=  " D F' U' R U F U' R U ";
-                else rotations += " F' U' R U F U' R U ";
-                rotations += topRotation;
+                if(topRotation != "") rotations.Append(topRotation + " ");
+                if (posZ == 1) rotations.Append(" D' D' F' U' R U F U' R U");
+                else if (posZ == 0 && posX > 0) rotations.Append(" D' F' U' R U F U' R U");
+                else if (posZ == 0 && posX < 0) rotations.Append(" D F' U' R U F U' R U");
+                else rotations.Append(" F' U' R U F U' R U");
+                if (topRotation != "") rotations.Append(" " + topRotation);
             }
-            return rotations;
+            return rotations.ToString();
         }
 
         public static bool isWhiteCrossSolved(Dictionary<Vector3Int, GameObject> cubeState)
@@ -136,10 +137,11 @@ namespace BeginnerSolve
                         bool hasChoiceSticker = false;
                         foreach (Transform sticker in cubelet.transform)
                         {
-                            if (sticker.name == "Sticker_white" && sticker.transform.position.y <= 1)
+                            string stickerName = sticker.name;
+                            if (stickerName == "Sticker_white" && sticker.transform.position.y <= 1)
                             {
                                 hasWhiteSticker = true;
-                            }else if(sticker.name == edgeSticker){
+                            }else if(stickerName == edgeSticker){
                                 hasChoiceSticker= true;
                             }
                             if (hasWhiteSticker && hasChoiceSticker)

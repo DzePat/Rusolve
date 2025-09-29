@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using BeginnerSolve;
+using System.Linq;
 
 public class UIController : MonoBehaviour
 {
@@ -185,6 +186,7 @@ public class UIController : MonoBehaviour
     /// </summary>
     void SidePanelMenuClicked()
     {
+        selectedSolver = "";
         HideAllButtons();
         HideAllUis();
         DestroyCube();
@@ -221,6 +223,7 @@ public class UIController : MonoBehaviour
         selectedSticker = null;
         previousColor = null;
         solutionIndex = 0;
+        solveController.cubeSolution = null;
     }
 
     /// <summary>
@@ -254,10 +257,7 @@ public class UIController : MonoBehaviour
         selectedSolver = option;
     }
 
-    /// <summary>
-    /// Solve button click event
-    /// </summary>
-    void SolveClicked()
+    bool EqualNumberOfColors()
     {
         bool equalNumberOfColors = true;
         foreach (TMP_Text colorCount in uiManager.colorsStats.Values)
@@ -267,11 +267,26 @@ public class UIController : MonoBehaviour
                 equalNumberOfColors = false;
             }
         }
-        if (equalNumberOfColors)
+        return equalNumberOfColors;
+    }
+
+    /// <summary>
+    /// Solve button click event
+    /// </summary>
+    void SolveClicked()
+    {
+        if (EqualNumberOfColors())
         {
             try
-            {
-                solveController.cubeSolution = solveController.GetKociembaSolution();
+            { 
+                solveController.cubeSolution = selectedSolver == "Fast" ? solveController.GetKociembaSolution() : SearchBeginner.StartSearch(solveController.solveManager.cubeController.cubeManager.cubeletMap).Split(" ");
+                string solution = "";
+                foreach(string s in solveController.cubeSolution)
+                {
+                    Debug.Log("adding: " + s);
+                    solution += s;
+                }
+                Debug.Log($"solution: {solution}");
             }
             catch (Exception e)
             {
@@ -314,6 +329,7 @@ public class UIController : MonoBehaviour
         if (solutionIndex != solveController.cubeSolution.Length)
         {
             string step = solveController.cubeSolution[solutionIndex];
+            Debug.Log("step: " + step);
             List<Vector3Int> face = solveController.solveManager.moveMap[step[0]];
             if (step.Length == 1)
             {
@@ -332,6 +348,12 @@ public class UIController : MonoBehaviour
                 }
             }
             solutionIndex++;
+        }
+        else if (solutionIndex == solveController.cubeSolution.Length && selectedSolver == "Slow")
+        {
+            string[] additionalSteps = SearchBeginner.StartSearch(solveController.solveManager.cubeController.cubeManager.cubeletMap).Split(" ");
+            solveController.cubeSolution.Concat(additionalSteps).ToArray();
+            MoveNext();
         }
     }
 
