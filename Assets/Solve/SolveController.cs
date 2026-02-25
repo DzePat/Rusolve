@@ -1,3 +1,4 @@
+using BeginnerSolve;
 using System.Collections.Generic;
 using TwoPhaseSolver;
 using UnityEngine;
@@ -30,15 +31,35 @@ public class SolveController : MonoBehaviour
     /// <returns></returns>
     public string[] GetKociembaSolution()
     {
+        byte[] cubeFacelets = getFacelets();
+
+        Cube c = new(cubeFacelets);
+        Move pattern = Move.None;
+
+        string solution = Search.patternSolve(c, pattern, 22, printInfo: true).ToString();
+
+        string[] solutionArray = solution.Split(' ');
+        return solutionArray;
+    }
+
+    public string[] GetBeginnerSolution()
+    {
+        byte[] cubeFacelets = getFacelets();
+        string[] solution = SearchBeginner.StartSearch(cubeFacelets);
+        return solution;
+    }
+
+    private byte[] getFacelets()
+    {
         List<Vector3Int>[] facesArray = new List<Vector3Int>[]
-        {
+                {
             solveManager.SortFace(solveManager.topFace,"U"),
             solveManager.SortFace(solveManager.rightFace,"R"),
             solveManager.SortFace(solveManager.frontFace,"F"),
             solveManager.SortFace(solveManager.leftFace,"L"),
             solveManager.SortFace(solveManager.backFace,"B"),
             solveManager.SortFace(solveManager.bottomFace,"D")
-        };
+                };
 
         int[] clockwiseIndexing = new int[] { 0, 1, 2, 5, 8, 7, 6, 3 };
         byte[] cubeFacelets = new byte[48];
@@ -61,13 +82,7 @@ public class SolveController : MonoBehaviour
             }
         }
 
-        Cube c = new(cubeFacelets);
-        Move pattern = Move.None;
-
-        string solution = Search.patternSolve(c, pattern, 22, printInfo: true).ToString();
-
-        string[] solutionArray = solution.Split(' ');
-        return solutionArray;
+        return cubeFacelets;
     }
 
     private void Start()

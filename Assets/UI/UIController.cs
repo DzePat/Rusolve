@@ -279,7 +279,7 @@ public class UIController : MonoBehaviour
         {
             try
             { 
-                solveController.cubeSolution = selectedSolver == "Fast" ? solveController.GetKociembaSolution() : SearchBeginner.StartSearch(solveController.solveManager.cubeController.cubeManager.cubeletMap).Split(" ");
+                solveController.cubeSolution = selectedSolver == "Fast" ? solveController.GetKociembaSolution() : solveController.GetBeginnerSolution();
                 string solution = "";
                 foreach(string s in solveController.cubeSolution)
                 {
@@ -348,12 +348,6 @@ public class UIController : MonoBehaviour
                 }
             }
             solutionIndex++;
-        }
-        else if (solutionIndex == solveController.cubeSolution.Length && selectedSolver == "Slow")
-        {
-            string[] additionalSteps = SearchBeginner.StartSearch(solveController.solveManager.cubeController.cubeManager.cubeletMap).Split(" ");
-            solveController.cubeSolution.Concat(additionalSteps).ToArray();
-            MoveNext();
         }
     }
 
