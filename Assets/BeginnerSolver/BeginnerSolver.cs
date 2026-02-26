@@ -1,38 +1,50 @@
 using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.Text;
-using Unity.VisualScripting;
-using UnityEditor.Animations;
+using System.Linq;
+using TwoPhaseSolver;
 using UnityEngine;
-using static UnityEngine.UI.Image;
 
 namespace BeginnerSolve
 {
     public static class SearchBeginner
     {
-        public static string[] StartSearch(byte[] cubeState)
+        public static string[] StartSearch(TwoPhaseSolver.Cube cubeState)
         {
-            string hex = BitConverter.ToString(cubeState).Replace("-", " ");
-            Debug.Log(VisualCubeState(hex.Split(" ")));
+            string hex = BitConverter.ToString(cubeState.getFacelets()).Replace("-", " ");
+            string[] hexArr = hex.Split(" ");
+            int[] decimalValues = hexArr.Select(h => Convert.ToInt32(h, 16)).ToArray();
+            string[] cubeStateString = decimalValues.Select(d => d.ToString("D2")).ToArray();
+
+            Debug.Log(VisualCubeState(cubeStateString));
 
             return new string[1];
         }
 
-        private static string VisualCubeState(string[] cubeStateString)
+        private static string Cell(string v) => $"{v,2}";
+
+        private static string VisualCubeState(string[] c)
         {
-            return $"               {cubeStateString[0]} {cubeStateString[1]} {cubeStateString[2]}\n" +
-                $"               {cubeStateString[7]}      {cubeStateString[3]}\n" +
-                $"               {cubeStateString[6]} {cubeStateString[5]} {cubeStateString[4]}\n" +
-                $"{cubeStateString[24]} {cubeStateString[25]} {cubeStateString[26]}{cubeStateString[16]} {cubeStateString[17]} {cubeStateString[18]}{cubeStateString[8]} {cubeStateString[9]} {cubeStateString[10]}{cubeStateString[32]} {cubeStateString[33]} {cubeStateString[34]}\n" +
-                $"{cubeStateString[31]}      {cubeStateString[27]}{cubeStateString[23]}      {cubeStateString[19]}{cubeStateString[15]}      {cubeStateString[11]}{cubeStateString[39]}      {cubeStateString[35]}\n" +
-                $"{cubeStateString[30]} {cubeStateString[29]} {cubeStateString[28]}{cubeStateString[22]} {cubeStateString[21]} {cubeStateString[20]}{cubeStateString[14]} {cubeStateString[13]} {cubeStateString[12]}{cubeStateString[38]} {cubeStateString[37]} {cubeStateString[36]}\n" +
-                $"               {cubeStateString[40]} {cubeStateString[41]} {cubeStateString[42]}\n" +
-                $"               {cubeStateString[47]}       {cubeStateString[43]}\n" +
-                $"               {cubeStateString[46]} {cubeStateString[45]} {cubeStateString[44]}\n";
-
-
+            return
+                $@"
+                {" ",22}|{Cell(c[0])}|{Cell(c[1])}|{Cell(c[2])}|
+                {" ",22}|{Cell(c[7])}|{Cell("TT")}|{Cell(c[3])}|
+                {" ",22}|{Cell(c[6])}|{Cell(c[5])}|{Cell(c[4])}|
+                ----------------------------------------------------
+                |{Cell(c[24])}|{Cell(c[25])}|{Cell(c[26])}|-|{Cell(c[16])}|{Cell(c[17])}|{Cell(c[18])}|-|{Cell(c[8])}|{Cell(c[9])}|{Cell(c[10])}|-|{Cell(c[32])}|{Cell(c[33])}|{Cell(c[34])}|
+                |{Cell(c[31])}|{Cell("LL")}|{Cell(c[27])}|-|{Cell(c[23])}|{Cell("FF")}|{Cell(c[19])}|-|{Cell(c[15])}|{Cell("RR")}|{Cell(c[11])}|-|{Cell(c[39])}|{Cell("BB")}|{Cell(c[35])}|
+                |{Cell(c[30])}|{Cell(c[29])}|{Cell(c[28])}|-|{Cell(c[22])}|{Cell(c[21])}|{Cell(c[20])}|-|{Cell(c[14])}|{Cell(c[13])}|{Cell(c[12])}|-|{Cell(c[38])}|{Cell(c[37])}|{Cell(c[36])}|
+                ----------------------------------------------------
+                {" ",22}|{Cell(c[40])}|{Cell(c[41])}|{Cell(c[42])}|
+                {" ",22}|{Cell(c[47])}|{Cell("DD")}|{Cell(c[43])}|
+                {" ",22}|{Cell(c[46])}|{Cell(c[45])}|{Cell(c[44])}|";
         }
+
+        private static string SolveCross(TwoPhaseSolver.Cube cubeState) {
+
+
+            return "";
+        }
+
+
 
     } 
 }

@@ -45,7 +45,8 @@ public class SolveController : MonoBehaviour
     public string[] GetBeginnerSolution()
     {
         byte[] cubeFacelets = getFacelets();
-        string[] solution = SearchBeginner.StartSearch(cubeFacelets);
+        Cube c = new(cubeFacelets);
+        string[] solution = SearchBeginner.StartSearch(c);
         return solution;
     }
 
