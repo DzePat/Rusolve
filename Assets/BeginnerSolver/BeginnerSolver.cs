@@ -13,7 +13,6 @@ namespace BeginnerSolve
             string[] hexArr = hex.Split(" ");
             int[] decimalValues = hexArr.Select(h => Convert.ToInt32(h, 16)).ToArray();
             string[] cubeStateString = decimalValues.Select(d => d.ToString("D2")).ToArray();
-
             Debug.Log(VisualCubeState(cubeStateString));
 
             return new string[1];
@@ -36,6 +35,19 @@ namespace BeginnerSolve
                 {" ",22}|{Cell(c[40])}|{Cell(c[41])}|{Cell(c[42])}|
                 {" ",22}|{Cell(c[47])}|{Cell("DD")}|{Cell(c[43])}|
                 {" ",22}|{Cell(c[46])}|{Cell(c[45])}|{Cell(c[44])}|";
+        }
+
+        //check if white cross is solved
+        private static bool IsCrossSolved(TwoPhaseSolver.Cube cStateStr)
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                if(cStateStr.edges[i].pos != i)
+                {
+                    return false;
+                }
+            }
+            return true;
         }
 
         private static string SolveCross(TwoPhaseSolver.Cube cubeState) {
