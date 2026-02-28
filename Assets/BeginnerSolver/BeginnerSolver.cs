@@ -1,3 +1,4 @@
+using Assets.BeginnerSolver;
 using System;
 using System.Linq;
 using TwoPhaseSolver;
@@ -7,15 +8,18 @@ namespace BeginnerSolve
 {
     public static class SearchBeginner
     {
-        public static string[] StartSearch(TwoPhaseSolver.Cube cubeState)
+        public static string[] StartSearch(Cube cubeState)
         {
-            string hex = BitConverter.ToString(cubeState.getFacelets()).Replace("-", " ");
+
+            CubeStats cubeStats = new CubeStats(cubeState);
+            cubeStats = SolveCross(cubeStats);
+            /*string hex = BitConverter.ToString(cubeStats.cube.getFacelets()).Replace("-", " ");
             string[] hexArr = hex.Split(" ");
             int[] decimalValues = hexArr.Select(h => Convert.ToInt32(h, 16)).ToArray();
             string[] cubeStateString = decimalValues.Select(d => d.ToString("D2")).ToArray();
-            Debug.Log(VisualCubeState(cubeStateString));
-
-            return new string[1];
+            Debug.Log(VisualCubeState(cubeStateString));*/
+            Debug.Log($"stepRotations: {cubeStats.stepRotations}");
+            return cubeStats.stepRotations.Split(" ");
         }
 
         private static string Cell(string v) => $"{v,2}";
@@ -38,11 +42,11 @@ namespace BeginnerSolve
         }
 
         //check if white cross is solved
-        private static bool IsCrossSolved(TwoPhaseSolver.Cube cStateStr)
+        private static bool IsCrossSolved(Cube cStateStr)
         {
             for (int i = 0; i < 4; i++)
             {
-                if(cStateStr.edges[i].pos != i)
+                if (cStateStr.edges[i].pos != i || cStateStr.edges[i].orient != 0)
                 {
                     return false;
                 }
@@ -50,10 +54,135 @@ namespace BeginnerSolve
             return true;
         }
 
-        private static string SolveCross(TwoPhaseSolver.Cube cubeState) {
+        //find edge position in edge list
+        private static int findEdgePos(Cubie[] edges, int edgeID)
+        {
+            int i = 0;
+            foreach(Cubie c in edges) {
+                if(c.pos == edgeID)
+                {
+                    return i;
+                }
+                i++;
+            }
+            return -1;
+        }
 
+        //continue here
+        private static CubeStats solveCrossEdge(CubeStats cStats,int edgeID)
+        {
 
-            return "";
+            CubeStats result = cStats;
+            for (int j = edgeID; j > 0; j--)
+            {
+                Move target = new Move("U'");
+                result.cube = target.apply(result.cube);
+                result.Add("U'");
+            }
+            int pos = findEdgePos(result.cube.edges, edgeID);
+            if (pos == 1)
+            {
+                Move F = new Move("F");
+                result.cube = F.apply(result.cube);
+                result.Add("F");
+                pos = findEdgePos(result.cube.edges, edgeID);
+            }
+            if (pos == 3)
+            {
+                Move B = new Move("B'");
+                result.cube = B.apply(result.cube);
+                result.Add("B'");
+                pos = findEdgePos(result.cube.edges, edgeID);
+            }
+            if (pos == 2)
+            {
+                Move L = new Move("L");
+                result.cube = L.apply(result.cube);
+                result.Add("L");
+                pos = findEdgePos(result.cube.edges, edgeID);
+            }
+            if(pos == 5 ||pos == 7)
+            {
+                Move D = new Move("D");
+                result.cube = D.apply(result.cube);
+                result.Add("D");
+                pos = findEdgePos(result.cube.edges, edgeID);
+            }
+            if (pos == 6 || pos == 9 || pos == 10)
+            {
+                Move U = new Move("U2");
+                result.cube = U.apply(result.cube);
+                result.Add("U2");
+                pos = findEdgePos(result.cube.edges, edgeID);
+                Move L = new Move("L");
+                while (pos != 2)
+                {
+                    Debug.Log("stuck in pos 2 loop");
+                    result.cube = L.apply(result.cube);
+                    result.Add("L");
+                    pos = findEdgePos(result.cube.edges, edgeID);
+                }
+                result.cube = U.apply(result.cube);
+                result.Add("U2");
+                pos = findEdgePos(result.cube.edges, edgeID);
+            }
+            if (pos == 4 || pos == 8 || pos == 11)
+            {
+                Move R = new Move("R");
+                while (pos != 0)
+                {
+                    Debug.Log("stuck in pos 0 loop");
+                    result.cube = R.apply(result.cube);
+                    result.Add("R");
+                    pos = findEdgePos(result.cube.edges, edgeID);
+
+                }
+            }
+            for (int j = edgeID; j > 0; j--)
+            {
+                Move target = new Move("U");
+                result.cube = target.apply(result.cube);
+                result.Add("U");
+            }
+            return result;
+        }
+
+        private static CubeStats SolveCross(CubeStats cStats) {
+            CubeStats result = cStats;
+            if(IsCrossSolved(cStats.cube) == false)
+            {
+                for(int i = 0; i < 4; i++)
+                {
+                    if (result.cube.edges[i].pos != i)
+                    {
+                        result = solveCrossEdge(result,i);
+
+                    }else if(result.cube.edges[i].orient != 0)
+                    {
+                        for(int j = i;  j > 0; j--)
+                        {
+                            Move target = new Move("U'");
+                            result.cube = target.apply(result.cube);
+                            result.Add("U'");
+                        }
+                        Debug.Log($"Flip executed at i={i}");
+                        Move Flip = new Move("R U' B U");
+                        result.cube = Flip.apply(result.cube);
+                        result.Add("R U' B U");
+                        for (int j = i; j > 0; j--)
+                        {
+                            Move target = new Move("U");
+                            result.cube = target.apply(result.cube);
+                            result.Add("U");
+                        }
+                    }
+                }
+                return result;
+            }
+            else
+            {
+                return result;
+            }
         }
 
 
