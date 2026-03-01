@@ -12,7 +12,7 @@ namespace BeginnerSolve
         {
 
             CubeStats cubeStats = new CubeStats(cubeState);
-            cubeStats = SolveCross(cubeStats);
+            cubeStats = StepOne(cubeStats);
             /*string hex = BitConverter.ToString(cubeStats.cube.getFacelets()).Replace("-", " ");
             string[] hexArr = hex.Split(" ");
             int[] decimalValues = hexArr.Select(h => Convert.ToInt32(h, 16)).ToArray();
@@ -42,11 +42,11 @@ namespace BeginnerSolve
         }
 
         //check if white cross is solved
-        private static bool IsCrossSolved(Cube cStateStr)
+        private static bool IsStepSolved(Cubie[] cubieList)
         {
             for (int i = 0; i < 4; i++)
             {
-                if (cStateStr.edges[i].pos != i || cStateStr.edges[i].orient != 0)
+                if (cubieList[i].pos != i || cubieList[i].orient != 0)
                 {
                     return false;
                 }
@@ -54,12 +54,19 @@ namespace BeginnerSolve
             return true;
         }
 
-        //find edge position in edge list
-        private static int findEdgePos(Cubie[] edges, int edgeID)
+
+
+        /// <summary>
+        /// Takes cubieList and cubieID as an argument. returns the position index of where the cubie has been found.
+        /// </summary>
+        /// <param name="cubieList"></param>
+        /// <param name="cubieID"></param>
+        /// <returns>Cubie index in the list</returns>
+        private static int GetCubieByID(Cubie[] cubieList, int cubieID)
         {
             int i = 0;
-            foreach(Cubie c in edges) {
-                if(c.pos == edgeID)
+            foreach(Cubie c in cubieList) {
+                if(c.pos == cubieID)
                 {
                     return i;
                 }
@@ -68,8 +75,13 @@ namespace BeginnerSolve
             return -1;
         }
 
-        //continue here
-        private static CubeStats solveCrossEdge(CubeStats cStats,int edgeID)
+        /// <summary>
+        /// Takes EdgeID as argument. returns cubeState with edge solved and rotation sequence in results.
+        /// </summary>
+        /// <param name="cStats"></param>
+        /// <param name="edgeID"></param>
+        /// <returns> cubeState with solved edge</returns>
+        private static CubeStats SolveCrossEdge(CubeStats cStats,int edgeID)
         {
 
             CubeStats result = cStats;
@@ -79,52 +91,52 @@ namespace BeginnerSolve
                 result.cube = target.apply(result.cube);
                 result.Add("U'");
             }
-            int pos = findEdgePos(result.cube.edges, edgeID);
+            int pos = GetCubieByID(result.cube.edges, edgeID);
             if (pos == 1)
             {
                 Move F = new Move("F");
                 result.cube = F.apply(result.cube);
                 result.Add("F");
-                pos = findEdgePos(result.cube.edges, edgeID);
+                pos = GetCubieByID(result.cube.edges, edgeID);
             }
             if (pos == 3)
             {
                 Move B = new Move("B'");
                 result.cube = B.apply(result.cube);
                 result.Add("B'");
-                pos = findEdgePos(result.cube.edges, edgeID);
+                pos = GetCubieByID(result.cube.edges, edgeID);
             }
             if (pos == 2)
             {
                 Move L = new Move("L");
                 result.cube = L.apply(result.cube);
                 result.Add("L");
-                pos = findEdgePos(result.cube.edges, edgeID);
+                pos = GetCubieByID(result.cube.edges, edgeID);
             }
             if(pos == 5 ||pos == 7)
             {
                 Move D = new Move("D");
                 result.cube = D.apply(result.cube);
                 result.Add("D");
-                pos = findEdgePos(result.cube.edges, edgeID);
+                pos = GetCubieByID(result.cube.edges, edgeID);
             }
             if (pos == 6 || pos == 9 || pos == 10)
             {
                 Move U = new Move("U2");
                 result.cube = U.apply(result.cube);
                 result.Add("U2");
-                pos = findEdgePos(result.cube.edges, edgeID);
+                pos = GetCubieByID(result.cube.edges, edgeID);
                 Move L = new Move("L");
                 while (pos != 2)
                 {
                     Debug.Log("stuck in pos 2 loop");
                     result.cube = L.apply(result.cube);
                     result.Add("L");
-                    pos = findEdgePos(result.cube.edges, edgeID);
+                    pos = GetCubieByID(result.cube.edges, edgeID);
                 }
                 result.cube = U.apply(result.cube);
                 result.Add("U2");
-                pos = findEdgePos(result.cube.edges, edgeID);
+                pos = GetCubieByID(result.cube.edges, edgeID);
             }
             if (pos == 4 || pos == 8 || pos == 11)
             {
@@ -134,7 +146,7 @@ namespace BeginnerSolve
                     Debug.Log("stuck in pos 0 loop");
                     result.cube = R.apply(result.cube);
                     result.Add("R");
-                    pos = findEdgePos(result.cube.edges, edgeID);
+                    pos = GetCubieByID(result.cube.edges, edgeID);
 
                 }
             }
@@ -147,15 +159,20 @@ namespace BeginnerSolve
             return result;
         }
 
-        private static CubeStats SolveCross(CubeStats cStats) {
+        /// <summary>
+        /// takes CubeState as argument, returns cubeState with solved edges.
+        /// </summary>
+        /// <param name="cStats"></param>
+        /// <returns></returns>
+        private static CubeStats StepOne(CubeStats cStats) {
             CubeStats result = cStats;
-            if(IsCrossSolved(cStats.cube) == false)
+            if(IsStepSolved(cStats.cube.edges) == false)
             {
                 for(int i = 0; i < 4; i++)
                 {
                     if (result.cube.edges[i].pos != i)
                     {
-                        result = solveCrossEdge(result,i);
+                        result = SolveCrossEdge(result,i);
 
                     }else if(result.cube.edges[i].orient != 0)
                     {
@@ -185,8 +202,29 @@ namespace BeginnerSolve
             }
         }
 
+        //solve white corners for step two
+        private static CubeStats StepTwo(CubeStats cStats)
+        {
+            CubeStats result = cStats;
+            if (IsStepSolved(cStats.cube.corners) == false)
+            {
+                for (int i = 0; i < 4; i++)
+                {
+                    if (result.cube.corners[i].pos != i)
+                    {
+                        result = solveWhiteCorner(result, i);
 
+                    }
+                }
+            }
 
+            return cStats;
+        }
+
+        private static CubeStats solveWhiteCorner(CubeStats result, int i)
+        {
+            throw new NotImplementedException();
+        }
     } 
 }
 
