@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using TwoPhaseSolver;
-using Unity.VisualScripting;
 
 namespace Assets.BeginnerSolver
 {
@@ -33,10 +28,31 @@ namespace Assets.BeginnerSolver
                 stepRotations += $" {c}";
             }
         }
-    
-        public void Add(int i,int length)
+
+        /// <summary>
+        /// adds solution length at current step
+        /// </summary>
+        /// <param name="i"></param>
+        public void AddStep(int i)
         {
-            step[i] = length;
+            step[i] = solution.Split(" ").Count();
+        }
+
+        /// <summary>
+        /// Adds stepRotations to solution
+        /// </summary>
+        public void AddToSolution()
+        {
+            if (solution == "")
+            {
+                solution = stepRotations;
+                stepRotations = "";
+            }
+            else
+            {
+                solution += $" {stepRotations}";
+                stepRotations = "";
+            }
         }
     
     }

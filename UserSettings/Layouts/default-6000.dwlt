@@ -19,7 +19,7 @@ MonoBehaviour:
     width: 3424
     height: 1333
   m_ShowMode: 4
-  m_Title: Game
+  m_Title: Console
   m_RootView: {fileID: 6}
   m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
@@ -48,7 +48,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 100}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-  controlID: 36
+  controlID: 90
   draggingID: 0
 --- !u!114 &3
 MonoBehaviour:
@@ -300,10 +300,10 @@ MonoBehaviour:
     m_TextWithWhitespace: "Project\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 0
-    y: 853
-    width: 2729
-    height: 493
+    x: 8
+    y: 851
+    width: 2716
+    height: 487
   m_SerializedDataModeController:
     m_DataMode: 0
     m_PreferredDataMode: 0
@@ -326,7 +326,7 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/StreamingAssets
+    - Assets/BeginnerSolver
     m_Globs: []
     m_ProductIds: 
     m_AnyWithAssetOrigin: 0
@@ -336,15 +336,15 @@ MonoBehaviour:
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/StreamingAssets
+  - Assets/BeginnerSolver
   m_LastFoldersGridSize: -1
   m_LastProjectPath: C:\Users\Dzedas\Rusolve
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: d4af0000
-    m_LastClickedID: 45012
+    m_SelectedIDs: c4af0000
+    m_LastClickedID: 44996
     m_ExpandedIDs: 000000006aae00006cae0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -400,9 +400,9 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: 
-    m_LastClickedInstanceID: 0
-    m_HadKeyboardFocusLastEvent: 0
+    m_SelectedInstanceIDs: 66810000
+    m_LastClickedInstanceID: 33126
+    m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs: c623000056aa000000000000
     m_RenameOverlay:
       m_UserAcceptedRename: 0

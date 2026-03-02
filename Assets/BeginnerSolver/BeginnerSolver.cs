@@ -1,6 +1,5 @@
 using Assets.BeginnerSolver;
 using System;
-using System.Linq;
 using TwoPhaseSolver;
 using UnityEngine;
 
@@ -12,7 +11,10 @@ namespace BeginnerSolve
         {
 
             CubeStats cubeStats = new CubeStats(cubeState);
-            cubeStats = StepOne(cubeStats);
+            if(IsStepSolved(cubeState.edges) == false)
+            {
+                cubeStats = StepOne.Solve(cubeStats);
+            }
             /*string hex = BitConverter.ToString(cubeStats.cube.getFacelets()).Replace("-", " ");
             string[] hexArr = hex.Split(" ");
             int[] decimalValues = hexArr.Select(h => Convert.ToInt32(h, 16)).ToArray();
@@ -42,7 +44,7 @@ namespace BeginnerSolve
         }
 
         //check if white cross is solved
-        private static bool IsStepSolved(Cubie[] cubieList)
+        public static bool IsStepSolved(Cubie[] cubieList)
         {
             for (int i = 0; i < 4; i++)
             {
@@ -62,7 +64,7 @@ namespace BeginnerSolve
         /// <param name="cubieList"></param>
         /// <param name="cubieID"></param>
         /// <returns>Cubie index in the list</returns>
-        private static int GetCubieByID(Cubie[] cubieList, int cubieID)
+        public static int GetCubieByID(Cubie[] cubieList, int cubieID)
         {
             int i = 0;
             foreach(Cubie c in cubieList) {
@@ -73,133 +75,6 @@ namespace BeginnerSolve
                 i++;
             }
             return -1;
-        }
-
-        /// <summary>
-        /// Takes EdgeID as argument. returns cubeState with edge solved and rotation sequence in results.
-        /// </summary>
-        /// <param name="cStats"></param>
-        /// <param name="edgeID"></param>
-        /// <returns> cubeState with solved edge</returns>
-        private static CubeStats SolveCrossEdge(CubeStats cStats,int edgeID)
-        {
-
-            CubeStats result = cStats;
-            for (int j = edgeID; j > 0; j--)
-            {
-                Move target = new Move("U'");
-                result.cube = target.apply(result.cube);
-                result.Add("U'");
-            }
-            int pos = GetCubieByID(result.cube.edges, edgeID);
-            if (pos == 1)
-            {
-                Move F = new Move("F");
-                result.cube = F.apply(result.cube);
-                result.Add("F");
-                pos = GetCubieByID(result.cube.edges, edgeID);
-            }
-            if (pos == 3)
-            {
-                Move B = new Move("B'");
-                result.cube = B.apply(result.cube);
-                result.Add("B'");
-                pos = GetCubieByID(result.cube.edges, edgeID);
-            }
-            if (pos == 2)
-            {
-                Move L = new Move("L");
-                result.cube = L.apply(result.cube);
-                result.Add("L");
-                pos = GetCubieByID(result.cube.edges, edgeID);
-            }
-            if(pos == 5 ||pos == 7)
-            {
-                Move D = new Move("D");
-                result.cube = D.apply(result.cube);
-                result.Add("D");
-                pos = GetCubieByID(result.cube.edges, edgeID);
-            }
-            if (pos == 6 || pos == 9 || pos == 10)
-            {
-                Move U = new Move("U2");
-                result.cube = U.apply(result.cube);
-                result.Add("U2");
-                pos = GetCubieByID(result.cube.edges, edgeID);
-                Move L = new Move("L");
-                while (pos != 2)
-                {
-                    Debug.Log("stuck in pos 2 loop");
-                    result.cube = L.apply(result.cube);
-                    result.Add("L");
-                    pos = GetCubieByID(result.cube.edges, edgeID);
-                }
-                result.cube = U.apply(result.cube);
-                result.Add("U2");
-                pos = GetCubieByID(result.cube.edges, edgeID);
-            }
-            if (pos == 4 || pos == 8 || pos == 11)
-            {
-                Move R = new Move("R");
-                while (pos != 0)
-                {
-                    Debug.Log("stuck in pos 0 loop");
-                    result.cube = R.apply(result.cube);
-                    result.Add("R");
-                    pos = GetCubieByID(result.cube.edges, edgeID);
-
-                }
-            }
-            for (int j = edgeID; j > 0; j--)
-            {
-                Move target = new Move("U");
-                result.cube = target.apply(result.cube);
-                result.Add("U");
-            }
-            return result;
-        }
-
-        /// <summary>
-        /// takes CubeState as argument, returns cubeState with solved edges.
-        /// </summary>
-        /// <param name="cStats"></param>
-        /// <returns></returns>
-        private static CubeStats StepOne(CubeStats cStats) {
-            CubeStats result = cStats;
-            if(IsStepSolved(cStats.cube.edges) == false)
-            {
-                for(int i = 0; i < 4; i++)
-                {
-                    if (result.cube.edges[i].pos != i)
-                    {
-                        result = SolveCrossEdge(result,i);
-
-                    }else if(result.cube.edges[i].orient != 0)
-                    {
-                        for(int j = i;  j > 0; j--)
-                        {
-                            Move target = new Move("U'");
-                            result.cube = target.apply(result.cube);
-                            result.Add("U'");
-                        }
-                        Debug.Log($"Flip executed at i={i}");
-                        Move Flip = new Move("R U' B U");
-                        result.cube = Flip.apply(result.cube);
-                        result.Add("R U' B U");
-                        for (int j = i; j > 0; j--)
-                        {
-                            Move target = new Move("U");
-                            result.cube = target.apply(result.cube);
-                            result.Add("U");
-                        }
-                    }
-                }
-                return result;
-            }
-            else
-            {
-                return result;
-            }
         }
 
         //solve white corners for step two
