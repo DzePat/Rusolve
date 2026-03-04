@@ -15,6 +15,10 @@ namespace BeginnerSolve
             {
                 cubeStats = StepOne.Solve(cubeStats);
             }
+            if (IsStepSolved(cubeState.corners) == false)
+            {
+                cubeStats = StepTwo.Solve(cubeStats);
+            }
             /*string hex = BitConverter.ToString(cubeStats.cube.getFacelets()).Replace("-", " ");
             string[] hexArr = hex.Split(" ");
             int[] decimalValues = hexArr.Select(h => Convert.ToInt32(h, 16)).ToArray();

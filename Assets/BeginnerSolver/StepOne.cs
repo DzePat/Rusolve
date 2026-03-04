@@ -76,7 +76,6 @@ namespace Assets.BeginnerSolver
         {
             int pos = SearchBeginner.GetCubieByID(cStats.cube.edges, edgeID);
             string rotation = edgeMoves[(edgeID, pos)];
-            Debug.Log("position: " +  rotation);
             Move target = new Move(rotation);
             cStats.cube = target.apply(cStats.cube);
             cStats.Add(rotation);
