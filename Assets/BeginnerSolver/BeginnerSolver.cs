@@ -21,7 +21,7 @@ namespace BeginnerSolve
             string[] cubeStateString = decimalValues.Select(d => d.ToString("D2")).ToArray();
             Debug.Log(VisualCubeState(cubeStateString));*/
             Debug.Log($"stepRotations: {cubeStats.stepRotations}");
-            return cubeStats.stepRotations.Split(" ");
+            return cubeStats.solution.Split(" ");
         }
 
         private static string Cell(string v) => $"{v,2}";
@@ -56,8 +56,6 @@ namespace BeginnerSolve
             return true;
         }
 
-
-
         /// <summary>
         /// Takes cubieList and cubieID as an argument. returns the position index of where the cubie has been found.
         /// </summary>
@@ -77,29 +75,7 @@ namespace BeginnerSolve
             return -1;
         }
 
-        //solve white corners for step two
-        private static CubeStats StepTwo(CubeStats cStats)
-        {
-            CubeStats result = cStats;
-            if (IsStepSolved(cStats.cube.corners) == false)
-            {
-                for (int i = 0; i < 4; i++)
-                {
-                    if (result.cube.corners[i].pos != i)
-                    {
-                        result = solveWhiteCorner(result, i);
 
-                    }
-                }
-            }
-
-            return cStats;
-        }
-
-        private static CubeStats solveWhiteCorner(CubeStats result, int i)
-        {
-            throw new NotImplementedException();
-        }
     } 
 }
 

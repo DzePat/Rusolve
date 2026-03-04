@@ -1,214 +1,91 @@
 ﻿using BeginnerSolve;
 using System;
-using UnityEngine;
+using System.Collections.Generic;
 using TwoPhaseSolver;
+using UnityEngine;
 
 namespace Assets.BeginnerSolver
 {
     public class StepOne
     {
+        private static readonly Dictionary<(int, int), string> edgeMoves = new()
+        {
+                {(0,1), "U'"},
+                {(0,2), "U2"},
+                {(0,3), "U"},
+                {(0,4), "R2"},
+                {(0,5), "B R2"},
+                {(0,6), "B2 R2"},
+                {(0,7), "B' R2"},
+                {(0,8), "R"},
+                {(0,9), "F U'"},
+                {(0,10), "L U2"},
+                {(0,11), "R'"},
+
+                {(1,2), "L F"},
+                {(1,3), "B2 D2 F2"},
+                {(1,4), "D' F2"},
+                {(1,5), "F2"},
+                {(1,6), "D F2"},
+                {(1,7), "D2 F2"},
+                {(1,8), "F'"},
+                {(1,9), "F"},
+                {(1,10), "L2 F"},
+                {(1,11), "R D' R' F2"},
+
+                {(2,3), "B L"},
+                {(2,4), "D2 L2"},
+                {(2,5), "D' L2"},
+                {(2,6), "L2"},
+                {(2,7), "D L2"},
+                {(2,8), "F D' F' L2"},
+                {(2,9), "L'"},
+                {(2,10), "L"},
+                {(2,11), "R D2 R' L2"},
+
+                {(3,4), "D B2"},
+                {(3,5), "D2 B2"},
+                {(3,6), "D' B2"},
+                {(3,7), "B2"},
+                {(3,8), "F D2 F' B2"},
+                {(3,9), "F' D2 F B2"},
+                {(3,10), "B'"},
+                {(3,11), "B"},
+        };
+
         public static CubeStats Solve(CubeStats cStats)
         {
-            CubeStats result = cStats;
             for (int i = 0; i < 4; i++)
             {
-                if (result.cube.edges[i].pos != i)
+                if (cStats.cube.edges[i].pos != i)
                 {
-                    result = functions[i](result);
+                    cStats = SolveEdgeX(cStats,i);
                 }
-                if (result.cube.edges[i].orient != 0)
+                if (cStats.cube.edges[i].orient != 0)
                 {
-                    result = EdgeFlip(result, i);
+                    cStats = EdgeFlip(cStats, i);
                 }
             }
-            result.AddToSolution();
-            result.AddStep(0);
-            return result;
+            cStats.AddToSolution();
+            cStats.AddStep(0);
+            return cStats;
 
         }
-
         // solve edge with id 0
-        private static CubeStats SolveEdgeOne(CubeStats cStats)
+        private static CubeStats SolveEdgeX(CubeStats cStats,int edgeID)
         {
-            Debug.Log("was in step one");
-            CubeStats result = cStats;
-            int pos = SearchBeginner.GetCubieByID(result.cube.edges, 0);
-            string rotation = "";
-            switch (pos)
-            {
-                case 1:
-                    rotation = "U'";
-                    break;
-                case 2:
-                    rotation = "U2";
-                    break;
-                case 3:
-                    rotation = "U";
-                    break;
-                case 4:
-                    rotation = "R2";
-                    break;
-                case 5:
-                    rotation = "B R2";
-                    break;
-                case 6:
-                    rotation = "B2 R2";
-                    break;
-                case 7:
-                    rotation = "B' R2";
-                    break;
-                case 8:
-                    rotation = "R";
-                    break;
-                case 9:
-                    rotation = "F U'";
-                    break;
-                case 10:
-                    rotation = "L U2";
-                    break;
-                case 11:
-                    rotation = "R'";
-                    break;
-            }
+            int pos = SearchBeginner.GetCubieByID(cStats.cube.edges, edgeID);
+            string rotation = edgeMoves[(edgeID, pos)];
+            Debug.Log("position: " +  rotation);
             Move target = new Move(rotation);
-            result.cube = target.apply(result.cube);
-            result.Add(rotation);
-            return result;
-        }
-
-        //solve edge with id 1
-        private static CubeStats SolveEdgeTwo(CubeStats cStats)
-        {
-            Debug.Log("was in step two");
-            CubeStats result = cStats;
-            int pos = SearchBeginner.GetCubieByID(result.cube.edges, 1);
-            string rotation = "";
-            switch (pos)
-            {
-                case 2:
-                    rotation = "L F";
-                    break;
-                case 3:
-                    rotation = "B2 D2 F2";
-                    break;
-                case 4:
-                    rotation = "D' F2";
-                    break;
-                case 5:
-                    rotation = "F2";
-                    break;
-                case 6:
-                    rotation = "D F2";
-                    break;
-                case 7:
-                    rotation = "D2 F2";
-                    break;
-                case 8:
-                    rotation = "F'";
-                    break;
-                case 9:
-                    rotation = "F";
-                    break;
-                case 10:
-                    rotation = "L2 F";
-                    break;
-                case 11:
-                    rotation = "R D' R' F2";
-                    break;
-            }
-            Move target = new Move(rotation);
-            result.cube = target.apply(result.cube);
-            result.Add(rotation);
-            return result;
-        }
-
-        // solve edge with id 2
-        private static CubeStats SolveEdgeThree(CubeStats cStats)
-        {
-            Debug.Log("was in step three");
-            CubeStats result = cStats;
-            int pos = SearchBeginner.GetCubieByID(result.cube.edges, 2);
-            string rotation = "";
-            switch (pos)
-            {
-                case 3:
-                    rotation = "B L";
-                    break;
-                case 4:
-                    rotation = "D2 L2";
-                    break;
-                case 5:
-                    rotation = "D' L2";
-                    break;
-                case 6:
-                    rotation = "L2";
-                    break;
-                case 7:
-                    rotation = "D L2";
-                    break;
-                case 8:
-                    rotation = "F D' F' L2";
-                    break;
-                case 9:
-                    rotation = "L'";
-                    break;
-                case 10:
-                    rotation = "L";
-                    break;
-                case 11:
-                    rotation = "R D2 R' L2";
-                    break;
-            }
-            Move target = new Move(rotation);
-            result.cube = target.apply(result.cube);
-            result.Add(rotation);
-            return result;
-        }
-
-        //solve edge with id 3
-        private static CubeStats SolveEdgeFour(CubeStats cStats)
-        {
-            Debug.Log("was in step four");
-            CubeStats result = cStats;
-            int pos = SearchBeginner.GetCubieByID(result.cube.edges, 3);
-            string rotation = "";
-            switch (pos)
-            {
-                case 4:
-                    rotation = "D B2";
-                    break;
-                case 5:
-                    rotation = "D2 B2";
-                    break;
-                case 6:
-                    rotation = "D' B2";
-                    break;
-                case 7:
-                    rotation = "B2";
-                    break;
-                case 8:
-                    rotation = "F D2 F' B2";
-                    break;
-                case 9:
-                    rotation = "F' D2 F B2";
-                    break;
-                case 10:
-                    rotation = "B'";
-                    break;
-                case 11:
-                    rotation = "B";
-                    break;
-            }
-            Move target = new Move(rotation);
-            result.cube = target.apply(result.cube);
-            result.Add(rotation);
-            return result;
+            cStats.cube = target.apply(cStats.cube);
+            cStats.Add(rotation);
+            return cStats;
         }
 
         private static CubeStats EdgeFlip(CubeStats cStats, int edgeID)
         {
-            CubeStats result = cStats;
-            int pos = SearchBeginner.GetCubieByID(result.cube.edges, edgeID);
+            int pos = SearchBeginner.GetCubieByID(cStats.cube.edges, edgeID);
             string rotation = "";
             switch (pos)
             {
@@ -222,11 +99,10 @@ namespace Assets.BeginnerSolver
                     rotation = "B U' L U"; break;
             }
             Move target = new Move(rotation);
-            result.cube = target.apply(result.cube);
-            result.Add(rotation);
-            return result;
+            cStats.cube = target.apply(cStats.cube);
+            cStats.Add(rotation);
+            return cStats;
         }
 
-        private static Func<CubeStats,CubeStats>[] functions = { SolveEdgeOne, SolveEdgeTwo, SolveEdgeThree, SolveEdgeFour };
     }
 }

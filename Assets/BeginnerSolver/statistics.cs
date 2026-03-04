@@ -3,7 +3,7 @@ using TwoPhaseSolver;
 
 namespace Assets.BeginnerSolver
 {
-    public struct CubeStats
+    public class CubeStats
     {
         public Cube cube;
         public string solution,stepRotations;
