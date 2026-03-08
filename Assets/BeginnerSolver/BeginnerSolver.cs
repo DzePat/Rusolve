@@ -1,5 +1,6 @@
 using Assets.BeginnerSolver;
 using System;
+using System.Linq;
 using TwoPhaseSolver;
 using UnityEngine;
 
@@ -11,7 +12,7 @@ namespace BeginnerSolve
         {
 
             CubeStats cubeStats = new CubeStats(cubeState);
-            if(IsStepSolved(cubeState.edges) == false)
+            if (IsStepSolved(cubeState.edges) == false)
             {
                 cubeStats = StepOne.Solve(cubeStats);
             }
@@ -19,13 +20,19 @@ namespace BeginnerSolve
             {
                 cubeStats = StepTwo.Solve(cubeStats);
             }
-            /*string hex = BitConverter.ToString(cubeStats.cube.getFacelets()).Replace("-", " ");
+            //string[] cubeStateString = getCubeString(cubeStats);
+            //Debug.Log(VisualCubeState(cubeStateString));
+            cubeStats = StepThree.Solve(cubeStats);
+            return cubeStats.solution.Split(" ");
+        }
+
+        public static string[] getCubeString(CubeStats cubeStats)
+        {
+            string hex = BitConverter.ToString(cubeStats.cube.getFacelets()).Replace("-", " ");
             string[] hexArr = hex.Split(" ");
             int[] decimalValues = hexArr.Select(h => Convert.ToInt32(h, 16)).ToArray();
             string[] cubeStateString = decimalValues.Select(d => d.ToString("D2")).ToArray();
-            Debug.Log(VisualCubeState(cubeStateString));*/
-            Debug.Log($"stepRotations: {cubeStats.stepRotations}");
-            return cubeStats.solution.Split(" ");
+            return cubeStateString;
         }
 
         private static string Cell(string v) => $"{v,2}";

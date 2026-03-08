@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Assets.BeginnerSolver
 {
-    public class StepOne
+    internal class StepOne
     {
         private static readonly Dictionary<(int, int), string> edgeMoves = new()
         {

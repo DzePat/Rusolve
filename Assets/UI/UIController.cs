@@ -283,7 +283,6 @@ public class UIController : MonoBehaviour
                 string solution = "";
                 foreach(string s in solveController.cubeSolution)
                 {
-                    Debug.Log("adding: " + s);
                     solution += s;
                 }
                 Debug.Log($"solution: {solution}");
@@ -329,7 +328,6 @@ public class UIController : MonoBehaviour
         if (solutionIndex != solveController.cubeSolution.Length)
         {
             string step = solveController.cubeSolution[solutionIndex];
-            Debug.Log("step: " + step);
             List<Vector3Int> face = solveController.solveManager.moveMap[step[0]];
             if (step.Length == 1)
             {
