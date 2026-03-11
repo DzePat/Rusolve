@@ -12,17 +12,20 @@ namespace BeginnerSolve
         {
 
             CubeStats cubeStats = new CubeStats(cubeState);
-            if (IsStepSolved(cubeState.edges) == false)
+            if (IsStepSolved(cubeState.edges,0,4) == false)
             {
-                cubeStats = StepOne.Solve(cubeStats);
+                StepOne.Solve(cubeStats);
             }
-            if (IsStepSolved(cubeState.corners) == false)
+            if (IsStepSolved(cubeState.corners, 0, 4) == false)
             {
-                cubeStats = StepTwo.Solve(cubeStats);
+                StepTwo.Solve(cubeStats);
+            }
+            if(IsStepSolved(cubeState.edges ,8,12) == false)
+            {
+                StepThree.Solve(cubeStats);
             }
             //string[] cubeStateString = getCubeString(cubeStats);
             //Debug.Log(VisualCubeState(cubeStateString));
-            cubeStats = StepThree.Solve(cubeStats);
             return cubeStats.solution.Split(" ");
         }
 
@@ -55,9 +58,9 @@ namespace BeginnerSolve
         }
 
         //check if white cross is solved
-        public static bool IsStepSolved(Cubie[] cubieList)
+        public static bool IsStepSolved(Cubie[] cubieList,int rangeFrom, int rangeTo)
         {
-            for (int i = 0; i < 4; i++)
+            for (int i = rangeFrom; i < rangeTo; i++)
             {
                 if (cubieList[i].pos != i || cubieList[i].orient != 0)
                 {
