@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TwoPhaseSolver;
 using Unity.VisualScripting;
+using UnityEngine;
 using UnityEngine.Animations;
 using UnityEngine.UIElements;
 
@@ -50,7 +51,7 @@ namespace Assets.BeginnerSolver
             { (5,31), "B D' B' D' L' D L"},
             { (5,35), "D L' D L D B D' B'"},
 
-            { (4,19), "D' D' R' D R D F D'" },
+            { (4,19), "D' D' R' D R D F D' F'" },
             { (4,15), "D F D' F' D' R' D R" },
             { (4,11), "D' B' D B D R D' R'"},
             { (4,39), "D2 R D' R' D' B' D B"},
@@ -68,6 +69,14 @@ namespace Assets.BeginnerSolver
             {4, 13},
         };
 
+        private static int[] centerEdgePositions = new int[4]
+        {
+            8,
+            9,
+            10,
+            11
+        };
+
         public static CubeStats Solve(CubeStats cStats)
         {
             solveEdgesInBottomLayer(cStats);
@@ -77,46 +86,50 @@ namespace Assets.BeginnerSolver
             return cStats;
 
         }
-        
-        private static CubeStats solveEdgesInMiddleLayer(CubeStats cStats)
+
+        private static void solveEdgesInMiddleLayer(CubeStats cStats)
         {
             int pos;
             string rotation = "";
             for (int i = 8; i < 12; i++)
             {
-                if (i != cStats.cube.edges[i].pos || cStats.cube.edges[i].orient != 0)
+                if (i != cStats.cube.edges[i].pos  || cStats.cube.edges[i].orient != 0)
                 {
                     pos = SearchBeginner.GetCubieByID(cStats.cube.edges, i);
-                    rotation = alignEdgeMoves[pos];
-                    Move target = new Move(rotation);
-                    cStats.cube = target.apply(cStats.cube);
-                    cStats.Add(rotation);
+                    if (centerEdgePositions.Contains(pos))
+                    {
+                        rotation = alignEdgeMoves[pos];
+                        Debug.Log("alignrotation" + rotation);
+                        Move target = new Move(rotation);
+                        cStats.cube = target.apply(cStats.cube);
+                        cStats.Add(rotation);
+                    }
                     pos = SearchBeginner.GetCubieByID(cStats.cube.edges, i);
                     solveEdgeX(cStats, pos);
                 }
             }
-            return cStats;
         }
 
-        private static CubeStats solveEdgesInBottomLayer(CubeStats cStats)
+        private static void solveEdgesInBottomLayer(CubeStats cStats)
         {
             int pos;
             for (int i = 8; i < 12; i++)
             {
                 pos = SearchBeginner.GetCubieByID(cStats.cube.edges, i);
-                solveEdgeX(cStats, pos);
+                if (!centerEdgePositions.Contains(pos))
+                {
+                    solveEdgeX(cStats, pos);
+                }
             }
-            return cStats;
         }
 
-        private static CubeStats solveEdgeX(CubeStats cStats, int position)
+        private static void solveEdgeX(CubeStats cStats, int position)
         {
             int cubieFace = int.Parse(SearchBeginner.getCubeString(cStats)[CenterStickerColor[position]]);
             string rotation = centerEdgeMoves[(position, cubieFace)];
             Move target = new Move(rotation);
             cStats.cube = target.apply(cStats.cube);
             cStats.Add(rotation);
-            return cStats;
         }
 
     }

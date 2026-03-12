@@ -24,8 +24,7 @@ namespace BeginnerSolve
             {
                 StepThree.Solve(cubeStats);
             }
-            //string[] cubeStateString = getCubeString(cubeStats);
-            //Debug.Log(VisualCubeState(cubeStateString));
+            StepFour.Solve(cubeStats);        
             return cubeStats.solution.Split(" ");
         }
 

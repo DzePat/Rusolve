@@ -21,7 +21,7 @@ namespace Assets.BeginnerSolver
                 {(0,7), "D R' D2 R"},
 
                 {(1,2), "B F' D B' F"},
-                {(1,3), "B' L D2 L'"},
+                {(1,3), "B' L D2 B L'"},
                 {(1,4), "L D' L'"},
                 {(1,5), "D L D' L'"},
                 {(1,6), "D' L D2 l'"},
@@ -70,7 +70,7 @@ namespace Assets.BeginnerSolver
 
         private static CubeStats CornerFlip(CubeStats cStats, int edgeID)
         {
-            int pos = SearchBeginner.GetCubieByID(cStats.cube.edges, edgeID);
+            int pos = SearchBeginner.GetCubieByID(cStats.cube.corners, edgeID);
             string rotation = "";
             while (cStats.cube.corners[edgeID].orient != 0)
             {
