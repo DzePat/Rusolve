@@ -1,13 +1,8 @@
 ﻿using BeginnerSolve;
-using NUnit.Framework.Constraints;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TwoPhaseSolver;
-using UnityEngine.UIElements;
 
 namespace Assets.BeginnerSolver
 {
@@ -100,7 +95,7 @@ namespace Assets.BeginnerSolver
          
             SolveYellowCross(cStats);
             cStats.AddToSolution();
-            cStats.AddStep(0);
+            cStats.AddStep(3);
             return cStats;
 
         }

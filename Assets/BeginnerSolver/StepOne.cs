@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using TwoPhaseSolver;
-using UnityEngine;
 
 namespace Assets.BeginnerSolver
 {
@@ -53,36 +52,37 @@ namespace Assets.BeginnerSolver
                 {(3,11), "B"},
         };
 
-        public static CubeStats Solve(CubeStats cStats)
+        public static void Solve(CubeStats cStats)
         {
-            for (int i = 0; i < 4; i++)
+            if (SearchBeginner.IsStepSolved(cStats.cube.edges, 0, 4) == false)
             {
-                if (cStats.cube.edges[i].pos != i)
+                for (int i = 0; i < 4; i++)
                 {
-                    cStats = SolveEdgeX(cStats,i);
+                    if (cStats.cube.edges[i].pos != i)
+                    {
+                        SolveEdgeX(cStats, i);
+                    }
+                    if (cStats.cube.edges[i].orient != 0)
+                    {
+                       EdgeFlip(cStats, i);
+                    }
                 }
-                if (cStats.cube.edges[i].orient != 0)
-                {
-                    cStats = EdgeFlip(cStats, i);
-                }
+                cStats.AddToSolution();
+                cStats.AddStep(0);
             }
-            cStats.AddToSolution();
-            cStats.AddStep(0);
-            return cStats;
-
         }
+
         // solve edge with id 0
-        private static CubeStats SolveEdgeX(CubeStats cStats,int edgeID)
+        private static void SolveEdgeX(CubeStats cStats,int edgeID)
         {
             int pos = SearchBeginner.GetCubieByID(cStats.cube.edges, edgeID);
             string rotation = edgeMoves[(edgeID, pos)];
             Move target = new Move(rotation);
             cStats.cube = target.apply(cStats.cube);
             cStats.Add(rotation);
-            return cStats;
         }
 
-        private static CubeStats EdgeFlip(CubeStats cStats, int edgeID)
+        private static void EdgeFlip(CubeStats cStats, int edgeID)
         {
             int pos = SearchBeginner.GetCubieByID(cStats.cube.edges, edgeID);
             string rotation = "";
@@ -100,7 +100,6 @@ namespace Assets.BeginnerSolver
             Move target = new Move(rotation);
             cStats.cube = target.apply(cStats.cube);
             cStats.Add(rotation);
-            return cStats;
         }
 
     }

@@ -2,13 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TwoPhaseSolver;
 using Unity.VisualScripting;
-using UnityEngine;
-using UnityEngine.Animations;
-using UnityEngine.UIElements;
 
 namespace Assets.BeginnerSolver
 {
@@ -77,14 +72,15 @@ namespace Assets.BeginnerSolver
             11
         };
 
-        public static CubeStats Solve(CubeStats cStats)
+        public static void Solve(CubeStats cStats)
         {
-            solveEdgesInBottomLayer(cStats);
-            solveEdgesInMiddleLayer(cStats);
-            cStats.AddToSolution();
-            cStats.AddStep(1);
-            return cStats;
-
+            if (SearchBeginner.IsStepSolved(cStats.cube.edges, 8, 12) == false)
+            {
+                solveEdgesInBottomLayer(cStats);
+                solveEdgesInMiddleLayer(cStats);
+                cStats.AddToSolution();
+                cStats.AddStep(2);
+            }
         }
 
         private static void solveEdgesInMiddleLayer(CubeStats cStats)
@@ -99,7 +95,6 @@ namespace Assets.BeginnerSolver
                     if (centerEdgePositions.Contains(pos))
                     {
                         rotation = alignEdgeMoves[pos];
-                        Debug.Log("alignrotation" + rotation);
                         Move target = new Move(rotation);
                         cStats.cube = target.apply(cStats.cube);
                         cStats.Add(rotation);

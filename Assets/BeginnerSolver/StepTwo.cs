@@ -1,9 +1,5 @@
 ﻿using BeginnerSolve;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TwoPhaseSolver;
 
 namespace Assets.BeginnerSolver
@@ -39,36 +35,36 @@ namespace Assets.BeginnerSolver
                 {(3,7), "D R D' R'"},
         };
 
-        public static CubeStats Solve(CubeStats cStats)
+        public static void Solve(CubeStats cStats)
         {
-            for (int i = 0; i < 4; i++)
+            if (SearchBeginner.IsStepSolved(cStats.cube.corners, 0, 4) == false)
             {
-                if (cStats.cube.corners[i].pos != i)
+                for (int i = 0; i < 4; i++)
                 {
-                    cStats = SolveCornerX(cStats, i);
+                    if (cStats.cube.corners[i].pos != i)
+                    {
+                        SolveCornerX(cStats, i);
+                    }
+                    if (cStats.cube.corners[i].orient != 0)
+                    {
+                        CornerFlip(cStats, i);
+                    }
                 }
-                if (cStats.cube.corners[i].orient != 0)
-                {
-                    cStats = CornerFlip(cStats, i);
-                }
+                cStats.AddToSolution();
+                cStats.AddStep(1);
             }
-            cStats.AddToSolution();
-            cStats.AddStep(1);
-            return cStats;
-
         }
         // solve edge with id 0
-        private static CubeStats SolveCornerX(CubeStats cStats, int edgeID)
+        private static void SolveCornerX(CubeStats cStats, int edgeID)
         {
             int pos = SearchBeginner.GetCubieByID(cStats.cube.corners, edgeID);
             string rotation = cornerMoves[(edgeID, pos)];
             Move target = new Move(rotation);
             cStats.cube = target.apply(cStats.cube);
             cStats.Add(rotation);
-            return cStats;
         }
 
-        private static CubeStats CornerFlip(CubeStats cStats, int edgeID)
+        private static void CornerFlip(CubeStats cStats, int edgeID)
         {
             int pos = SearchBeginner.GetCubieByID(cStats.cube.corners, edgeID);
             string rotation = "";
@@ -89,7 +85,6 @@ namespace Assets.BeginnerSolver
                 cStats.cube = target.apply(cStats.cube);
                 cStats.Add(rotation);
             }
-            return cStats;
         }
     }
 }
