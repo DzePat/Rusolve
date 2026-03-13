@@ -17,6 +17,8 @@ namespace BeginnerSolve
             StepThree.Solve(cubeStats);
             StepFour.Solve(cubeStats);
             StepFive.Solve(cubeStats);
+            StepSix.Solve(cubeStats);
+            StepSeven.Solve(cubeStats);
             return cubeStats.solution.Split(" ");
         }
 

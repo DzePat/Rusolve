@@ -26,7 +26,6 @@ namespace Assets.BeginnerSolver
 
         private static readonly int[] yellowEdges = new int[4] {41,43,45,47};
 
-
         private static (int,int) isYellowCrossSolved(CubeStats cStats)
         {
             string[] cube = SearchBeginner.getCubeString(cStats);
@@ -90,17 +89,14 @@ namespace Assets.BeginnerSolver
             }
         }
 
-        public static CubeStats Solve(CubeStats cStats)
+        public static void Solve(CubeStats cStats)
         {
          
             SolveYellowCross(cStats);
             cStats.AddToSolution();
             cStats.AddStep(3);
-            return cStats;
-
         }
 
-        // solve edge with id 0
         private static void SolveYellowCross(CubeStats cStats)
         {
             if (isYellowCrossSolved(cStats) != (0,0)) 

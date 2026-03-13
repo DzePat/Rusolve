@@ -20,7 +20,7 @@ namespace Assets.BeginnerSolver
                 {(1,3), "B' L D2 B L'"},
                 {(1,4), "L D' L'"},
                 {(1,5), "D L D' L'"},
-                {(1,6), "D' L D2 l'"},
+                {(1,6), "D' L D2 L'"},
                 {(1,7), "L D2 L'"},
 
                 {(2,3), "R L' D R' L"},
@@ -54,7 +54,7 @@ namespace Assets.BeginnerSolver
                 cStats.AddStep(1);
             }
         }
-        // solve edge with id 0
+
         private static void SolveCornerX(CubeStats cStats, int edgeID)
         {
             int pos = SearchBeginner.GetCubieByID(cStats.cube.corners, edgeID);

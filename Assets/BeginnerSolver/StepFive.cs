@@ -33,7 +33,7 @@ namespace Assets.BeginnerSolver
                 cStats.AddStep(4);
             }
         }
-        // solve edge with id 0
+
         private static void SolveEdgeX(CubeStats cStats, int edgeID)
         {
             int pos = SearchBeginner.GetCubieByID(cStats.cube.edges, edgeID);
