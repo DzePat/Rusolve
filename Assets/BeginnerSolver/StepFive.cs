@@ -8,7 +8,7 @@ namespace Assets.BeginnerSolver
     {
         private static readonly Dictionary<(int, int), string> edgeMoves = new()
         {
-                {(4,5), "D'"},
+                {(4,5), "D"},
                 {(4,6), "D2"},
                 {(4,7), "D'"},
 
