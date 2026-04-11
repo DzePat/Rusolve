@@ -1,0 +1,16 @@
+{
+    "name": "prefabs",
+    "rootNamespace": "",
+    "references": [
+        "GUID:19cca0d16cc926e4e9915c7f4b8802df"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

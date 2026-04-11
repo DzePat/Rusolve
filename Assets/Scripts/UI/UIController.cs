@@ -133,9 +133,10 @@ public class UIController : MonoBehaviour
     /// </summary>
     void DestroyCube()
     {
-        foreach(GameObject cubelet in solveController.solveManager.cubeController.cubeManager.cubeletMap.Values)
+        foreach (GameObject cubelet in solveController.solveManager.cubeController.cubeManager.cubeletMap.Values)
         {
-            Destroy(cubelet);
+            if (cubelet != null)
+                Destroy(cubelet);
         }
     }
 
@@ -186,6 +187,7 @@ public class UIController : MonoBehaviour
     /// </summary>
     void SidePanelMenuClicked()
     {
+        solveController.solveManager.cubeController.isActive = false;
         selectedSolver = "";
         HideAllButtons();
         HideAllUis();
@@ -248,6 +250,7 @@ public class UIController : MonoBehaviour
     /// </summary>
     void MenuSolverOptionClicked(string option)
     {
+        solveController.solveManager.cubeController.isActive = true;
         hideMenu();
         uiManager.sidePanel.SetActive(true);
         uiManager.ShowStatistics();

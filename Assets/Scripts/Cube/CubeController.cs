@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class CubeController : MonoBehaviour
 {
-
+    public bool isActive = false;
     public CubeManager cubeManager;
     public Dictionary<string, Color> colors = new()
 {
@@ -93,27 +93,30 @@ public class CubeController : MonoBehaviour
         //rotate face
         yield return RotatePivot(pivot, center, RotationAngle, 0.5f);
 
-        //add rotated gameobjects back to cubeletmap dictionary
-        foreach (Transform child in pivot.transform)
+        //add rotated gameobjects back to cubeletmap dictionary if the cube is on the screen
+        if (isActive)
         {
-            GameObject cubelet = child.gameObject;
-            Vector3 pos = cubelet.transform.position;
-            Vector3Int cubeletPos = new(
-                Mathf.RoundToInt(pos.x),
-                Mathf.RoundToInt(pos.y),
-                Mathf.RoundToInt(pos.z)
-            );
-            cubeManager.cubeletMap[cubeletPos] = cubelet;
-        }
 
-        //empty out pivot children
-        while(pivot.transform.childCount > 0)
-        {
-            pivot.transform.GetChild(0).SetParent(cubeManager.transform);
-        }
 
+            foreach (Transform child in pivot.transform)
+            {
+                GameObject cubelet = child.gameObject;
+                Vector3 pos = cubelet.transform.position;
+                Vector3Int cubeletPos = new(
+                    Mathf.RoundToInt(pos.x),
+                    Mathf.RoundToInt(pos.y),
+                    Mathf.RoundToInt(pos.z)
+                );
+                cubeManager.cubeletMap[cubeletPos] = cubelet;
+            }
+            //empty out pivot children
+            while (pivot.transform.childCount > 0)
+            {
+                pivot.transform.GetChild(0).SetParent(cubeManager.transform);
+            }
+        }
         //destroy empty pivot gameobject
-        GameObject.Destroy(pivot);
+        Destroy(pivot);
     }
 
     //rotation animation
@@ -125,6 +128,8 @@ public class CubeController : MonoBehaviour
 
         while (elapsed < duration)
         {
+            if (!isActive)
+                yield break;
             elapsed += Time.deltaTime;
             float t = Mathf.Clamp01(elapsed / duration);
             pivot.transform.rotation = Quaternion.Slerp(startRotation, endRotation, t);

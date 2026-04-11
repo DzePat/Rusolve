@@ -3,11 +3,11 @@ using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
 
-public class BeginnerSolverTests
+public class Cube
 {
     // A Test behaves as an ordinary method
     [Test]
-    public void BeginnerSolverTestsSimplePasses()
+    public void CubeSimplePasses()
     {
         // Use the Assert class to test conditions
     }
@@ -15,7 +15,7 @@ public class BeginnerSolverTests
     // A UnityTest behaves like a coroutine in Play Mode. In Edit Mode you can use
     // `yield return null;` to skip a frame.
     [UnityTest]
-    public IEnumerator BeginnerSolverTestsWithEnumeratorPasses()
+    public IEnumerator CubeWithEnumeratorPasses()
     {
         // Use the Assert class to test conditions.
         // Use yield to skip a frame.
