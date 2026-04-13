@@ -1,24 +1,28 @@
-using System.Collections;
 using NUnit.Framework;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.TestTools;
 
 public class Cube
 {
-    // A Test behaves as an ordinary method
     [Test]
-    public void CubeSimplePasses()
+    public void CreateCubeManagerTest()
     {
-        // Use the Assert class to test conditions
+        GameObject GameObj = new GameObject();
+        CubeManager manager = GameObj.AddComponent<CubeManager>();
+        Assert.AreNotEqual(manager, null);
     }
 
-    // A UnityTest behaves like a coroutine in Play Mode. In Edit Mode you can use
-    // `yield return null;` to skip a frame.
-    [UnityTest]
-    public IEnumerator CubeWithEnumeratorPasses()
+    [Test]
+    public void CreateCubeletTest()
     {
-        // Use the Assert class to test conditions.
-        // Use yield to skip a frame.
-        yield return null;
+        GameObject GameObj = new GameObject();
+        CubeManager manager = GameObj.AddComponent<CubeManager>();
+        Assert.AreNotEqual(manager, null);
+        GameObject cubelet = manager.CreateCubelet(1, 1, 1);
+        Vector3Int target = new Vector3Int(1,1,1);
+        Vector3Int result = Vector3Int.RoundToInt(cubelet.transform.position);
+        Assert.AreEqual(target,result);
     }
+
 }

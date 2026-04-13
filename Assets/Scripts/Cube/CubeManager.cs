@@ -56,8 +56,10 @@ public class CubeManager : MonoBehaviour
         GameObject cubelet = Instantiate(cubeletPrefab, transform);
         cubelet.transform.SetLocalPositionAndRotation(CubeletPos, Quaternion.identity);
         cubelet.name = $"Cubelet_{x}_{y}_{z}";
-        cubelet.GetComponent<Renderer>().material.color = Color.black;
-
+        var renderer = cubelet.GetComponent<Renderer>();
+        Material mat = new Material(renderer.sharedMaterial);
+        mat.color = Color.black;
+        renderer.material = mat;
         AddStickers(cubelet, CubeletPos);
         return cubelet;
     }
@@ -102,7 +104,10 @@ public class CubeManager : MonoBehaviour
         sticker.transform.SetLocalPositionAndRotation(normal * 0.51f, Quaternion.LookRotation(-normal));
         sticker.transform.localScale = Vector3.one * 0.9f;
         sticker.transform.name = "Sticker_"+identifier;
-        sticker.GetComponent<Renderer>().material.color = color;
+        var renderer = sticker.GetComponent<Renderer>();
+        Material mat = new Material(renderer.sharedMaterial);
+        mat.color = color;
+        renderer.material = mat;
 
         //do not add collision to anchor stickers
         if (!staticStickers.Contains(Vector3Int.RoundToInt(cubelet.transform.position)))
