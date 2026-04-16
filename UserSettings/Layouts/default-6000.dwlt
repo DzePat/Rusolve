@@ -19,7 +19,7 @@ MonoBehaviour:
     width: 3438
     height: 1340
   m_ShowMode: 4
-  m_Title: Inspector
+  m_Title: Test Runner
   m_RootView: {fileID: 6}
   m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
@@ -60,7 +60,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 1
   m_Script: {fileID: 12006, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: InspectorWindow
+  m_Name: TestRunnerWindow
   m_EditorClassIdentifier: 
   m_Children: []
   m_Position:
@@ -69,14 +69,14 @@ MonoBehaviour:
     y: 0
     width: 710
     height: 1284
-  m_MinSize: {x: 276, y: 76}
-  m_MaxSize: {x: 4001, y: 4026}
-  m_ActualView: {fileID: 15}
+  m_MinSize: {x: 50, y: 50}
+  m_MaxSize: {x: 4000, y: 4000}
+  m_ActualView: {fileID: 12}
   m_Panes:
   - {fileID: 15}
   - {fileID: 12}
-  m_Selected: 0
-  m_LastSelected: 1
+  m_Selected: 1
+  m_LastSelected: 0
 --- !u!114 &4
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -320,7 +320,7 @@ MonoBehaviour:
     m_OverlaysVisible: 1
     m_DynamicPanelBehavior: 0
   m_Spl:
-    ID: 797
+    ID: 237
     splitterInitialOffset: 0
     currentActiveSplitter: -1
     realSizes:
@@ -347,7 +347,7 @@ MonoBehaviour:
   m_TestListGUIs:
   - m_Window: {fileID: 12}
     runProgress:
-      RunGuid: dc0d42f6-a897-4264-b1d3-287f833bda4c
+      RunGuid: 6f0ebdfb-0ce6-4fad-9233-06b2d2b8440c
       ExecutionSettings:
         m_TargetPlatform: 0
         m_HasTargetPlatform: 0
@@ -382,8 +382,8 @@ MonoBehaviour:
       uniqueId: '[Rusolve][suite]'
       name: Rusolve
       fullName: Rusolve
-      resultStatus: 0
-      duration: 0
+      resultStatus: 1
+      duration: 0.027284298
       messages: 
       output: 
       stacktrace: 
@@ -394,12 +394,12 @@ MonoBehaviour:
       categories: []
       parentId: 
       parentUniqueId: 
-    - id: 1004
+    - id: 1005
       uniqueId: '[EditMode][C:/Users/Dzedas/Rusolve/Library/ScriptAssemblies/EditMode.dll][suite]'
       name: EditMode.dll
       fullName: C:/Users/Dzedas/Rusolve/Library/ScriptAssemblies/EditMode.dll
-      resultStatus: 0
-      duration: 0
+      resultStatus: 1
+      duration: 0.027284298
       messages: 
       output: 
       stacktrace: 
@@ -408,14 +408,14 @@ MonoBehaviour:
       description: 
       isSuite: 1
       categories: []
-      parentId: 1012
+      parentId: 1013
       parentUniqueId: '[Rusolve][suite]'
     - id: 1001
       uniqueId: 'EditMode.dll/[EditMode][Cube][suite]'
       name: Cube
       fullName: Cube
-      resultStatus: 0
-      duration: 0
+      resultStatus: 1
+      duration: 0.027284298
       messages: 
       output: 
       stacktrace: 
@@ -424,14 +424,14 @@ MonoBehaviour:
       description: 
       isSuite: 1
       categories: []
-      parentId: 1004
+      parentId: 1005
       parentUniqueId: '[EditMode][C:/Users/Dzedas/Rusolve/Library/ScriptAssemblies/EditMode.dll][suite]'
     - id: 1003
       uniqueId: 'EditMode.dll/Cube/[EditMode][Cube.CreateCubeletTest]'
       name: CreateCubeletTest
       fullName: Cube.CreateCubeletTest
-      resultStatus: 0
-      duration: 0
+      resultStatus: 1
+      duration: 0.0156418
       messages: 
       output: 
       stacktrace: 
@@ -447,8 +447,8 @@ MonoBehaviour:
       uniqueId: 'EditMode.dll/Cube/[EditMode][Cube.CreateCubeManagerTest]'
       name: CreateCubeManagerTest
       fullName: Cube.CreateCubeManagerTest
-      resultStatus: 0
-      duration: 0
+      resultStatus: 1
+      duration: 0.00031
       messages: 
       output: 
       stacktrace: 
@@ -460,12 +460,29 @@ MonoBehaviour:
       - Uncategorized
       parentId: 1001
       parentUniqueId: 'EditMode.dll/[EditMode][Cube][suite]'
-    m_ResultText: 
+    - id: 1004
+      uniqueId: 'EditMode.dll/Cube/[EditMode][Cube.CreateCubeTest]'
+      name: CreateCubeTest
+      fullName: Cube.CreateCubeTest
+      resultStatus: 1
+      duration: 0.0113325
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1001
+      parentUniqueId: 'EditMode.dll/[EditMode][Cube][suite]'
+    m_ResultText: CreateCubeletTest (0,016s)
     m_ResultStacktrace: 
     m_TestListState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 3822de4e
-      m_LastClickedID: 1323180600
+      m_SelectedIDs: a00a2b86
+      m_LastClickedID: -2043999584
       m_ExpandedIDs: 426b7a8e3822de4e2e210e73ffffff7f
       m_RenameOverlay:
         m_UserAcceptedRename: 0
@@ -496,7 +513,7 @@ MonoBehaviour:
     m_SelectedOption: 0
   - m_Window: {fileID: 0}
     runProgress:
-      RunGuid: dc0d42f6-a897-4264-b1d3-287f833bda4c
+      RunGuid: 6f0ebdfb-0ce6-4fad-9233-06b2d2b8440c
       ExecutionSettings:
         m_TargetPlatform: 0
         m_HasTargetPlatform: 0
@@ -562,7 +579,7 @@ MonoBehaviour:
     m_SelectedOption: 0
   - m_Window: {fileID: 0}
     runProgress:
-      RunGuid: dc0d42f6-a897-4264-b1d3-287f833bda4c
+      RunGuid: 6f0ebdfb-0ce6-4fad-9233-06b2d2b8440c
       ExecutionSettings:
         m_TargetPlatform: 0
         m_HasTargetPlatform: 0
@@ -647,8 +664,8 @@ MonoBehaviour:
     m_TextWithWhitespace: "UnityEditor.MainToolbarWindow\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 0
-    y: 0
+    x: 1
+    y: 51
     width: 3438
     height: 36
   m_SerializedDataModeController:
@@ -913,8 +930,8 @@ MonoBehaviour:
     m_TextWithWhitespace: "Project\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 0
-    y: 791
+    x: 1
+    y: 854
     width: 2727
     height: 491
   m_SerializedDataModeController:
@@ -960,9 +977,9 @@ MonoBehaviour:
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs:
-    - m_Data: 47176
+    - m_Data: 47178
     m_LastClickedID:
-      m_Data: 47176
+      m_Data: 47178
     m_ExpandedIDs:
     - m_Data: 0
     - m_Data: 46810
@@ -971,6 +988,8 @@ MonoBehaviour:
     - m_Data: 46816
     - m_Data: 46818
     - m_Data: 46820
+    - m_Data: 47172
+    - m_Data: 1000000000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1035,9 +1054,8 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs:
-    - m_Data: 47180
-    m_LastClickedInstanceID: 47180
+    m_SelectedInstanceIDs: []
+    m_LastClickedInstanceID: 0
     m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs: []
     m_RenameOverlay:
@@ -1091,7 +1109,7 @@ MonoBehaviour:
   m_Pos:
     serializedVersion: 2
     x: 2729
-    y: 24
+    y: 87
     width: 709
     height: 1258
   m_SerializedDataModeController:
@@ -1141,8 +1159,8 @@ MonoBehaviour:
     m_TextWithWhitespace: "Hierarchy\u200B"
   m_Pos:
     serializedVersion: 2
-    x: 0
-    y: 24
+    x: 1
+    y: 87
     width: 667
     height: 741
   m_SerializedDataModeController:
@@ -1165,24 +1183,19 @@ MonoBehaviour:
       m_LastClickedID:
         m_Data: 0
       m_ExpandedIDs:
-      - m_Data: -60264
-      - m_Data: -59102
-      - m_Data: -55090
-      - m_Data: -53032
-      - m_Data: -42124
-      - m_Data: -41402
-      - m_Data: -33848
-      - m_Data: -12904
-      - m_Data: -12166
-      - m_Data: -11446
-      - m_Data: -11138
-      - m_Data: -10798
-      - m_Data: -10066
-      - m_Data: -9334
-      - m_Data: -8590
-      - m_Data: -7556
-      - m_Data: -6466
-      - m_Data: -5780
+      - m_Data: -22244
+      - m_Data: -19448
+      - m_Data: -16634
+      - m_Data: -15156
+      - m_Data: -12574
+      - m_Data: -11830
+      - m_Data: -11098
+      - m_Data: -9426
+      - m_Data: -8694
+      - m_Data: -6834
+      - m_Data: -6106
+      - m_Data: -5372
+      - m_Data: -3058
       - m_Data: -1302
       m_RenameOverlay:
         m_UserAcceptedRename: 0
@@ -1756,7 +1769,7 @@ MonoBehaviour:
   m_Rotation:
     m_Target: {x: 0.30971545, y: -0.074623674, z: 0.024527233, w: 0.94761866}
     speed: 2
-    m_Value: {x: -0.30971542, y: 0.074623674, z: -0.024527233, w: -0.9476186}
+    m_Value: {x: 0.30970383, y: -0.07462087, z: 0.024526313, w: 0.9475831}
   m_Size:
     m_Target: 2.6171446
     speed: 2
@@ -1854,7 +1867,7 @@ MonoBehaviour:
   m_Pos:
     serializedVersion: 2
     x: 669
-    y: 24
+    y: 87
     width: 2058
     height: 741
   m_SerializedDataModeController:

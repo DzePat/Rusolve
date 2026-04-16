@@ -4,12 +4,6 @@ using UnityEngine;
 
 public class Cube
 {
-    private CubeManager CreateManager(out GameObject obj)
-    {
-        obj = new GameObject();
-        return obj.AddComponent<CubeManager>();
-    }
-
     [Test]
     public void CreateCubeManagerTest()
     {
