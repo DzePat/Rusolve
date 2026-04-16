@@ -97,7 +97,7 @@ public class CubeManager : MonoBehaviour
     /// <param name="normal"></param>
     /// <param name="color"></param>
     /// <param name="identifier"></param>
-    private void CreateSticker(GameObject cubelet, Vector3 normal, Color color, String identifier)
+    public void CreateSticker(GameObject cubelet, Vector3 normal, Color color, String identifier)
     {
         GameObject sticker = Instantiate(stickerPrefab, cubelet.transform);
         sticker.transform.localScale = new Vector3(0.95f, 0.95f, 0.01f);
