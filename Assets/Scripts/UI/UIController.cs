@@ -156,7 +156,7 @@ public class UIController : MonoBehaviour
         }
         else if (button == solveButton)
         {
-            if (solveController.solveManager.rotationQueue.Count == 0)
+            if (solveController.solveManager.rotationQueue.Count == 0 && solveController.solveManager.cubeController.isRotating == false)
             {
                 SolveClicked();
             }

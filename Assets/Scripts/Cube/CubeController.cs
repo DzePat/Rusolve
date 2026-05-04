@@ -6,6 +6,7 @@ using UnityEngine;
 public class CubeController : MonoBehaviour
 {
     public bool isActive = false;
+    public bool isRotating = false;
     public CubeManager cubeManager;
     public Dictionary<string, Color> colors = new()
 {
@@ -65,6 +66,7 @@ public class CubeController : MonoBehaviour
     /// <returns></returns>
     public IEnumerator RotateFace(List<Vector3Int> face, bool clockwise)
     {
+        isRotating = true;
         Vector3 center = face[4];
 
         //temporary parent Gameobject for the 9 cubelets thats gonna rotate
@@ -117,6 +119,7 @@ public class CubeController : MonoBehaviour
         }
         //destroy empty pivot gameobject
         Destroy(pivot);
+        isRotating = false;
     }
 
     //rotation animation
