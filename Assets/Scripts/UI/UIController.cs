@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using BeginnerSolve;
 using System.Linq;
+using Assets.BeginnerSolver;
 
 public class UIController : MonoBehaviour
 {
@@ -294,6 +295,7 @@ public class UIController : MonoBehaviour
             {
                 Debug.Log($"Excpetion while solving: {e}");
             }
+            Debug.Log("test: " + solveController.cubeSolution);
             if (solveController.cubeSolution != null)
             {
                 if (solveController.cubeSolution[0] != "None")

@@ -12,6 +12,10 @@ namespace BeginnerSolve
         {
 
             CubeStats cubeStats = new CubeStats(cubeState);
+            if (cubeStats.cube.isSolved() == true)
+            {
+                cubeStats.solution = "None";
+            }
             StepOne.Solve(cubeStats);
             StepTwo.Solve(cubeStats);
             StepThree.Solve(cubeStats);
@@ -19,6 +23,10 @@ namespace BeginnerSolve
             StepFive.Solve(cubeStats);
             StepSix.Solve(cubeStats);
             StepSeven.Solve(cubeStats);
+            if (cubeStats.cube.isSolved() == false)
+            {
+                return null;
+            }
             return cubeStats.solution.Split(" ");
         }
 
