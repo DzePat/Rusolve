@@ -5,6 +5,8 @@ using UnityEngine;
 using BeginnerSolve;
 using System.Linq;
 using Assets.BeginnerSolver;
+using UnityEngine.SceneManagement;
+using PlasticGui;
 
 public class UIController : MonoBehaviour
 {
@@ -18,12 +20,14 @@ public class UIController : MonoBehaviour
     private string selectedSolver;
     public int solutionIndex = 0;
 
-    private ButtonController menuSlow;
-    private ButtonController menuFast;
-    private ButtonController solveButton;
+    public GameObject mainMenu;
+    public GameObject sideMenu;
+    public GameObject hud;
+
+    public GameObject solve;
+
     private ButtonController nextButton;
     private ButtonController prevButton;
-    private ButtonController menuButton;
     private ButtonController zoomInButton;
     private ButtonController zoomOutButton;
 
@@ -44,18 +48,45 @@ public class UIController : MonoBehaviour
         uiManager.CreateSidePanel();
     }
 
+    public void BeginnerSolveClick()
+    {
+        MenuSolverOptionClicked("Slow");
+    }
+
+    public void FastSolveClick()
+    {
+        MenuSolverOptionClicked("Fast");
+    }
+
+    public void ToMainMenuClick()
+    {
+        solveController.solveManager.cubeController.isActive = false;
+        selectedSolver = "";
+        HideAllButtons();
+        HideAllUis();
+        DestroyCube();
+        uiManager.CountReset();
+        sideMenu.SetActive(false);
+        mainMenu.SetActive(true);
+        uiManager.sidePanel.SetActive(false);
+        ClearValues();
+    }
+
+    public void SolveClick()
+    {
+        if (solveController.solveManager.rotationQueue.Count == 0 && solveController.solveManager.cubeController.isRotating == false)
+        {
+            SolveClicked();
+        }
+    }
+
     /// <summary>
     /// prerendering of buttons on game start
     /// </summary>
     private void CreateButtons()
     {
-        //create UI buttons
-        menuSlow = buttonManager.CreateButton(uiManager.uiContainer, new(0, 2, 0), new(8, 2), 1f, "Beginner", new Color32(255, 209, 97, 255));
-        menuFast = buttonManager.CreateButton(uiManager.uiContainer, new(0, 0, 0), new(8, 2), 1f, "Fast(Kociemba)", new Color32(255, 209, 97, 255));
-        solveButton = buttonManager.CreateButton(uiManager.uiContainer, new(0, -4, 0), new(4, 2), 1f, "solve", new Color32(255, 209, 97, 255));
         nextButton = buttonManager.CreateButton(uiManager.uiContainer, new(3, -4, 0), new(5, 2), 1f, "next", new Color32(255, 209, 97, 255));
         prevButton = buttonManager.CreateButton(uiManager.uiContainer, new(-3, -4, 0), new(5, 2), 1f, "previous", new Color32(255, 209, 97, 255));
-        menuButton = buttonManager.CreateButton(uiManager.sidePanel, new(0, 4f, 0), new(4, 1), 0.5f, "Main Menu", new Color32(255, 209, 97, 255));
         zoomInButton = buttonManager.CreateButton(uiManager.sidePanel, new(-0.5f, -4f, 0), new(1, 1), 1f, "+", new Color32(255, 255, 255, 255));
         zoomOutButton = buttonManager.CreateButton(uiManager.sidePanel, new(0.5f, -4f, 0), new(1, 1), 1f, "-", new Color32(255, 255, 255, 255));
 
@@ -64,12 +95,8 @@ public class UIController : MonoBehaviour
 
 
         //Subscribe buttons
-        menuFast.OnClicked += HandleButtonClicked;
-        menuSlow.OnClicked += HandleButtonClicked;
-        solveButton.OnClicked += HandleButtonClicked;
         nextButton.OnClicked += HandleButtonClicked;
         prevButton.OnClicked += HandleButtonClicked;
-        menuButton.OnClicked += HandleButtonClicked;
         zoomInButton.OnClicked += HandleButtonClicked;
         zoomOutButton.OnClicked += HandleButtonClicked;
 
@@ -147,31 +174,13 @@ public class UIController : MonoBehaviour
     /// <param name="button"></param>
     private void HandleButtonClicked(ButtonController button)
     {
-        if(button == menuFast)
-        {
-            MenuSolverOptionClicked("Fast");
-        }
-        else if(button == menuSlow)
-        {
-            MenuSolverOptionClicked("Slow");
-        }
-        else if (button == solveButton)
-        {
-            if (solveController.solveManager.rotationQueue.Count == 0 && solveController.solveManager.cubeController.isRotating == false)
-            {
-                SolveClicked();
-            }
-        }
-        else if (button == nextButton)
+        if (button == nextButton)
         {
             MoveNext();
         }
         else if (button == prevButton)
         {
             MovePrevious();
-        } else if (button == menuButton)
-        {
-            SidePanelMenuClicked();
         }
         else if (button == zoomInButton)
         {
@@ -184,27 +193,11 @@ public class UIController : MonoBehaviour
     }
 
     /// <summary>
-    /// sidepanel menu button event handler
-    /// </summary>
-    void SidePanelMenuClicked()
-    {
-        solveController.solveManager.cubeController.isActive = false;
-        selectedSolver = "";
-        HideAllButtons();
-        HideAllUis();
-        DestroyCube();
-        uiManager.CountReset();
-        showMenu();
-        uiManager.sidePanel.SetActive(false);
-        ClearValues();
-    }
-
-    /// <summary>
     /// hides solve, next and previous buttons
     /// </summary>
     void HideAllButtons()
     {
-        solveButton.gameObject.SetActive(false);
+        solve.gameObject.SetActive(false);
         nextButton.gameObject.SetActive(false);
         prevButton.gameObject.SetActive(false);
     }
@@ -229,35 +222,22 @@ public class UIController : MonoBehaviour
         solveController.cubeSolution = null;
     }
 
-    /// <summary>
-    /// Hide menu buttons
-    /// </summary>
-    void hideMenu()
-    {
-        menuFast.gameObject.SetActive(false);
-        menuSlow.gameObject.SetActive(false);
-    }
 
-    /// <summary>
-    /// Display menu buttons
-    /// </summary>
-    void showMenu()
-    {
-        menuFast.gameObject.SetActive(true);
-        menuSlow.gameObject.SetActive(true);
-    }
     /// <summary>
     /// menu solver choice selected either fast or beginner
     /// </summary>
     void MenuSolverOptionClicked(string option)
     {
+        mainMenu.SetActive(false);
+        sideMenu.SetActive(true);
+        hud.SetActive(true);
+        solve.SetActive(true);
         solveController.solveManager.cubeController.isActive = true;
-        hideMenu();
         uiManager.sidePanel.SetActive(true);
         uiManager.ShowStatistics();
         uiManager.ShowSidePanelRotationButtons();
         solveController.solveManager.cubeController.cubeManager.BuildCube();
-        solveButton.gameObject.SetActive(true);
+        solve.gameObject.SetActive(true);
         selectedSolver = option;
     }
 
@@ -303,7 +283,7 @@ public class UIController : MonoBehaviour
                     solveController.solveManager.cubeController.DisableStickerClick();
                     uiManager.HideSidePanelRotationButtons();
                     uiManager.colorPanel.SetActive(false);
-                    solveButton.gameObject.SetActive(false);
+                    solve.gameObject.SetActive(false);
                     nextButton.gameObject.SetActive(true);
                     prevButton.gameObject.SetActive(true);
                     uiManager.HideStatistics();
