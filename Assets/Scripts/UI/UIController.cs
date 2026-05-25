@@ -24,12 +24,10 @@ public class UIController : MonoBehaviour
     public GameObject sideMenu;
     public GameObject hud;
 
+    //Hud objects
     public GameObject solve;
-
-    private ButtonController nextButton;
-    private ButtonController prevButton;
-    private ButtonController zoomInButton;
-    private ButtonController zoomOutButton;
+    public GameObject steps;
+    public GameObject colorPanel;
 
     void Start()
     {
@@ -43,7 +41,6 @@ public class UIController : MonoBehaviour
     {
         // Create UI containers
         uiManager.CreateUiContainer();
-        uiManager.CreateColorPanel();
         uiManager.CreateColorStatistics();
         uiManager.CreateSidePanel();
     }
@@ -62,7 +59,7 @@ public class UIController : MonoBehaviour
     {
         solveController.solveManager.cubeController.isActive = false;
         selectedSolver = "";
-        HideAllButtons();
+        ResetAndHideHud();
         HideAllUis();
         DestroyCube();
         uiManager.CountReset();
@@ -80,43 +77,20 @@ public class UIController : MonoBehaviour
         }
     }
 
+    public void NextClick()
+    {
+        MoveNext();
+    }
+
+    public void PreviousClick()
+    {
+        MovePrevious();
+    }
     /// <summary>
     /// prerendering of buttons on game start
     /// </summary>
     private void CreateButtons()
     {
-        nextButton = buttonManager.CreateButton(uiManager.uiContainer, new(3, -4, 0), new(5, 2), 1f, "next", new Color32(255, 209, 97, 255));
-        prevButton = buttonManager.CreateButton(uiManager.uiContainer, new(-3, -4, 0), new(5, 2), 1f, "previous", new Color32(255, 209, 97, 255));
-        zoomInButton = buttonManager.CreateButton(uiManager.sidePanel, new(-0.5f, -4f, 0), new(1, 1), 1f, "+", new Color32(255, 255, 255, 255));
-        zoomOutButton = buttonManager.CreateButton(uiManager.sidePanel, new(0.5f, -4f, 0), new(1, 1), 1f, "-", new Color32(255, 255, 255, 255));
-
-        //deactivate buttons
-        HideAllButtons();
-
-
-        //Subscribe buttons
-        nextButton.OnClicked += HandleButtonClicked;
-        prevButton.OnClicked += HandleButtonClicked;
-        zoomInButton.OnClicked += HandleButtonClicked;
-        zoomOutButton.OnClicked += HandleButtonClicked;
-
-        //Create and and asign color panel buttons
-        var colors = new (Color color, Vector3 pos, string name)[]
-        {
-            (Color.white,  new Vector3(-1f,  2f, 0f), "white"),
-            (Color.yellow, new Vector3( 1f,  2f, 0f), "yellow"),
-            (Color.red,    new Vector3(-1f,  0f, 0f), "red"),
-            (Color.orange, new Vector3( 1f,  0f, 0f), "orange"),
-            (Color.green,  new Vector3(-1f, -2f, 0f), "green"),
-            (Color.blue,   new Vector3( 1f, -2f, 0f), "blue"),
-        };
-
-        foreach (var (color, pos, name) in colors)
-        {
-            ButtonController bc = buttonManager.CreateColorPanelBtn(uiManager.colorPanel, color, pos, name);
-            bc.OnClicked += _ => ColorPicked(name);
-        }
-
         //Create rotation buttons and asign events
         var rotations = new (string rotation, Vector3 pos)[]
         {
@@ -169,37 +143,13 @@ public class UIController : MonoBehaviour
     }
 
     /// <summary>
-    /// handles button clicks
-    /// </summary>
-    /// <param name="button"></param>
-    private void HandleButtonClicked(ButtonController button)
-    {
-        if (button == nextButton)
-        {
-            MoveNext();
-        }
-        else if (button == prevButton)
-        {
-            MovePrevious();
-        }
-        else if (button == zoomInButton)
-        {
-            mainCamera.ZoomIn();
-        }
-        else if (button == zoomOutButton)
-        {
-            mainCamera.ZoomOut();
-        }
-    }
-
-    /// <summary>
     /// hides solve, next and previous buttons
     /// </summary>
-    void HideAllButtons()
+    void ResetAndHideHud()
     {
-        solve.gameObject.SetActive(false);
-        nextButton.gameObject.SetActive(false);
-        prevButton.gameObject.SetActive(false);
+        solve.SetActive(true);
+        steps.SetActive(false);
+        hud.SetActive(false);
     }
 
     /// <summary>
@@ -208,7 +158,7 @@ public class UIController : MonoBehaviour
     void HideAllUis()
     {
         uiManager.HideStatistics();
-        uiManager.colorPanel.SetActive(false);
+        colorPanel.SetActive(false);
     }
 
     /// <summary>
@@ -237,7 +187,6 @@ public class UIController : MonoBehaviour
         uiManager.ShowStatistics();
         uiManager.ShowSidePanelRotationButtons();
         solveController.solveManager.cubeController.cubeManager.BuildCube();
-        solve.gameObject.SetActive(true);
         selectedSolver = option;
     }
 
@@ -282,10 +231,9 @@ public class UIController : MonoBehaviour
                 {
                     solveController.solveManager.cubeController.DisableStickerClick();
                     uiManager.HideSidePanelRotationButtons();
-                    uiManager.colorPanel.SetActive(false);
-                    solve.gameObject.SetActive(false);
-                    nextButton.gameObject.SetActive(true);
-                    prevButton.gameObject.SetActive(true);
+                    colorPanel.SetActive(false);
+                    solve.SetActive(false);
+                    steps.SetActive(true);
                     uiManager.HideStatistics();
                 }
                 else
@@ -379,7 +327,7 @@ public class UIController : MonoBehaviour
         previousColor = StickerName[1];
         uiManager.CountSub(previousColor);
         solveController.solveManager.cubeController.ChangeColor(selectedSticker, "temp");
-        uiManager.colorPanel.SetActive(true);
+        colorPanel.SetActive(true);
     }
 
     /// <summary>
@@ -392,7 +340,7 @@ public class UIController : MonoBehaviour
         selectedSticker = null;
         previousColor = null;
         uiManager.CountAdd(color);
-        uiManager.colorPanel.SetActive(false);
+        colorPanel.SetActive(false);
     }
 
     /// <summary>
@@ -404,7 +352,7 @@ public class UIController : MonoBehaviour
         {
             solveController.solveManager.cubeController.ChangeColor(selectedSticker, previousColor);
             uiManager.CountAdd(previousColor);
-            uiManager.colorPanel.SetActive(false);
+            colorPanel.SetActive(false);
             ClearValues();
         }
     }

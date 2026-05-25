@@ -88,17 +88,6 @@ public class UIManager : MonoBehaviour
         colorsStats[name] = textNumber;
     }
 
-    public void CreateColorPanel()
-    {
-        colorPanel = new GameObject("btnContainer", typeof(RectTransform));
-        colorPanel.transform.localPosition = new Vector3(-7.5f, 0f, -2f);
-        colorPanel.transform.SetParent(uiContainer.transform, false);
-        RectTransform rectTransform = colorPanel.GetComponent<RectTransform>();
-        rectTransform.sizeDelta = new Vector2(4f, 10f);
-
-        colorPanel.SetActive(false);
-    }
-
     public void CreateSidePanel()
     {
         sidePanel = new GameObject("btnContainer", typeof(RectTransform));
