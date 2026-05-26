@@ -88,29 +88,6 @@ public class UIManager : MonoBehaviour
         colorsStats[name] = textNumber;
     }
 
-    public void CreateSidePanel()
-    {
-        sidePanel = new GameObject("btnContainer", typeof(RectTransform));
-        sidePanel.transform.localPosition = new Vector3(7.5f, 0f, -2f);
-        sidePanel.transform.SetParent(uiContainer.transform, false);
-
-        GameObject rotContainer = new GameObject("rotContainer", typeof(RectTransform));
-        rotContainer.transform.SetParent(sidePanel.transform, false);
-
-        sidePanel.SetActive(false);
-    }
-
-    public void ShowSidePanelRotationButtons()
-    {
-        Transform rotContainer = sidePanel.transform.Find("rotContainer");
-        rotContainer.gameObject.SetActive(true);
-    }
-    public void HideSidePanelRotationButtons()
-    {
-        Transform rotContainer = sidePanel.transform.Find("rotContainer");
-        rotContainer.gameObject.SetActive(false);
-    }
-
     public void ShowPopup(string message, Vector3 position)
     {
         if (popupactive != true)

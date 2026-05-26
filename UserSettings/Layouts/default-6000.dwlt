@@ -19,7 +19,7 @@ MonoBehaviour:
     width: 3438
     height: 1340
   m_ShowMode: 4
-  m_Title: Console
+  m_Title: Simulator
   m_RootView: {fileID: 6}
   m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
@@ -48,7 +48,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 112}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-  controlID: 36
+  controlID: 37
   draggingID: 0
 --- !u!114 &3
 MonoBehaviour:
@@ -225,7 +225,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 112}
   m_MaxSize: {x: 16192, y: 16192}
   vertical: 1
-  controlID: 37
+  controlID: 38
   draggingID: 0
 --- !u!114 &10
 MonoBehaviour:
@@ -251,7 +251,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 56}
   m_MaxSize: {x: 16192, y: 8096}
   vertical: 0
-  controlID: 38
+  controlID: 39
   draggingID: 0
 --- !u!114 &11
 MonoBehaviour:
@@ -977,21 +977,21 @@ MonoBehaviour:
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs:
-    - m_Data: 48782
+    - m_Data: 47464
     m_LastClickedID:
-      m_Data: 48782
+      m_Data: 47464
     m_ExpandedIDs:
     - m_Data: 0
-    - m_Data: 47332
-    - m_Data: 47334
-    - m_Data: 47336
-    - m_Data: 47338
-    - m_Data: 47340
-    - m_Data: 47342
-    - m_Data: 47344
-    - m_Data: 47346
-    - m_Data: 47348
-    - m_Data: 47350
+    - m_Data: 47512
+    - m_Data: 47514
+    - m_Data: 47516
+    - m_Data: 47518
+    - m_Data: 47520
+    - m_Data: 47522
+    - m_Data: 47524
+    - m_Data: 47526
+    - m_Data: 47528
+    - m_Data: 47530
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1024,16 +1024,16 @@ MonoBehaviour:
       m_Data: 0
     m_ExpandedIDs:
     - m_Data: 0
-    - m_Data: 47332
-    - m_Data: 47334
-    - m_Data: 47336
-    - m_Data: 47338
-    - m_Data: 47340
-    - m_Data: 47342
-    - m_Data: 47344
-    - m_Data: 47346
-    - m_Data: 47348
-    - m_Data: 47350
+    - m_Data: 47512
+    - m_Data: 47514
+    - m_Data: 47516
+    - m_Data: 47518
+    - m_Data: 47520
+    - m_Data: 47522
+    - m_Data: 47524
+    - m_Data: 47526
+    - m_Data: 47528
+    - m_Data: 47530
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1061,8 +1061,8 @@ MonoBehaviour:
       m_ResourceFile: 
   m_ListAreaState:
     m_SelectedInstanceIDs:
-    - m_Data: -15228
-    m_LastClickedInstanceID: -15228
+    - m_Data: -8758
+    m_LastClickedInstanceID: -8758
     m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs: []
     m_RenameOverlay:
@@ -1135,7 +1135,7 @@ MonoBehaviour:
   m_ObjectsLockedBeforeSerialization: []
   m_InstanceIDsLockedBeforeSerialization: 
   m_PreviewResizer:
-    m_CachedPref: 160
+    m_CachedPref: -160
     m_ControlHash: -371814159
     m_PrefName: Preview_InspectorPreview
   m_LastInspectedObjectInstanceID: -1
@@ -1190,18 +1190,12 @@ MonoBehaviour:
       m_LastClickedID:
         m_Data: 0
       m_ExpandedIDs:
-      - m_Data: -138330
-      - m_Data: -138132
-      - m_Data: -137958
-      - m_Data: -137882
-      - m_Data: -87958
-      - m_Data: -15228
-      - m_Data: -15188
-      - m_Data: -11374
-      - m_Data: -4038
-      - m_Data: -4022
-      - m_Data: -2390
+      - m_Data: -71054
+      - m_Data: -8758
       - m_Data: -1302
+      - m_Data: 46676
+      - m_Data: 46712
+      - m_Data: 46764
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -1724,9 +1718,9 @@ MonoBehaviour:
   m_AudioPlay: 0
   m_DebugDrawModesUseInteractiveLightBakingData: 0
   m_Position:
-    m_Target: {x: 7.7830954, y: 47.5566, z: 11.160022}
+    m_Target: {x: 1329, y: 80, z: 0}
     speed: 2
-    m_Value: {x: 7.7830954, y: 47.5566, z: 11.160022}
+    m_Value: {x: 1329, y: 80, z: 0}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -1776,9 +1770,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: -0.101230316, y: 0.0035975168, z: -0.0004958083, w: -0.9948921}
   m_Size:
-    m_Target: 166.0823
+    m_Target: 624.88434
     speed: 2
-    m_Value: 166.0823
+    m_Value: 624.88434
   m_Ortho:
     m_Target: 0
     speed: 2
@@ -1891,12 +1885,12 @@ MonoBehaviour:
   m_SerializedViewNames:
   - UnityEditor.GameView
   m_SerializedViewValues:
-  - C:\Users\Dzedas\Rusolve\Library\PlayModeViewStates\9500656aafd550e4786a8b3177516fe8
+  - C:\Users\Dzedas\Rusolve\Library\PlayModeViewStates\56eeb87715edfdd4caf4954f3a284e68
   m_PlayModeViewName: Device Simulator
   m_ShowGizmos: 0
   m_TargetDisplay: 0
   m_ClearColor: {r: 0, g: 0, b: 0, a: 1}
-  m_TargetSize: {x: 2658, y: 960}
+  m_TargetSize: {x: 3040, y: 1440}
   m_TextureFilterMode: 0
   m_TextureHideFlags: 61
   m_RenderIMGUI: 1
@@ -1924,7 +1918,7 @@ MonoBehaviour:
     fitToScreenEnabled: 1
     rotationDegree: 270
     highlightSafeAreaEnabled: 0
-    friendlyName: Foldable Device (960x2658)
+    friendlyName: Samsung Galaxy S10+
     screenIndex: 0
     networkReachability: 1
     systemLanguage: 10

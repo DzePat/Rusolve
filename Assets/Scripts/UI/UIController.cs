@@ -28,11 +28,12 @@ public class UIController : MonoBehaviour
     public GameObject solve;
     public GameObject steps;
     public GameObject colorPanel;
+    public GameObject ClockwiseBtns;
+    public GameObject CClockwiseBtns;
 
     void Start()
     {
         CreateUIContainers();
-        CreateButtons();
     }
     /// <summary>
     /// prerendering of UI containers on game start
@@ -42,7 +43,6 @@ public class UIController : MonoBehaviour
         // Create UI containers
         uiManager.CreateUiContainer();
         uiManager.CreateColorStatistics();
-        uiManager.CreateSidePanel();
     }
 
     public void BeginnerSolveClick()
@@ -86,37 +86,19 @@ public class UIController : MonoBehaviour
     {
         MovePrevious();
     }
-    /// <summary>
-    /// prerendering of buttons on game start
-    /// </summary>
-    private void CreateButtons()
+
+    public void DirectionClick()
     {
-        //Create rotation buttons and asign events
-        var rotations = new (string rotation, Vector3 pos)[]
+        if (ClockwiseBtns.activeSelf == false)
         {
-            ("R",new (-0.5f,3f, 0)),
-            ("R'",new (0.5f,3f, 0)),
-            ("L",new (-0.5f,2f, 0)),
-            ("L'",new (0.5f,2f, 0)),
-            ("U",new (-0.5f,1f, 0)),
-            ("U'",new (0.5f,1f, 0)),
-            ("D",new (-0.5f,0f, 0)),
-            ("D'",new (0.5f,0f, 0)),
-            ("B",new (-0.5f,-1f, 0)),
-            ("B'",new (0.5f,-1f, 0)),
-            ("F",new (-0.5f,-2f, 0)),
-            ("F'",new (0.5f,-2f, 0)),
-        };
-
-        GameObject rotContainer = uiManager.sidePanel.transform.Find("rotContainer").gameObject;
-
-        foreach (var (rot,pos) in rotations)
-        {
-            ButtonController bc = buttonManager.CreateButton(rotContainer, pos, new(1, 1), 0.5f, rot, new Color32(255, 255, 255, 255));
-            bc.OnClicked += _ => RotateEvent(rot);
+            ClockwiseBtns.SetActive(true);
+            CClockwiseBtns.SetActive(false);
         }
-
-
+        else
+        {
+            ClockwiseBtns.SetActive(false);
+            CClockwiseBtns.SetActive(true);
+        }
     }
 
     /// <summary>
@@ -181,11 +163,9 @@ public class UIController : MonoBehaviour
         mainMenu.SetActive(false);
         sideMenu.SetActive(true);
         hud.SetActive(true);
-        solve.SetActive(true);
         solveController.solveManager.cubeController.isActive = true;
         uiManager.sidePanel.SetActive(true);
         uiManager.ShowStatistics();
-        uiManager.ShowSidePanelRotationButtons();
         solveController.solveManager.cubeController.cubeManager.BuildCube();
         selectedSolver = option;
     }
@@ -230,7 +210,6 @@ public class UIController : MonoBehaviour
                 if (solveController.cubeSolution[0] != "None")
                 {
                     solveController.solveManager.cubeController.DisableStickerClick();
-                    uiManager.HideSidePanelRotationButtons();
                     colorPanel.SetActive(false);
                     solve.SetActive(false);
                     steps.SetActive(true);
