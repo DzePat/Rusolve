@@ -1,17 +1,14 @@
+using Assets.Scripts.Utility;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using BeginnerSolve;
-using System.Linq;
-using Assets.BeginnerSolver;
-using UnityEngine.SceneManagement;
-using PlasticGui;
+
 
 public class UIController : MonoBehaviour
 {
     public CameraController mainCamera;
-    public UIManager uiManager;
     public SolveController solveController;
     public ButtonManager buttonManager;
 
@@ -23,26 +20,20 @@ public class UIController : MonoBehaviour
     public GameObject mainMenu;
     public GameObject sideMenu;
     public GameObject hud;
+    public GameObject rotationMenu;
+    public TextMeshProUGUI Popup;
 
     //Hud objects
     public GameObject solve;
     public GameObject steps;
     public GameObject colorPanel;
-    public GameObject ClockwiseBtns;
-    public GameObject CClockwiseBtns;
+    public GameObject clockwiseBtns;
+    public GameObject cclockwiseBtns;
+
+    ColorCount statistics = new ColorCount();
 
     void Start()
     {
-        CreateUIContainers();
-    }
-    /// <summary>
-    /// prerendering of UI containers on game start
-    /// </summary>
-    private void CreateUIContainers()
-    {
-        // Create UI containers
-        uiManager.CreateUiContainer();
-        uiManager.CreateColorStatistics();
     }
 
     public void BeginnerSolveClick()
@@ -60,12 +51,9 @@ public class UIController : MonoBehaviour
         solveController.solveManager.cubeController.isActive = false;
         selectedSolver = "";
         ResetAndHideHud();
-        HideAllUis();
         DestroyCube();
-        uiManager.CountReset();
-        sideMenu.SetActive(false);
+        statistics.Reset();
         mainMenu.SetActive(true);
-        uiManager.sidePanel.SetActive(false);
         ClearValues();
     }
 
@@ -77,27 +65,17 @@ public class UIController : MonoBehaviour
         }
     }
 
-    public void NextClick()
-    {
-        MoveNext();
-    }
-
-    public void PreviousClick()
-    {
-        MovePrevious();
-    }
-
     public void DirectionClick()
     {
-        if (ClockwiseBtns.activeSelf == false)
+        if (clockwiseBtns.activeSelf == false)
         {
-            ClockwiseBtns.SetActive(true);
-            CClockwiseBtns.SetActive(false);
+            clockwiseBtns.SetActive(true);
+            cclockwiseBtns.SetActive(false);
         }
         else
         {
-            ClockwiseBtns.SetActive(false);
-            CClockwiseBtns.SetActive(true);
+            clockwiseBtns.SetActive(false);
+            cclockwiseBtns.SetActive(true);
         }
     }
 
@@ -131,16 +109,8 @@ public class UIController : MonoBehaviour
     {
         solve.SetActive(true);
         steps.SetActive(false);
+        rotationMenu.SetActive(true);
         hud.SetActive(false);
-    }
-
-    /// <summary>
-    /// hide colorpanel and statistics panel
-    /// </summary>
-    void HideAllUis()
-    {
-        uiManager.HideStatistics();
-        colorPanel.SetActive(false);
     }
 
     /// <summary>
@@ -164,23 +134,8 @@ public class UIController : MonoBehaviour
         sideMenu.SetActive(true);
         hud.SetActive(true);
         solveController.solveManager.cubeController.isActive = true;
-        uiManager.sidePanel.SetActive(true);
-        uiManager.ShowStatistics();
         solveController.solveManager.cubeController.cubeManager.BuildCube();
         selectedSolver = option;
-    }
-
-    bool EqualNumberOfColors()
-    {
-        bool equalNumberOfColors = true;
-        foreach (TMP_Text colorCount in uiManager.colorsStats.Values)
-        {
-            if (colorCount.text != "9")
-            {
-                equalNumberOfColors = false;
-            }
-        }
-        return equalNumberOfColors;
     }
 
     /// <summary>
@@ -188,7 +143,7 @@ public class UIController : MonoBehaviour
     /// </summary>
     void SolveClicked()
     {
-        if (EqualNumberOfColors())
+        if (statistics.AllColorsEqual())
         {
             try
             { 
@@ -211,23 +166,23 @@ public class UIController : MonoBehaviour
                 {
                     solveController.solveManager.cubeController.DisableStickerClick();
                     colorPanel.SetActive(false);
+                    rotationMenu.SetActive(false);
                     solve.SetActive(false);
                     steps.SetActive(true);
-                    uiManager.HideStatistics();
                 }
                 else
                 {
-                    uiManager.ShowPopup("Cube is in a solved state", new Vector3(0, 3.5f, 0));
+                    ShowPopup("Cube is in a <color=green>solved</color> state");
                 }
             }
             else
             {
-                uiManager.ShowPopup("invalid cube state , no solution found", new Vector3(0, 3.5f, 0));
+                ShowPopup("invalid cube state , no solution found");
             }
         }
         else
         {
-            uiManager.ShowPopup("the number of stickers for each color must be exactly 9.", new Vector3(0, 3.5f, 0));
+            ShowPopup(ColorError());
         }
     }
 
@@ -235,7 +190,7 @@ public class UIController : MonoBehaviour
     /// <summary>
     /// Executes the rotation for next step
     /// </summary>
-    public void MoveNext()
+    public void NextClick()
     {
         if (solutionIndex != solveController.cubeSolution.Length)
         {
@@ -264,7 +219,7 @@ public class UIController : MonoBehaviour
     /// <summary>
     /// Executes the rotation for previous step
     /// </summary>
-    public void MovePrevious()
+    public void PreviousClick()
     {
         if (solutionIndex != 0)
         {
@@ -299,12 +254,12 @@ public class UIController : MonoBehaviour
         if (selectedSticker != null)
         {
             solveController.solveManager.cubeController.ChangeColor(selectedSticker, previousColor);
-            uiManager.CountAdd(previousColor);
+            statistics.Add(previousColor);
         }
         selectedSticker = clicked;
         string[] StickerName = selectedSticker.name.Split('_');
         previousColor = StickerName[1];
-        uiManager.CountSub(previousColor);
+        statistics.Sub(previousColor);
         solveController.solveManager.cubeController.ChangeColor(selectedSticker, "temp");
         colorPanel.SetActive(true);
     }
@@ -318,7 +273,7 @@ public class UIController : MonoBehaviour
         solveController.solveManager.cubeController.ChangeColor(selectedSticker, color);
         selectedSticker = null;
         previousColor = null;
-        uiManager.CountAdd(color);
+        statistics.Add(color);
         colorPanel.SetActive(false);
     }
 
@@ -330,7 +285,7 @@ public class UIController : MonoBehaviour
         if (selectedSticker != null && previousColor != null)
         {
             solveController.solveManager.cubeController.ChangeColor(selectedSticker, previousColor);
-            uiManager.CountAdd(previousColor);
+            statistics.Add(previousColor);
             colorPanel.SetActive(false);
             ClearValues();
         }
@@ -370,4 +325,40 @@ public class UIController : MonoBehaviour
 
         }
     }
+
+    public void ShowPopup(string message)
+    {
+        Popup.gameObject.SetActive(true);
+        Popup.text = message;
+        StartCoroutine(HideAfterSeconds(2f));
+    }
+
+    private IEnumerator HideAfterSeconds(float seconds)
+    {
+        yield return new WaitForSeconds(seconds);
+        Popup.gameObject.SetActive(false);
+    }
+
+    private string ColorError()
+    {
+        string result = "";
+
+        ColorStr(ref result, statistics.white, "white");
+        ColorStr(ref result, statistics.green, "green");
+        ColorStr(ref result, statistics.blue, "blue");
+        ColorStr(ref result, statistics.yellow, "yellow");
+        ColorStr(ref result, statistics.red, "red");
+        ColorStr(ref result, statistics.orange, "orange");
+
+        return result;
+    }
+
+    private void ColorStr(ref string result, int value, string color)
+    {
+        if (value < 9)
+        {
+            result += $"Missing {9 - value} <color={color}>{color}</color>.\n";
+        }
+    }
+
 }
