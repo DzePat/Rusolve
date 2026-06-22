@@ -10,12 +10,12 @@ namespace BeginnerSolve
     {
         public static string[] StartSearch(Cube cubeState)
         {
-
             CubeStats cubeStats = new CubeStats(cubeState);
             if (cubeStats.cube.isSolved() == true)
             {
                 cubeStats.solution = "None";
             }
+            
             StepOne.Solve(cubeStats);
             StepTwo.Solve(cubeStats);
             StepThree.Solve(cubeStats);

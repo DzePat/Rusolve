@@ -31,7 +31,7 @@ namespace Assets.BeginnerSolver
             { (6,23), "D2 L D' L' D' F' D F" },
             { (6,27), "D' F' D F D L D' L'" },
             { (6,31), "D B D' B' D' L' D L"},
-            { (6,35), "D' D' L' D L D' B D' B'"},
+            { (6,35), "D' D' L' D L D B D' B'"},
             { (6,11), "D' B' D B D R D' R'" },
             { (6,39), "R D' R' D' B' D B" },
             { (6,19), "R' D R D F D' F'" },

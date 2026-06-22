@@ -1,11 +1,6 @@
-﻿using BeginnerSolve;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Diagnostics;
 using TwoPhaseSolver;
-using static UnityEngine.GraphicsBuffer;
 
 namespace Assets.BeginnerSolver
 {
@@ -57,7 +52,7 @@ namespace Assets.BeginnerSolver
         {
             string rotation = "";
             int rightCorner = cornerInPosition(cStats);
-            if (rightCorner == 0)
+            while (rightCorner == 0)
             {
                 rotation = cornerAlignMoves[4];
                 Move target = new Move(rotation);

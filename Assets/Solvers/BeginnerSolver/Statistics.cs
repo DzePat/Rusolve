@@ -50,8 +50,11 @@ namespace Assets.BeginnerSolver
             }
             else
             {
-                solution += $" {stepRotations}";
-                stepRotations = "";
+                if(stepRotations != "")
+                {
+                    solution += $" {stepRotations}";
+                    stepRotations = "";
+                }
             }
         }
     

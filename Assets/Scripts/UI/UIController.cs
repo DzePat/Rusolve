@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-
+using UnityEngine.InputSystem;
 
 public class UIController : MonoBehaviour
 {
@@ -18,7 +18,7 @@ public class UIController : MonoBehaviour
     public int solutionIndex = 0;
 
     public GameObject mainMenu;
-    public GameObject sideMenu;
+    public GameObject toMainMenu;
     public GameObject hud;
     public GameObject rotationMenu;
     public TextMeshProUGUI Popup;
@@ -105,7 +105,7 @@ public class UIController : MonoBehaviour
     /// <summary>
     /// hides solve, next and previous buttons
     /// </summary>
-    void ResetAndHideHud()
+    private void ResetAndHideHud()
     {
         solve.SetActive(true);
         steps.SetActive(false);
@@ -116,7 +116,7 @@ public class UIController : MonoBehaviour
     /// <summary>
     /// clears user selecte values like selected sticker
     /// </summary>
-    void ClearValues()
+    private void ClearValues()
     {
         selectedSticker = null;
         previousColor = null;
@@ -128,10 +128,10 @@ public class UIController : MonoBehaviour
     /// <summary>
     /// menu solver choice selected either fast or beginner
     /// </summary>
-    void MenuSolverOptionClicked(string option)
+    private void MenuSolverOptionClicked(string option)
     {
         mainMenu.SetActive(false);
-        sideMenu.SetActive(true);
+        toMainMenu.SetActive(true);
         hud.SetActive(true);
         solveController.solveManager.cubeController.isActive = true;
         solveController.solveManager.cubeController.cubeManager.BuildCube();
@@ -141,8 +141,8 @@ public class UIController : MonoBehaviour
     /// <summary>
     /// Solve button click event
     /// </summary>
-    void SolveClicked()
-    {
+    private void SolveClicked()
+    {    
         if (statistics.AllColorsEqual())
         {
             try
@@ -153,13 +153,11 @@ public class UIController : MonoBehaviour
                 {
                     solution += s;
                 }
-                Debug.Log($"solution: {solution}");
             }
             catch (Exception e)
             {
                 Debug.Log($"Excpetion while solving: {e}");
             }
-            Debug.Log("test: " + solveController.cubeSolution);
             if (solveController.cubeSolution != null)
             {
                 if (solveController.cubeSolution[0] != "None")
@@ -293,36 +291,23 @@ public class UIController : MonoBehaviour
 
     private void Update()
     {
-        Vector3? pointerPos = null;
-
-        if (Input.GetMouseButtonUp(0)) // release = click
-            pointerPos = Input.mousePosition;
-
-        if (Input.touchCount == 1)
+        // Pointer handles Mouse and the primary Touch automatically
+        if (Pointer.current != null && Pointer.current.press.wasReleasedThisFrame)
         {
-            Touch touch = Input.GetTouch(0);
-            if (touch.phase == TouchPhase.Ended && touch.tapCount == 1)
-                pointerPos = touch.position;
-        }
+            Vector2 screenPos = Pointer.current.position.ReadValue();
 
-        if (pointerPos.HasValue)
-        {
-            Ray ray = Camera.main.ScreenPointToRay(pointerPos.Value);
+            Ray ray = Camera.main.ScreenPointToRay(screenPos);
             if (Physics.Raycast(ray, out RaycastHit hit))
             {
-                GameObject clicked = hit.collider.gameObject;
-                if (clicked.name.StartsWith("Sticker_"))
-                    HandleStickerClicked(clicked);
+                if (hit.collider.gameObject.name.StartsWith("Sticker_"))
+                    HandleStickerClicked(hit.collider.gameObject);
                 else
-                {
                     resetStickerSelection();
-                }
             }
             else
             {
                 resetStickerSelection();
             }
-
         }
     }
 

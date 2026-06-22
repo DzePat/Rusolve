@@ -176,41 +176,4 @@ public class SolveManager : MonoBehaviour
 
         isRotating = false;
     }
-
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            EnqueueRotation(frontFace, true);
-        }
-        else if (Input.GetKeyDown(KeyCode.A))
-        {
-            EnqueueRotation(leftFace, true);
-        }
-        else if (Input.GetKeyDown(KeyCode.D))
-        {
-            EnqueueRotation(rightFace, true);
-        }
-        else if (Input.GetKeyDown(KeyCode.W))
-        {
-            EnqueueRotation(topFace, true);
-        }
-        else if (Input.GetKeyDown(KeyCode.S))
-        {
-            EnqueueRotation(bottomFace, true);
-        }
-        else if (Input.GetKeyDown(KeyCode.E))
-        {
-            EnqueueRotation(backFace, true);
-        }
-        else if (Input.GetKeyDown(KeyCode.C))
-        {
-
-            Dictionary<Vector3Int, string> FaceColors = GetFaceColors(topFace);
-            foreach (var faceColor in FaceColors)
-            {
-                Debug.Log($"Position: {faceColor.Key} Color: {faceColor.Value}");
-            }
-        }
-    }
 }

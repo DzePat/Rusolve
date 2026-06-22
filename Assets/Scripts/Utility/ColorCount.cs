@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEditor.PackageManager.Requests;
-
-namespace Assets.Scripts.Utility
+﻿namespace Assets.Scripts.Utility
 {
     public class ColorCount
     {
