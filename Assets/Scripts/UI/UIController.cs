@@ -289,14 +289,30 @@ public class UIController : MonoBehaviour
         }
     }
 
+    private bool ignoreNextRelease;
+
     private void Update()
     {
-        // Pointer handles Mouse and the primary Touch automatically
-        if (Pointer.current != null && Pointer.current.press.wasReleasedThisFrame)
+        if (Pointer.current == null)
+            return;
+
+        if (Pointer.current.press.wasPressedThisFrame)
         {
+            ignoreNextRelease = mainMenu.activeSelf;
+        }
+
+        if (Pointer.current.press.wasReleasedThisFrame)
+        {
+            if (ignoreNextRelease)
+            {
+                ignoreNextRelease = false;
+                return;
+            }
+
             Vector2 screenPos = Pointer.current.position.ReadValue();
 
             Ray ray = Camera.main.ScreenPointToRay(screenPos);
+
             if (Physics.Raycast(ray, out RaycastHit hit))
             {
                 if (hit.collider.gameObject.name.StartsWith("Sticker_"))
@@ -308,6 +324,8 @@ public class UIController : MonoBehaviour
             {
                 resetStickerSelection();
             }
+
+            ignoreNextRelease = false;
         }
     }
 
